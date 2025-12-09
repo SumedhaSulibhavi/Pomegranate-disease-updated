@@ -23,8 +23,8 @@ RUN pip install --upgrade pip && \
 # Copy all project files
 COPY . .
 
-# Expose port (Render sets PORT env var, defaulting to 10000 here for documentation)
-EXPOSE 10000
+# Expose port 7860 (Hugging Face default)
+EXPOSE 7860
 
-# Start the app using the PORT environment variable
-ENTRYPOINT ["sh", "-c", "gunicorn -b 0.0.0.0:${PORT:-10000} app:app"]
+# Start the app using the PORT environment variable (default to 7860)
+ENTRYPOINT ["sh", "-c", "gunicorn -b 0.0.0.0:${PORT:-7860} app:app"]

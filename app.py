@@ -439,6 +439,6 @@ try_load_model()
 # Run the app
 # --------------------
 if __name__ == "__main__":
-    # optional: change host/port here
-    os.environ['FLASK_APP'] = 'app.py'
-    app.run(debug=False, use_reloader=False, host='127.0.0.1', port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
+

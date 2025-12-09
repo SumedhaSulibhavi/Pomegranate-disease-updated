@@ -4,7 +4,7 @@
 
 console.log("Chatbot script loaded.");
 
-const BASE_URL = "https://pomegranate-disease-updated.onrender.com";  // your backend URL
+const BASE_URL = "https://pomegranate-disease-updated-5.onrender.com";  // your backend URL
 
 // UI Elements
 const btnToggle = document.getElementById("chatbot-btn");

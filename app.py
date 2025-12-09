@@ -294,7 +294,11 @@ def api_home():
 @app.route('/predict', methods=['POST'])
 def predict():
     if not cnn_model:
-        return jsonify({"error": "Model not loaded. Check server logs for details.", "status": "Error"}), 500
+        # Return 503 Service Unavailable if model is missing
+        return jsonify({
+            "error": "Model not loaded. Please ensure 'model_best.pth' is uploaded to the server.",
+            "status": "Error"
+        }), 503
 
     if 'image' not in request.files:
         return jsonify({"error": "No image file provided. Use key 'image'.", "status": "Error"}), 400

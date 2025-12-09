@@ -1329,22 +1329,39 @@
             closeChat.addEventListener('click', () => {
                 chatbotBox.classList.add('hidden');
             });
-            sendBtn.addEventListener('click', () => {
+            sendBtn.addEventListener('click', async () => {
                 const txt = userInput.value.trim();
                 if (!txt) return;
+                
+                // Add user message
                 const userMsg = document.createElement('div');
                 userMsg.className = 'user-msg';
                 userMsg.textContent = txt;
                 chatBody.appendChild(userMsg);
                 userInput.value = '';
-                setTimeout(() => {
+                chatBody.scrollTop = chatBody.scrollHeight;
+
+                // Call API
+                try {
+                    const response = await fetch('/chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ user_message: txt, language_code: 'en' })
+                    });
+                    const data = await response.json();
+                    
                     const botMsg = document.createElement('div');
                     botMsg.className = 'bot-msg';
-                    botMsg.textContent =
-                        "Thanks — for detailed help about a detection, click 'Precautions' for the detected disease or upload a clear pomegranate image.";
+                    botMsg.textContent = data.bot_response || "Sorry, I couldn't understand that.";
                     chatBody.appendChild(botMsg);
-                    chatBody.scrollTop = chatBody.scrollHeight;
-                }, 700);
+                } catch (err) {
+                    console.error("Chatbot error:", err);
+                    const botMsg = document.createElement('div');
+                    botMsg.className = 'bot-msg';
+                    botMsg.textContent = "Error connecting to chatbot. Please try again.";
+                    chatBody.appendChild(botMsg);
+                }
+                chatBody.scrollTop = chatBody.scrollHeight;
             });
 
             /* -------------------------

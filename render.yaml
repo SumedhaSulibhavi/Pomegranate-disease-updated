@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: pomegranate-disease-app
+    env: docker
+    plan: free
+    branch: main
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0

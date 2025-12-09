@@ -10,6 +10,7 @@ numpy
 gunicorn
 python-dotenv
 
-# PyTorch CPU (stable & Render-friendly)
-torch==2.0.1
-torchvision==0.15.2
+# PyTorch CPU (compatible with Render free tier)
+torch==2.1.0+cpu
+torchvision==0.16.0+cpu
+--extra-index-url https://download.pytorch.org/whl/cpu

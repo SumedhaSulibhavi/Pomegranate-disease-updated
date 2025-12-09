@@ -1,187 +1,191 @@
-(() => {
-  // If chatbot HTML is not on this page, do nothing
-  const chatWidget = document.getElementById("chat-widget");
-  if (!chatWidget) return;
+/* =============================
+   CHATBOT CLIENT SCRIPT (WORKS WITH HOME.HTML)
+   ============================= */
 
-  // 🔗 Backend URL for chatbot_app.py (runs on port 8000)
-  const CHATBOT_BASE_URL = "http://127.0.0.1:5000";
+console.log("Chatbot script loaded.");
 
-  const chatToggle = document.getElementById("chat-toggle");
-  const chatPanel = document.getElementById("chat-panel");
-  const chatClose = document.getElementById("chat-close");
-  const sendBtn = document.getElementById("send-btn");
-  const userInput = document.getElementById("user-input");
-  const messagesDiv = document.getElementById("messages");
-  const micBtn = document.getElementById("mic-btn");
-  const recordingIndicator = document.getElementById("recording-indicator");
-  const languageSelect = document.getElementById("language-select");
+const BASE_URL = "https://pomegranate-disease-updated.onrender.com";  // your backend URL
 
-  // New Stop Audio button (ensure this exists in your HTML)
-  const stopAudioBtn = document.getElementById("stop-audio-btn");
+// UI Elements
+const btnToggle = document.getElementById("chatbot-btn");
+const chatBox = document.getElementById("chatbot-container");
+const btnClose = document.getElementById("chatbot-close");
+const msgBox = document.getElementById("chatbot-messages");
+const inputBox = document.getElementById("chatbot-input");
+const btnSend = document.getElementById("chatbot-send");
+const btnMic = document.getElementById("chatbot-mic");
+const btnStop = document.getElementById("chatbot-stop");
+const recordingIndicator = document.getElementById("chatbot-recording-indicator");
+const langSelect = document.getElementById("chatbot-language");
 
-  let isRecording = false;
-  let mediaRecorder;
-  let audioChunks = [];
-  let currentAudio = null; // 🔊 track currently playing audio
+let mediaRecorder;
+let audioChunks = [];
+let isRecording = false;
 
-  // --- Chat open/close ---
-  chatToggle.addEventListener("click", () => {
-    chatWidget.classList.toggle("chat-closed");
-    const isClosed = chatWidget.classList.contains("chat-closed");
-    chatPanel.setAttribute("aria-hidden", isClosed);
-  });
+// -------------------------------
+// Chat UI Functions
+// -------------------------------
 
-  chatClose.addEventListener("click", () => {
-    chatWidget.classList.add("chat-closed");
-    chatPanel.setAttribute("aria-hidden", "true");
-  });
-
-  // --- Helper: append messages ---
-  function appendMessage(who, text) {
+function appendMessage(who, text) {
     const div = document.createElement("div");
-    div.className = who === "user" ? "msg user" : "msg bot";
-    div.textContent = text;
-    messagesDiv.appendChild(div);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-  }
+    div.className = who === "bot" ? "chat-msg bot" : "chat-msg user";
+    div.innerText = text;
+    msgBox.appendChild(div);
+    msgBox.scrollTop = msgBox.scrollHeight;
+}
 
-  // --- Send text message ---
-  async function sendTextMessage(text, fromVoice = false) {
-    if (!text.trim()) return;
+// -------------------------------
+// Toggle Chat Window
+// -------------------------------
+btnToggle.addEventListener("click", () => {
+    chatBox.classList.toggle("open");
+});
+
+btnClose.addEventListener("click", () => {
+    chatBox.classList.remove("open");
+});
+
+// -------------------------------
+// Send Text Message
+// -------------------------------
+btnSend.addEventListener("click", () => {
+    sendTextMessage();
+});
+
+inputBox.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") sendTextMessage();
+});
+
+async function sendTextMessage() {
+    const text = inputBox.value.trim();
+    if (!text) return;
+
     appendMessage("user", text);
-    userInput.value = "";
+    inputBox.value = "";
 
     appendMessage("bot", "⏳ Thinking...");
 
     try {
-      const res = await fetch(`${CHATBOT_BASE_URL}/chat`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user_message: text,
-          language_code: languageSelect.value,
-          from_voice: fromVoice
-        }),
-      });
+        const res = await fetch(`${BASE_URL}/chat`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                user_message: text,
+                language_code: langSelect.value,
+                from_voice: false
+            })
+        });
 
-      if (!res.ok) {
-        messagesDiv.lastChild.remove(); // remove "Thinking..."
-        appendMessage("bot", "⚠️ Error contacting chatbot. Please try again.");
-        return;
-      }
+        const data = await res.json();
 
-      const data = await res.json();
-      // Remove "thinking" placeholder
-      messagesDiv.lastChild.remove();
-      appendMessage("bot", data.bot_response || "No response received.");
-
-      // --- Audio playback section ---
-      if (fromVoice && data.audio_response) {
-        setTimeout(() => {
-          // Stop any currently playing audio before starting a new one
-          if (currentAudio) {
-            currentAudio.pause();
-            currentAudio.currentTime = 0;
-          }
-          currentAudio = new Audio("data:audio/mp3;base64," + data.audio_response);
-          currentAudio.play();
-        }, 500);
-      }
+        msgBox.lastChild.remove(); // remove "Thinking..."
+        appendMessage("bot", data.bot_response);
     } catch (err) {
-      messagesDiv.lastChild.remove(); // remove "Thinking..."
-      appendMessage("bot", "⚠️ Error contacting chatbot: " + err.message);
+        msgBox.lastChild.remove();
+        appendMessage("bot", "⚠️ Error contacting server.");
     }
-  }
+}
 
-  sendBtn.addEventListener("click", () => sendTextMessage(userInput.value, false));
-
-  userInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendTextMessage(userInput.value, false);
-    }
-  });
-
-  // --- Stop Audio Button ---
-  if (stopAudioBtn) {
-    stopAudioBtn.addEventListener("click", () => {
-      if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-        appendMessage("bot", "🔇 Audio stopped.");
-      }
-    });
-  }
-
-  // --- Voice input handling ---
-  micBtn.addEventListener("click", async () => {
+// -------------------------------
+// Voice Recording
+// -------------------------------
+btnMic.addEventListener("click", async () => {
     if (isRecording) {
-      stopRecording();
+        stopRecording();
     } else {
-      startRecording();
+        startRecording();
     }
-  });
+});
 
-  async function startRecording() {
+async function startRecording() {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorder = new MediaRecorder(stream);
-      audioChunks = [];
-      isRecording = true;
-      recordingIndicator.classList.remove("hidden");
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
 
-      mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
-      mediaRecorder.onstop = handleAudioStop;
-      mediaRecorder.start();
+        mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
+        mediaRecorder.onstop = handleRecordedAudio;
+
+        isRecording = true;
+        recordingIndicator.style.display = "inline";
+        mediaRecorder.start();
     } catch (err) {
-      appendMessage("bot", "🎤 Microphone not accessible: " + err.message);
+        appendMessage("bot", "🎤 Cannot access microphone.");
     }
-  }
+}
 
-  function stopRecording() {
-    if (mediaRecorder && isRecording) {
-      mediaRecorder.stop();
-      isRecording = false;
-      recordingIndicator.classList.add("hidden");
-    }
-  }
+function stopRecording() {
+    if (!mediaRecorder) return;
+    isRecording = false;
+    recordingIndicator.style.display = "none";
+    mediaRecorder.stop();
+}
 
-  async function handleAudioStop() {
+btnStop.addEventListener("click", stopRecording);
+
+// -------------------------------
+// Voice Upload to Backend
+// -------------------------------
+async function handleRecordedAudio() {
     const blob = new Blob(audioChunks, { type: "audio/webm" });
     const formData = new FormData();
+
     formData.append("file", blob, "speech.webm");
-    formData.append("language_code", languageSelect.value);
+    formData.append("language_code", langSelect.value);
 
     appendMessage("user", "🎤 Processing your voice...");
 
     try {
-      const res = await fetch(`${CHATBOT_BASE_URL}/speech`, {
-        method: "POST",
-        body: formData
-      });
+        const res = await fetch(`${BASE_URL}/speech`, {
+            method: "POST",
+            body: formData
+        });
 
-      if (!res.ok) {
-        appendMessage("bot", "⚠️ Error contacting speech service.");
-        return;
-      }
+        const data = await res.json();
 
-      const speechData = await res.json();
+        if (data.transcribed_text?.startsWith("ERROR")) {
+            appendMessage("bot", "⚠️ Could not recognize speech.");
+            return;
+        }
 
-      if (speechData.transcribed_text?.startsWith("ERROR")) {
-        appendMessage("bot", "⚠️ Speech recognition failed.");
-        return;
-      }
+        appendMessage("user", data.transcribed_text);
 
-      const userText = speechData.transcribed_text;
-      sendTextMessage(userText, true);
+        // Send text to chatbot
+        sendTextMessageFromVoice(data.transcribed_text);
+
     } catch (err) {
-      appendMessage("bot", "⚠️ Error contacting speech service: " + err.message);
+        appendMessage("bot", "⚠️ Voice upload error.");
     }
-  }
+}
 
-  // --- Welcome message ---
-  appendMessage(
-    "bot",
-    "🌿 Hi! I’m your AI assistant for pomegranate farming. You can type or talk to me."
-  );
-})();
+// -------------------------------
+// Send Message from Voice
+// -------------------------------
+async function sendTextMessageFromVoice(text) {
+    appendMessage("bot", "⏳ Thinking...");
+
+    try {
+        const res = await fetch(`${BASE_URL}/chat`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                user_message: text,
+                language_code: langSelect.value,
+                from_voice: true
+            })
+        });
+
+        const data = await res.json();
+
+        msgBox.lastChild.remove();
+        appendMessage("bot", data.bot_response);
+    } catch {
+        msgBox.lastChild.remove();
+        appendMessage("bot", "⚠️ Error processing speech text.");
+    }
+}
+
+// -------------------------------
+// Initial welcome message
+// -------------------------------
+appendMessage("bot", "👋 Hello! Ask me anything about pomegranate crop diseases.");

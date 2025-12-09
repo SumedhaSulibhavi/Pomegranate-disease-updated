@@ -86,8 +86,6 @@
         }
         .nav-links {
             list-style: none;
-            padding: 0;
-            margin: 0;
             display: flex;
             justify-content: center;
             max-width: 1200px;
@@ -571,12 +569,12 @@
             </div>
             <div id="details-content" class="hidden">
                 <div>
-                    <label id="phone-label" class="block text-xs font-medium text-gray-500 mb-1">Contact Phone</label>
+                    <span id="phone-label" class="block text-xs font-medium text-gray-500 mb-1">Contact Phone</span>
                     <p id="phone-number" class="text-sm font-medium text-gray-800">N/A</p>
                 </div>
 
                 <div style="margin-top: 8px;">
-                    <label id="language-label" class="block text-xs font-medium text-gray-500 mb-2">Display Language</label>
+                    <span id="language-label" class="block text-xs font-medium text-gray-500 mb-2">Display Language</span>
                     <div class="flex space-x-2">
                         <button data-lang="en" class="lang-button active">English</button>
                         <button data-lang="kn" class="lang-button">ಕನ್ನಡ</button>
@@ -617,10 +615,10 @@
 
         <div id="disease-detail-area" class="disease-details">
             <div class="disease-image-container">
-                <img id="detail-image" src="" alt="Disease Image">
+                <img id="detail-image" src="" alt="Preview">
             </div>
             <div class="disease-description">
-                <h3 id="detail-name"></h3>
+                <h3 id="detail-name">&nbsp;</h3>
                 <p id="detail-description-text"></p>
 
                 <h4 id="detail-symptoms-title">Symptoms (How Humans See It):</h4>
@@ -1005,15 +1003,15 @@
         document.getElementById('language-label').textContent = texts.languageLabel;
         document.getElementById('logout-button').textContent = texts.logoutButton;
 
-        document.querySelectorAll('.lang-button').forEach(button => {
+        for (const button of document.querySelectorAll('.lang-button')) {
             button.classList.toggle('active', button.dataset.lang === lang);
-        });
+        }
     }
 
     function createDiseaseCards(lang) {
         const gridContainer = document.getElementById('disease-grid-container');
         gridContainer.innerHTML = '';
-        Object.keys(diseases).forEach(key => {
+        for (const key of Object.keys(diseases)) {
             const disease = diseases[key];
             const langData = disease[lang];
 
@@ -1034,7 +1032,7 @@
             card.appendChild(img);
             card.appendChild(title);
             gridContainer.appendChild(card);
-        });
+        }
     }
 
     function showListView() {
@@ -1042,16 +1040,7 @@
         document.getElementById('detail-view').style.display = 'none';
     }
 
-    async function showDetailView(diseaseKey) {
-        const disease = diseases[diseaseKey];
-        if (!disease) return;
-
-        const langData = disease[currentLang];
-        const isKn = currentLang === 'kn';
-
-        const listScreen = document.getElementById('list-view');
-        const detailScreen = document.getElementById('detail-view');
-
+    function updateDetailViewDOM(diseaseKey, disease, langData, isKn) {
         const detailH1 = document.getElementById('detail-h1');
         const detailName = document.getElementById('detail-name');
         const detailImage = document.getElementById('detail-image');
@@ -1065,29 +1054,52 @@
 
         detailH1.textContent = isKn ? `${langData.name} ವಿವರ 🔍` : "Disease Detail 🔍";
         detailName.textContent = langData.name;
-        detailName.setAttribute('data-current-key', diseaseKey);
+        detailName.dataset.currentKey = diseaseKey;
         detailImage.src = disease.image;
-        detailImage.alt = `${langData.name} Image`;
+        detailImage.alt = `${langData.name} Preview`;
         detailDescription.textContent = langData.description;
 
         detailSymptoms.innerHTML = '';
-        langData.symptoms.forEach(s => {
+        for (const s of langData.symptoms) {
             const li = document.createElement('li');
             li.innerHTML = s;
             detailSymptoms.appendChild(li);
-        });
+        }
 
         detailAlgoFocus.innerHTML = '';
-        langData.algoFocus.forEach(f => {
+        for (const f of langData.algoFocus) {
             const li = document.createElement('li');
             li.innerHTML = f;
             detailAlgoFocus.appendChild(li);
-        });
+        }
 
         detailActionText.textContent = isKn ? "ದತ್ತಾಂಶವನ್ನು ಹಿಂಪಡೆಯಲಾಗುತ್ತಿದೆ..." : "Loading...";
         detailPrecautions.innerHTML = `<li>${isKn ? "ದತ್ತಾಂಶವನ್ನು ಹಿಂಪಡೆಯಲಾಗುತ್ತಿದೆ..." : "Loading..."}</li>`;
         detailActionTitle.textContent = isKn ? kannadaTranslations['detail-action-title'] : "Recommended Action:";
         detailPrecautionsTitle.textContent = isKn ? kannadaTranslations['detail-precautions-title'] : "Preventive Precautions:";
+    }
+
+    function getActionText(diseaseKey, data, isKn) {
+        const langKey = isKn ? 'kn' : 'en';
+        const localAction = diseaseActions[diseaseKey] ? diseaseActions[diseaseKey][langKey] : null;
+        if (localAction) return localAction;
+        if (data.precautions) return data.precautions;
+        return isKn ? "ಯಾವುದೇ ಶಿಫಾರಸು ಮಾಹಿತಿ ಲಭ್ಯವಿಲ್ಲ." : "No recommended action available.";
+    }
+
+    function getPrecautionPoints(diseaseKey, data, isKn) {
+        const langKey = isKn ? 'kn' : 'en';
+        const localPtsObj = diseasePrecautions[diseaseKey];
+        const localPts = localPtsObj ? localPtsObj[langKey] : null;
+
+        if (localPts && localPts.length > 0) return localPts;
+        if (Array.isArray(data.points) && data.points.length > 0) return data.points;
+        return null;
+    }
+
+    async function fetchAndDisplayPrecautions(diseaseKey, isKn) {
+        const detailActionText = document.getElementById('detail-action-text');
+        const detailPrecautions = document.getElementById('detail-precautions');
 
         try {
             const response = await fetch(`/measures/${encodeURIComponent(diseaseKey)}`);
@@ -1095,37 +1107,16 @@
 
             if (result.status === 'success') {
                 const data = result.data;
+                detailActionText.textContent = getActionText(diseaseKey, data, isKn);
 
-                const localAction = diseaseActions[diseaseKey]
-                    ? diseaseActions[diseaseKey][isKn ? 'kn' : 'en']
-                    : null;
-
-                if (localAction) {
-                    detailActionText.textContent = localAction;
-                } else if (data.precautions) {
-                    detailActionText.textContent = data.precautions;
-                } else {
-                    detailActionText.textContent = isKn
-                        ? "ಯಾವುದೇ ಶಿಫಾರಸು ಮಾಹಿತಿ ಲಭ್ಯವಿಲ್ಲ."
-                        : "No recommended action available.";
-                }
-
-                const localPtsObj = diseasePrecautions[diseaseKey];
-                const localPts = localPtsObj ? localPtsObj[isKn ? 'kn' : 'en'] : null;
-
+                const points = getPrecautionPoints(diseaseKey, data, isKn);
                 detailPrecautions.innerHTML = '';
-                if (localPts && localPts.length > 0) {
-                    localPts.forEach(p => {
+                if (points) {
+                    for (const p of points) {
                         const li = document.createElement('li');
                         li.innerHTML = p;
                         detailPrecautions.appendChild(li);
-                    });
-                } else if (Array.isArray(data.points) && data.points.length > 0) {
-                    data.points.forEach(p => {
-                        const li = document.createElement('li');
-                        li.innerHTML = p;
-                        detailPrecautions.appendChild(li);
-                    });
+                    }
                 } else {
                     detailPrecautions.innerHTML = `<li>${isKn ? "ಯಾವುದೇ ಮುನ್ನೆಚ್ಚರಿಕೆ ಮಾಹಿತಿಯಿಲ್ಲ." : "No precaution data available."}</li>`;
                 }
@@ -1138,10 +1129,24 @@
             detailActionText.textContent = msg;
             detailPrecautions.innerHTML = `<li>${msg}</li>`;
         }
+    }
+
+    async function showDetailView(diseaseKey) {
+        const disease = diseases[diseaseKey];
+        if (!disease) return;
+
+        const langData = disease[currentLang];
+        const isKn = currentLang === 'kn';
+
+        const listScreen = document.getElementById('list-view');
+        const detailScreen = document.getElementById('detail-view');
+
+        updateDetailViewDOM(diseaseKey, disease, langData, isKn);
+        await fetchAndDisplayPrecautions(diseaseKey, isKn);
 
         listScreen.style.display = 'none';
         detailScreen.style.display = 'block';
-        window.scrollTo(0, 0);
+        globalThis.scrollTo(0, 0);
     }
 
     function translatePage(lang) {
@@ -1181,8 +1186,8 @@
 
         const detailScreen = document.getElementById('detail-view');
         const detailName = document.getElementById('detail-name');
-        if (detailScreen.style.display !== 'none' && detailName.hasAttribute('data-current-key')) {
-            const key = detailName.getAttribute('data-current-key');
+        if (detailScreen.style.display !== 'none' && detailName.dataset.currentKey) {
+            const key = detailName.dataset.currentKey;
             showDetailView(key);
         }
     }
@@ -1206,7 +1211,7 @@
         document.getElementById('year').textContent = new Date().getFullYear();
 
         if (!localStorage.getItem('username')) {
-            window.location.href = "/login";
+            globalThis.location.href = "/login";
             return;
         }
 
@@ -1231,13 +1236,13 @@
             }
         });
 
-        langButtons.forEach(btn => {
+        for (const btn of langButtons) {
             btn.addEventListener('click', () => {
                 const lang = btn.dataset.lang;
                 if (lang !== currentLang) translatePage(lang);
                 detailsContent.classList.add('hidden');
             });
-        });
+        }
 
         logoutButton.addEventListener('click', (e) => {
             e.preventDefault();
@@ -1246,12 +1251,12 @@
             localStorage.removeItem('userRole');
             localStorage.setItem('language', 'en');
             alert('Logout successful!');
-            window.location.href = "/login";
+            globalThis.location.href = "/login";
         });
 
         closeDetailBtn.addEventListener('click', showListView);
 
-        const params = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams(globalThis.location.search);
         const diseaseName = params.get("d");
         if (diseaseName && diseases[diseaseName.toLowerCase()]) {
             showDetailView(diseaseName.toLowerCase());
@@ -1311,7 +1316,7 @@
         }
 
         async function sendMessage(fromVoice = false, overrideText = null) {
-            const text = (overrideText !== null ? overrideText : chatInput.value.trim());
+            const text = (overrideText === null ? chatInput.value.trim() : overrideText);
             if (!text) return;
 
             appendMessage(text, 'user');

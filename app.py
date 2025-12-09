@@ -14,9 +14,14 @@ from flask_cors import CORS
 from PIL import Image
 import torchvision.transforms as T
 
+import logging
+
 # --------------------
 # Configuration
 # --------------------
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 IMG_SIZE = 224
 MODEL_FILENAME = 'model_best.pth'
 
@@ -84,7 +89,7 @@ def prepare_image(image_bytes):
         image_tensor = transform(img)
         return image_tensor.unsqueeze(0)  # batch dim
     except Exception as e:
-        print(f"Error during image preparation: {e}")
+        logger.error(f"Error during image preparation: {e}")
         return None
 
 # --------------------
@@ -140,9 +145,9 @@ print("Jinja search paths (after init):", getattr(app.jinja_loader, "searchpath"
 try:
     from chatbot_backend.chatbot_routes import chatbot_bp
     app.register_blueprint(chatbot_bp)
-    print("Registered chatbot blueprint.")
+    logger.info("Registered chatbot blueprint.")
 except Exception as e:
-    print("Could not register chatbot blueprint (continuing without it):", e)
+    logger.warning(f"Could not register chatbot blueprint (continuing without it): {e}")
 
 CORS(app)
 
@@ -155,12 +160,12 @@ device = torch.device("cpu")
 import requests
 
 def download_model_from_gdrive(file_id, destination):
-    print("Checking if model file exists at:", destination)
+    logger.info(f"Checking if model file exists at: {destination}")
     if os.path.exists(destination):
-        print("Model already exists locally. Skipping download.")
+        logger.info("Model already exists locally. Skipping download.")
         return
 
-    print("Downloading model from Google Drive...")
+    logger.info("Downloading model from Google Drive...")
     url = f"https://drive.google.com/uc?export=download&id={file_id}"
     try:
         response = requests.get(url, stream=True)
@@ -170,11 +175,11 @@ def download_model_from_gdrive(file_id, destination):
             for chunk in response.iter_content(chunk_size=1024 * 1024):  # 1MB
                 if chunk:
                     f.write(chunk)
-        print("Model downloaded successfully.")
+        logger.info("Model downloaded successfully.")
     except Exception as e:
-        print("Failed to download model from Google Drive:", e)
+        logger.error(f"Failed to download model from Google Drive: {e}")
 
-GOOGLE_DRIVE_FILE_ID = "1WmlahNX5M2r-oOP20qLg1cU9TQS4NTnj"
+GOOGLE_DRIVE_FILE_ID = os.environ.get("GOOGLE_DRIVE_FILE_ID", "1WmlahNX5M2r-oOP20qLg1cU9TQS4NTnj")
 
 download_model_from_gdrive(
     GOOGLE_DRIVE_FILE_ID,
@@ -186,18 +191,18 @@ download_model_from_gdrive(
 # --------------------
 def load_single_model(p):
     """Helper to attempt loading a model from a specific path."""
-    print(f"Attempting to load model from: {p}")
+    logger.info(f"Attempting to load model from: {p}")
     state = torch.load(str(p), map_location=device)
 
     if isinstance(state, nn.Module):
-        print("Model loaded (full model object).")
+        logger.info("Model loaded (full model object).")
         return state.to(device).eval()
 
     # If not a full model, assume it's a state_dict
     model_instance = CNN_ViT_Fusion(num_classes=NUM_CLASSES, pretrained=False, freeze_backbones=False).to(device)
     model_instance.load_state_dict(state)
     model_instance.eval()
-    print("Model loaded (state_dict).")
+    logger.info("Model loaded (state_dict).")
     return model_instance
 
 def try_load_model():
@@ -226,17 +231,17 @@ def try_load_model():
 
     for p in filtered:
         if not p.exists():
-            print("Model candidate not found:", p)
+            logger.warning(f"Model candidate not found: {p}")
             continue
         try:
             cnn_model = load_single_model(p)
             loaded = True
             break
         except Exception as e:
-            print(f"Failed loading from {p}: {e}")
+            logger.error(f"Failed loading from {p}: {e}")
 
     if not loaded:
-        print("WARNING: Could not locate or load the model file. Ensure model_best.pth exists in project root or a subfolder. Searched candidates:", filtered)
+        logger.warning(f"WARNING: Could not locate or load the model file. Ensure model_best.pth exists in project root or a subfolder. Searched candidates: {filtered}")
 
 try_load_model()
 
@@ -323,7 +328,7 @@ def predict():
                 "confidence_score": f"{confidence_score * 100:.2f}%"
             })
     except Exception as e:
-        print(f"Prediction Error: {e}")
+        logger.error(f"Prediction Error: {e}")
         return jsonify({"error": f"An error occurred during prediction: {e}", "status": "Error"}), 500
 
 # --------------------

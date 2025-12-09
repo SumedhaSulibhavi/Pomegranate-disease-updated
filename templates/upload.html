@@ -39,6 +39,9 @@
             background-repeat: no-repeat;
             background-color: var(--body-bg);
             color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         body::before {
@@ -83,8 +86,6 @@
 
         .nav-links {
             list-style: none;
-            padding: 0;
-            margin: 0;
             display: flex;
             justify-content: center;
             max-width: 1200px;
@@ -240,7 +241,7 @@
         .site-footer {
             text-align: center;
             padding: 10px;
-            margin-top: 40px;
+            margin-top: auto;
             border-top: 1px solid #eee;
             background-color: var(--button-color);
             color: white;
@@ -506,22 +507,13 @@
             font-size: 0.8em;
             padding: 4px 6px;
             background: #fff9f0;
-            color: #a67a00;
+            color: #856404;
             border: 1px solid #f0c36d;
             margin-top: 6px;
         }
 
-        html, body {
+        html {
             height: 100%;
-        }
-
-        body {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .site-footer {
-            margin-top: auto;
         }
 
         /* text in per-image donut charts */
@@ -564,7 +556,7 @@
 
                 <div id="file-list-container" style="width: 100%;"></div>
 
-                <img id="image-preview" alt="Image Preview" style="display: none;">
+                <img id="image-preview" alt="Preview" style="display: none;">
             </div>
 
             <button id="detect-button" style="margin-top: 20px;" disabled data-i18n="detectButton">Detect
@@ -598,16 +590,16 @@
         </div>
     </div>
 
-    <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true">
+    <dialog id="modal" class="modal hidden" aria-modal="true" aria-hidden="true">
         <div class="modal-card">
             <button id="modalClose" class="modal-close" aria-label="Close">✕</button>
             <h4 id="modalTitle">Preventive Measures for <span id="modal-disease-name">Pomegranate Health</span></h4>
             <ul id="modalList"></ul>
         </div>
-    </div>
+    </dialog>
 
     <!-- Image Validation Modal -->
-    <div id="validation-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <dialog id="validation-modal" class="modal hidden" aria-modal="true">
         <div class="modal-card validation-modal">
             <button id="validationModalClose" class="modal-close" aria-label="Close">✕</button>
             <h4>Confirm Pomegranate Images</h4>
@@ -622,7 +614,7 @@
                 <button id="validation-confirm">Confirm & Continue</button>
             </div>
         </div>
-    </div>
+    </dialog>
 
     <footer class="site-footer">
         <small>© <span id="year">2025</span> Pomegranate Fruit Disease Detection — Final Year Project</small>
@@ -774,7 +766,7 @@
             onAuthStateChanged(auth, (user) => {
                 if (!user) {
                     alert("Please login first to use the detector.");
-                    window.location.href = "{{ url_for('login_page') }}";
+                    globalThis.location.href = "{{ url_for('login_page') }}";
                 }
             });
 
@@ -816,7 +808,7 @@
                 fileListContainer.innerHTML = '';
 
                 if (uploadedFilesArray.length > 0) {
-                    uploadedFilesArray.forEach(fileData => {
+                    for (const fileData of uploadedFilesArray) {
                         const fileElement = document.createElement('div');
                         fileElement.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 8px; margin-top: 5px; background: #f9f9f9; border-radius: 5px; border: 1px solid #eee;';
 
@@ -828,7 +820,7 @@
                             </div>
                         `;
                         fileListContainer.appendChild(fileElement);
-                    });
+                    }
                     detectButton.disabled = false;
                 } else {
                     detectButton.disabled = true;
@@ -840,12 +832,12 @@
 
             fileListContainer.addEventListener('click', function (e) {
                 if (e.target.classList.contains('remove-file-btn')) {
-                    const fileId = parseInt(e.target.dataset.fileId);
+                    const fileId = Number.parseInt(e.target.dataset.fileId, 10);
                     uploadedFilesArray = uploadedFilesArray.filter(fileData => fileData.id !== fileId);
                     resultBox.style.display = 'none';
                     updateFileListUI();
                 } else if (e.target.classList.contains('preview-file-btn')) {
-                    const fileId = parseInt(e.target.dataset.fileId);
+                    const fileId = Number.parseInt(e.target.dataset.fileId, 10);
                     const fd = uploadedFilesArray.find(f => f.id === fileId);
                     if (fd) {
                         const reader = new FileReader();
@@ -875,7 +867,7 @@
                 let loadedCount = 0;
                 const totalFiles = files.length;
 
-                Array.from(files).forEach((file) => {
+                for (const file of Array.from(files)) {
                     const reader = new FileReader();
                     reader.onload = function (e) {
                         const previewItem = document.createElement('div');
@@ -894,16 +886,16 @@
                         }
                     };
                     reader.readAsDataURL(file);
-                });
+                }
             }
 
             validationConfirm.addEventListener('click', function () {
-                pendingFiles.forEach(file => {
+                for (const file of pendingFiles) {
                     uploadedFilesArray.push({
                         id: fileIdCounter++,
                         file: file
                     });
-                });
+                }
                 validationModal.classList.add('hidden');
                 validationModal.setAttribute('aria-hidden', 'true');
                 updateFileListUI();
@@ -945,19 +937,19 @@
             /* -------------------------
                Drag & drop
                ------------------------- */
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            for (const eventName of ['dragenter', 'dragover', 'dragleave', 'drop']) {
                 uploadArea.addEventListener(eventName, preventDefaults, false);
-            });
+            }
             function preventDefaults(e) {
                 e.preventDefault();
                 e.stopPropagation();
             }
-            ['dragenter', 'dragover'].forEach(eventName => {
+            for (const eventName of ['dragenter', 'dragover']) {
                 uploadArea.addEventListener(eventName, () => uploadArea.classList.add('drag-over'), false);
-            });
-            ['dragleave', 'drop'].forEach(eventName => {
+            }
+            for (const eventName of ['dragleave', 'drop']) {
                 uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('drag-over'), false);
-            });
+            }
             uploadArea.addEventListener('drop', handleDrop, false);
             function handleDrop(e) {
                 let dt = e.dataTransfer;
@@ -981,11 +973,11 @@
                 modalTitle.textContent = 'Preventive Measures for ' +
                     (canonicalName === 'Healthy' ? 'Pomegranate Health' : canonicalName);
                 modalList.innerHTML = '';
-                data.precautions.forEach(p => {
+                for (const p of data.precautions) {
                     const li = document.createElement('li');
                     li.innerHTML = p;
                     modalList.appendChild(li);
-                });
+                }
                 modal.classList.remove('hidden');
                 modal.setAttribute('aria-hidden', 'false');
             };
@@ -1003,6 +995,152 @@
             /* -------------------------
                Detection flow
                ------------------------- */
+            async function processImageDetection(fd, overallSummaryConf, overallCount) {
+                const row = document.getElementById(`result-row-${fd.id}`);
+                if (!row) return false;
+
+                const img = new Image();
+                const objectUrl = URL.createObjectURL(fd.file);
+                img.src = objectUrl;
+
+                await new Promise((res) => {
+                    img.onload = () => res();
+                    img.onerror = () => res();
+                });
+
+                const previewDiv = row.querySelector('div:first-child');
+                previewDiv.innerHTML =
+                    `<img src="${img.src}" class="result-preview-img" alt="${fd.file.name}">`;
+
+                const statusSpan = row.querySelector('.result-status');
+                const infoDiv =
+                    row.querySelector('div[style*="font-size:0.9em"]') ||
+                    row.querySelector('div:nth-child(2) > div');
+
+                const form = new FormData();
+                form.append('image', fd.file);
+
+                let success = false;
+
+                try {
+                    const resp = await fetch('/predict', {
+                        method: 'POST',
+                        body: form
+                    });
+
+                    if (resp.ok) {
+                        const json = await resp.json();
+
+                        let serverDisease = json.predicted_disease || 'Unknown';
+                        let confidenceStr = json.confidence_score || '0';
+
+                        if (typeof confidenceStr === 'string') {
+                            confidenceStr = confidenceStr.replace('%', '').trim();
+                        }
+                        let confVal = Number.parseFloat(confidenceStr);
+                        if (Number.isNaN(confVal)) confVal = 0;
+
+                        // Normalize disease name to our canonical keys
+                        const canonicalDisease = getCanonicalDiseaseName(serverDisease);
+                        serverDisease = canonicalDisease;
+
+                        console.log('File:', fd.file.name,
+                            'Disease:', serverDisease,
+                            'Conf raw:', json.confidence_score,
+                            'Conf parsed:', confVal);
+
+                        success = true;
+                        detectedDisease = serverDisease;
+
+                        const status =
+                            serverDisease === 'Healthy' ? 'healthy' : 'diseased';
+                        statusSpan.className = `result-status ${status}`;
+                        statusSpan.style.visibility = 'visible';
+                        statusSpan.textContent = status.toUpperCase();
+
+                        infoDiv.innerHTML =
+                            `Disease: <strong>${serverDisease}</strong> | Conf: ${json.confidence_score}`;
+
+                        // 🔹 Per-file donut chart
+                        const effectiveConf = Math.max(0, Math.min(100, confVal));
+                        const remaining = Math.max(0, 100 - effectiveConf);
+                        const chartId = `confidence-chart-${fd.id}`;
+                        const labelId = `confidence-label-${fd.id}`;
+                        const chartCanvas = document.getElementById(chartId);
+
+                        if (chartCanvas) {
+                            if (perFileCharts[fd.id]) {
+                                perFileCharts[fd.id].destroy();
+                            }
+                            const ctx = chartCanvas.getContext('2d');
+                            perFileCharts[fd.id] = new Chart(ctx, {
+                                type: 'doughnut',
+                                data: {
+                                    labels: ['Confidence', 'Remaining'],
+                                    datasets: [{
+                                        data: [effectiveConf, remaining],
+                                        backgroundColor: ['#CD607D', '#F3D6E0'],
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    cutout: '65%',
+                                    plugins: {
+                                        legend: { display: false }
+                                    }
+                                }
+                            });
+                            const labelEl = document.getElementById(labelId);
+                            if (labelEl) {
+                                labelEl.textContent = `${effectiveConf.toFixed(1)}%`;
+                            }
+                        }
+
+                        const btnContainer = document.createElement('div');
+                        btnContainer.style.marginTop = '8px';
+                        btnContainer.innerHTML =
+                            `<button class="result-view-btn"
+                                     onclick="viewPrecautionsForDisease('${serverDisease}')">
+                                     <i class="fas fa-shield-alt"></i> Precautions
+                                 </button>`;
+                        row.querySelector(
+                            'div[style*="display:flex; flex-direction:column"]'
+                        ).appendChild(btnContainer);
+
+                        // 🔥 Save this detection to Firestore (with imageUrl)
+                        await saveDetectionLog(fd, serverDisease, confVal);
+
+                        // 🔹 Add to overall summary (only for known classes)
+                        if (overallSummaryConf.hasOwnProperty(serverDisease)) {
+                            overallSummaryConf[serverDisease] += confVal;
+                            overallCount[serverDisease] += 1;
+                        }
+                    } else {
+                        const text = await resp.text();
+                        console.error('Server error:', resp.status, text);
+                        statusSpan.className = 'result-status diseased';
+                        statusSpan.style.visibility = 'visible';
+                        statusSpan.textContent = 'ERROR';
+                        infoDiv.innerHTML =
+                            `<span class="invalid-badge">
+                                Server error: ${resp.status}
+                            </span>`;
+                    }
+                } catch (err) {
+                    console.error('Network or fetch error:', err);
+                    statusSpan.className = 'result-status diseased';
+                    statusSpan.style.visibility = 'visible';
+                    statusSpan.textContent = 'ERROR';
+                    infoDiv.innerHTML =
+                        `<span class="invalid-badge">
+                            Network error — could not reach server
+                        </span>`;
+                }
+
+                URL.revokeObjectURL(objectUrl);
+                return success;
+            }
+
             detectButton.addEventListener('click', async function () {
                 if (uploadedFilesArray.length === 0) return;
 
@@ -1019,14 +1157,16 @@
                 const perFileContainer = document.getElementById('per-file-results');
 
                 // Reset any old charts
-                Object.values(perFileCharts).forEach(ch => ch && ch.destroy());
+                for (const ch of Object.values(perFileCharts)) {
+                    if (ch) ch.destroy();
+                }
                 perFileCharts = {};
                 if (overallChart) {
                     overallChart.destroy();
                     overallChart = null;
                 }
 
-                uploadedFilesArray.forEach(fd => {
+                for (const fd of uploadedFilesArray) {
                     const row = document.createElement('div');
                     row.id = `result-row-${fd.id}`;
                     row.style.cssText =
@@ -1074,148 +1214,10 @@
                     "Cercospora": 0
                 };
 
-                for (let fd of uploadedFilesArray) {
-                    const row = document.getElementById(`result-row-${fd.id}`);
-                    if (!row) continue;
-
-                    const img = new Image();
-                    const objectUrl = URL.createObjectURL(fd.file);
-                    img.src = objectUrl;
-
-                    await new Promise((res) => {
-                        img.onload = () => res();
-                        img.onerror = () => res();
-                    });
-
-                    const previewDiv = row.querySelector('div:first-child');
-                    previewDiv.innerHTML =
-                        `<img src="${img.src}" class="result-preview-img" alt="${fd.file.name}">`;
-
-                    const statusSpan = row.querySelector('.result-status');
-                    const infoDiv =
-                        row.querySelector('div[style*="font-size:0.9em"]') ||
-                        row.querySelector('div:nth-child(2) > div');
-
-                    const form = new FormData();
-                    form.append('image', fd.file);
-
-                    try {
-                        const resp = await fetch('/predict', {
-                            method: 'POST',
-                            body: form
-                        });
-
-                        if (!resp.ok) {
-                            const text = await resp.text();
-                            console.error('Server error:', resp.status, text);
-                            statusSpan.className = 'result-status diseased';
-                            statusSpan.style.visibility = 'visible';
-                            statusSpan.textContent = 'ERROR';
-                            infoDiv.innerHTML =
-                                `<span class="invalid-badge">
-                                    Server error: ${resp.status}
-                                </span>`;
-                        } else {
-                            const json = await resp.json();
-
-                            let serverDisease = json.predicted_disease || 'Unknown';
-                            let confidenceStr = json.confidence_score || '0';
-
-                            if (typeof confidenceStr === 'string') {
-                                confidenceStr = confidenceStr.replace('%', '').trim();
-                            }
-                            let confVal = parseFloat(confidenceStr);
-                            if (isNaN(confVal)) confVal = 0;
-
-                            // Normalize disease name to our canonical keys
-                            const canonicalDisease = getCanonicalDiseaseName(serverDisease);
-                            serverDisease = canonicalDisease;
-
-                            console.log('File:', fd.file.name,
-                                'Disease:', serverDisease,
-                                'Conf raw:', json.confidence_score,
-                                'Conf parsed:', confVal);
-
-                            anyValid++;
-                            detectedDisease = serverDisease;
-
-                            const status =
-                                serverDisease === 'Healthy' ? 'healthy' : 'diseased';
-                            statusSpan.className = `result-status ${status}`;
-                            statusSpan.style.visibility = 'visible';
-                            statusSpan.textContent = status.toUpperCase();
-
-                            infoDiv.innerHTML =
-                                `Disease: <strong>${serverDisease}</strong> | Conf: ${json.confidence_score}`;
-
-                            // 🔹 Per-file donut chart
-                            const effectiveConf = Math.max(0, Math.min(100, confVal));
-                            const remaining = Math.max(0, 100 - effectiveConf);
-                            const chartId = `confidence-chart-${fd.id}`;
-                            const labelId = `confidence-label-${fd.id}`;
-                            const chartCanvas = document.getElementById(chartId);
-
-                            if (chartCanvas) {
-                                if (perFileCharts[fd.id]) {
-                                    perFileCharts[fd.id].destroy();
-                                }
-                                const ctx = chartCanvas.getContext('2d');
-                                perFileCharts[fd.id] = new Chart(ctx, {
-                                    type: 'doughnut',
-                                    data: {
-                                        labels: ['Confidence', 'Remaining'],
-                                        datasets: [{
-                                            data: [effectiveConf, remaining],
-                                            backgroundColor: ['#CD607D', '#F3D6E0'],
-                                            borderWidth: 1
-                                        }]
-                                    },
-                                    options: {
-                                        cutout: '65%',
-                                        plugins: {
-                                            legend: { display: false }
-                                        }
-                                    }
-                                });
-                                const labelEl = document.getElementById(labelId);
-                                if (labelEl) {
-                                    labelEl.textContent = `${effectiveConf.toFixed(1)}%`;
-                                }
-                            }
-
-                            const btnContainer = document.createElement('div');
-                            btnContainer.style.marginTop = '8px';
-                            btnContainer.innerHTML =
-                                `<button class="result-view-btn"
-                                         onclick="viewPrecautionsForDisease('${serverDisease}')">
-                                     <i class="fas fa-shield-alt"></i> Precautions
-                                 </button>`;
-                            row.querySelector(
-                                'div[style*="display:flex; flex-direction:column"]'
-                            ).appendChild(btnContainer);
-
-                            // 🔥 Save this detection to Firestore (with imageUrl)
-                            await saveDetectionLog(fd, serverDisease, confVal);
-
-                            // 🔹 Add to overall summary (only for known classes)
-                            if (overallSummaryConf.hasOwnProperty(serverDisease)) {
-                                overallSummaryConf[serverDisease] += confVal;
-                                overallCount[serverDisease] += 1;
-                            }
-
-                        }
-                    } catch (err) {
-                        console.error('Network or fetch error:', err);
-                        statusSpan.className = 'result-status diseased';
-                        statusSpan.style.visibility = 'visible';
-                        statusSpan.textContent = 'ERROR';
-                        infoDiv.innerHTML =
-                            `<span class="invalid-badge">
-                                Network error — could not reach server
-                            </span>`;
+                for (const fd of uploadedFilesArray) {
+                    if (await processImageDetection(fd, overallSummaryConf, overallCount)) {
+                        anyValid++;
                     }
-
-                    URL.revokeObjectURL(objectUrl);
                 }
 
                 const validCount = anyValid;
@@ -1312,7 +1314,7 @@
                         return;
                     }
                     const baseUrl = "{{ url_for('disease_page') }}";
-                    window.location.href =
+                    globalThis.location.href =
                         `${baseUrl}?d=${encodeURIComponent(detectedDisease.toLowerCase())}`;
                 };
 

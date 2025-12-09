@@ -14,6 +14,10 @@ load_dotenv()
 from chatbot_backend.knowledge_base import get_knowledge_base
 
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 # -------------------------------------------------
 #  BLUEPRINT SETUP (replaces app = Flask())
 # -------------------------------------------------
@@ -114,7 +118,7 @@ def text_to_speech(text, lang_code="en"):
                 audio_data = f.read()
         return audio_data
     except Exception as e:
-        print(f"[TTS] Error generating speech: {e}")
+        logger.error(f"[TTS] Error generating speech: {e}")
         return None
 
 
@@ -131,37 +135,20 @@ def get_bot_response(user_input, user_language="en"):
     }
     clean_input = user_input.strip().lower()
     if clean_input in greetings.get(user_language, []):
-        if user_language == "kn":
-            return "ಹಾಯ್! ದಾಳಿಂಬೆ ಬೆಳೆ ಅಥವಾ ರೋಗಗಳ ಬಗ್ಗೆ ಏನಾದರೂ ಕೇಳಿ."
-        elif user_language == "hi":
-            return "नमस्ते! अनार की खेती या रोगों के बारे में कुछ भी पूछिए।"
-        else:
-            return "Hi! Ask me anything about pomegranate farming or diseases."
+        return get_greeting_response(user_language)
 
     if user_language != "en":
         user_input_en = translate_text(user_input, "en")
     else:
         user_input_en = user_input
 
-    response_data = None
-    for key, value in knowledge_base.items():
-        if key.lower() in user_input_en.lower():
-            response_data = value
-            break
-
+    response_data = find_knowledge_base_match(user_input_en)
     kb_hit = response_data is not None
 
     if kb_hit:
-        if isinstance(response_data, dict):
-            response = response_data.get(user_language) or response_data.get("en", "")
-        else:
-            response = response_data
+        response = get_kb_response_text(response_data, user_language)
     else:
-        prompt = (
-            "You are a specialized assistant for pomegranate plant health. "
-            f"User asked: '{user_input_en}'. Provide an accurate, clear answer."
-        )
-        response = get_ai_response(prompt)
+        response = get_ai_fallback_response(user_input_en)
 
     needs_translation = (
         user_language != "en"
@@ -173,6 +160,31 @@ def get_bot_response(user_input, user_language="en"):
         response = translate_text(response, user_language)
 
     return response
+
+def get_greeting_response(lang):
+    if lang == "kn":
+        return "ಹಾಯ್! ದಾಳಿಂಬೆ ಬೆಳೆ ಅಥವಾ ರೋಗಗಳ ಬಗ್ಗೆ ಏನಾದರೂ ಕೇಳಿ."
+    elif lang == "hi":
+        return "नमस्ते! अनार की खेती या रोगों के बारे में कुछ भी पूछिए।"
+    return "Hi! Ask me anything about pomegranate farming or diseases."
+
+def find_knowledge_base_match(text):
+    for key, value in knowledge_base.items():
+        if key.lower() in text.lower():
+            return value
+    return None
+
+def get_kb_response_text(data, lang):
+    if isinstance(data, dict):
+        return data.get(lang) or data.get("en", "")
+    return data
+
+def get_ai_fallback_response(user_input):
+    prompt = (
+        "You are a specialized assistant for pomegranate plant health. "
+        f"User asked: '{user_input}'. Provide an accurate, clear answer."
+    )
+    return get_ai_response(prompt)
 
 
 # -------------------------------------------------

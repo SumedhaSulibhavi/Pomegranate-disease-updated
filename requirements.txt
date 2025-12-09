@@ -10,8 +10,7 @@ numpy
 gunicorn
 python-dotenv
 
-# PyTorch CPU wheels for Python 3.10
 torch==2.1.0
 torchvision==0.16.0
-
 --extra-index-url https://download.pytorch.org/whl/cpu
+

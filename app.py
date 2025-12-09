@@ -32,7 +32,7 @@ NUM_CLASSES = len(CLASS_NAMES)
 # --------------------
 # Model architecture
 # --------------------
-class CNN_ViT_Fusion(nn.Module):
+class CNN_ViT_Fusion(nn.Module):  # NOSONAR
     def __init__(self, num_classes, pretrained=True, freeze_backbones=True):
         super().__init__()
         self.cnn = models.resnet18(weights=models.ResNet18_Weights.IMAGENET1K_V1 if pretrained else None)
@@ -184,6 +184,22 @@ download_model_from_gdrive(
 # --------------------
 # Model loading (robust)
 # --------------------
+def load_single_model(p):
+    """Helper to attempt loading a model from a specific path."""
+    print(f"Attempting to load model from: {p}")
+    state = torch.load(str(p), map_location=device)
+
+    if isinstance(state, nn.Module):
+        print("Model loaded (full model object).")
+        return state.to(device).eval()
+
+    # If not a full model, assume it's a state_dict
+    model_instance = CNN_ViT_Fusion(num_classes=NUM_CLASSES, pretrained=False, freeze_backbones=False).to(device)
+    model_instance.load_state_dict(state)
+    model_instance.eval()
+    print("Model loaded (state_dict).")
+    return model_instance
+
 def try_load_model():
     global cnn_model
     loaded = False
@@ -213,30 +229,9 @@ def try_load_model():
             print("Model candidate not found:", p)
             continue
         try:
-            print(f"Attempting to load model from: {p}")
-            state = torch.load(str(p), map_location=device)
-            if isinstance(state, dict) and any(k.startswith('module.') or k in CNN_ViT_Fusion(num_classes=NUM_CLASSES, pretrained=False, freeze_backbones=False).state_dict() for k in state.keys()):
-                model_instance = CNN_ViT_Fusion(num_classes=NUM_CLASSES, pretrained=False, freeze_backbones=False).to(device)
-                model_instance.load_state_dict(state)
-                model_instance.eval()
-                cnn_model = model_instance
-                loaded = True
-                print("Model loaded (state_dict).")
-                break
-            elif isinstance(state, nn.Module):
-                cnn_model = state.to(device)
-                cnn_model.eval()
-                loaded = True
-                print("Model loaded (full model object).")
-                break
-            else:
-                model_instance = CNN_ViT_Fusion(num_classes=NUM_CLASSES, pretrained=False, freeze_backbones=False).to(device)
-                model_instance.load_state_dict(state)
-                model_instance.eval()
-                cnn_model = model_instance
-                loaded = True
-                print("Model loaded (fallback).")
-                break
+            cnn_model = load_single_model(p)
+            loaded = True
+            break
         except Exception as e:
             print(f"Failed loading from {p}: {e}")
 

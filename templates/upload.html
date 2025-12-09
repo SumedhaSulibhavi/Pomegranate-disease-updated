@@ -7,10 +7,13 @@
     <title data-i18n="pageTitle">Disease Detector - Upload Image</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Bootstrap CSS -->
-<link
-  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-  rel="stylesheet">
-<style>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet">
+    <!-- Chart.js for pie charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
         /* --- Custom CSS Variables --- */
         :root {
             --college-primary-color: #8B404E;
@@ -505,22 +508,27 @@
             background: #fff9f0;
             color: #a67a00;
             border: 1px solid #f0c36d;
-            border-radius: 4px;
             margin-top: 6px;
         }
+
         html, body {
-    height: 100%;
-}
+            height: 100%;
+        }
 
-body {
-    display: flex;
-    flex-direction: column;
-}
+        body {
+            display: flex;
+            flex-direction: column;
+        }
 
-.site-footer {
-    margin-top: auto;
-}
+        .site-footer {
+            margin-top: auto;
+        }
 
+        /* text in per-image donut charts */
+        .chart-center-label {
+            font-weight: bold;
+            font-size: 0.8em;
+        }
     </style>
 </head>
 
@@ -702,7 +710,28 @@ body {
             }
         };
 
+        // 🔄 Map different spellings from the model to our keys
+        const DISEASE_ALIASES = {
+            "healthy": "Healthy",
+            "bacterial blight": "Bacterial Blight",
+            "bacterial light": "Bacterial Blight",   // fixes Bacterial_light typo from model
+            "bacterial_light": "Bacterial Blight",
+            "alternaria": "Alternaria",
+            "anthracnose": "Anthracnose",
+            "cercospora": "Cercospora"
+        };
+
+        function getCanonicalDiseaseName(name) {
+            if (!name) return "Unknown";
+            const cleaned = name.toString().trim().toLowerCase().replace(/_/g, " ");
+            return DISEASE_ALIASES[cleaned] || name;
+        }
+
         let detectedDisease = null;
+
+        // For charts
+        let perFileCharts = {};
+        let overallChart = null;
 
         // ✅ Save one detection log to Firestore (with correct imageUrl)
         async function saveDetectionLog(fileData, disease, confidence) {
@@ -941,15 +970,16 @@ body {
             /* -------------------------
                Modal precautions viewer
                ------------------------- */
-            window.viewPrecautionsForDisease = function (diseaseName) {
-                const data = DISEASE_DATA[diseaseName];
+            window.viewPrecautionsForDisease = function (diseaseNameRaw) {
+                const canonicalName = getCanonicalDiseaseName(diseaseNameRaw);
+                const data = DISEASE_DATA[canonicalName];
                 if (!data) {
-                    alert("Precautions not found for: " + diseaseName);
+                    alert("Precautions not found for: " + diseaseNameRaw);
                     return;
                 }
-                modalDiseaseName.textContent = diseaseName;
+                modalDiseaseName.textContent = canonicalName;
                 modalTitle.textContent = 'Preventive Measures for ' +
-                    (diseaseName === 'Healthy' ? 'Pomegranate Health' : diseaseName);
+                    (canonicalName === 'Healthy' ? 'Pomegranate Health' : canonicalName);
                 modalList.innerHTML = '';
                 data.precautions.forEach(p => {
                     const li = document.createElement('li');
@@ -988,6 +1018,14 @@ body {
 
                 const perFileContainer = document.getElementById('per-file-results');
 
+                // Reset any old charts
+                Object.values(perFileCharts).forEach(ch => ch && ch.destroy());
+                perFileCharts = {};
+                if (overallChart) {
+                    overallChart.destroy();
+                    overallChart = null;
+                }
+
                 uploadedFilesArray.forEach(fd => {
                     const row = document.createElement('div');
                     row.id = `result-row-${fd.id}`;
@@ -1009,12 +1047,32 @@ body {
                         </div>
                         <div style="display:flex; flex-direction:column; align-items:flex-end;">
                             <span class="result-status" style="margin-bottom:5px; visibility:hidden;">STATUS</span>
-                            <div style="height:36px;"></div>
+                            <div class="chart-wrapper" style="position:relative; width:90px; height:90px; margin-top:4px;">
+                                <canvas id="confidence-chart-${fd.id}"></canvas>
+                                <div id="confidence-label-${fd.id}" class="chart-center-label"
+                                     style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:0.75em; font-weight:bold;"></div>
+                            </div>
                         </div>`;
                     perFileContainer.appendChild(row);
                 });
 
                 let anyValid = 0;
+
+                // For overall final pie chart (sum + counts for averages)
+                let overallSummaryConf = {
+                    "Healthy": 0,
+                    "Bacterial Blight": 0,
+                    "Alternaria": 0,
+                    "Anthracnose": 0,
+                    "Cercospora": 0
+                };
+                let overallCount = {
+                    "Healthy": 0,
+                    "Bacterial Blight": 0,
+                    "Alternaria": 0,
+                    "Anthracnose": 0,
+                    "Cercospora": 0
+                };
 
                 for (let fd of uploadedFilesArray) {
                     const row = document.getElementById(`result-row-${fd.id}`);
@@ -1066,7 +1124,13 @@ body {
                             if (typeof confidenceStr === 'string') {
                                 confidenceStr = confidenceStr.replace('%', '').trim();
                             }
-                            const confVal = parseFloat(confidenceStr);
+                            let confVal = parseFloat(confidenceStr);
+                            if (isNaN(confVal)) confVal = 0;
+
+                            // Normalize disease name to our canonical keys
+                            const canonicalDisease = getCanonicalDiseaseName(serverDisease);
+                            serverDisease = canonicalDisease;
+
                             console.log('File:', fd.file.name,
                                 'Disease:', serverDisease,
                                 'Conf raw:', json.confidence_score,
@@ -1084,7 +1148,43 @@ body {
                             infoDiv.innerHTML =
                                 `Disease: <strong>${serverDisease}</strong> | Conf: ${json.confidence_score}`;
 
+                            // 🔹 Per-file donut chart
+                            const effectiveConf = Math.max(0, Math.min(100, confVal));
+                            const remaining = Math.max(0, 100 - effectiveConf);
+                            const chartId = `confidence-chart-${fd.id}`;
+                            const labelId = `confidence-label-${fd.id}`;
+                            const chartCanvas = document.getElementById(chartId);
+
+                            if (chartCanvas) {
+                                if (perFileCharts[fd.id]) {
+                                    perFileCharts[fd.id].destroy();
+                                }
+                                const ctx = chartCanvas.getContext('2d');
+                                perFileCharts[fd.id] = new Chart(ctx, {
+                                    type: 'doughnut',
+                                    data: {
+                                        labels: ['Confidence', 'Remaining'],
+                                        datasets: [{
+                                            data: [effectiveConf, remaining],
+                                            backgroundColor: ['#CD607D', '#F3D6E0'],
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        cutout: '65%',
+                                        plugins: {
+                                            legend: { display: false }
+                                        }
+                                    }
+                                });
+                                const labelEl = document.getElementById(labelId);
+                                if (labelEl) {
+                                    labelEl.textContent = `${effectiveConf.toFixed(1)}%`;
+                                }
+                            }
+
                             const btnContainer = document.createElement('div');
+                            btnContainer.style.marginTop = '8px';
                             btnContainer.innerHTML =
                                 `<button class="result-view-btn"
                                          onclick="viewPrecautionsForDisease('${serverDisease}')">
@@ -1096,6 +1196,13 @@ body {
 
                             // 🔥 Save this detection to Firestore (with imageUrl)
                             await saveDetectionLog(fd, serverDisease, confVal);
+
+                            // 🔹 Add to overall summary (only for known classes)
+                            if (overallSummaryConf.hasOwnProperty(serverDisease)) {
+                                overallSummaryConf[serverDisease] += confVal;
+                                overallCount[serverDisease] += 1;
+                            }
+
                         }
                     } catch (err) {
                         console.error('Network or fetch error:', err);
@@ -1131,6 +1238,71 @@ body {
                 if (existingSummary) existingSummary.remove();
                 summaryNode.id = 'detection-summary-node';
                 perFileContainer.parentElement.appendChild(summaryNode);
+
+                // 🔹 Final disease-wise confidence summary (like your screenshot)
+                if (validCount > 0) {
+                    const overallContainerId = 'overall-disease-chart-container';
+                    let existingOverallContainer = document.getElementById(overallContainerId);
+                    if (existingOverallContainer) {
+                        existingOverallContainer.remove();
+                    }
+                    const overallContainer = document.createElement('div');
+                    overallContainer.id = overallContainerId;
+                    overallContainer.style = 'margin-top:25px; text-align:center;';
+
+                    overallContainer.innerHTML = `
+                        <h3 style="color:var(--college-primary-color); margin-bottom:10px;">
+                            Disease-wise Confidence Summary
+                        </h3>
+                        <p style="font-size:0.9em; margin-bottom:12px;">
+                            Average confidence for each disease across all uploaded images.
+                            Diseases not detected show 0%.
+                        </p>
+                        <div style="display:flex; justify-content:center;">
+                            <div style="position:relative; width:260px; height:260px;">
+                                <canvas id="overall-disease-chart"></canvas>
+                            </div>
+                        </div>
+                    `;
+                    resultBox.appendChild(overallContainer);
+
+                    const labels = Object.keys(overallSummaryConf);
+
+                    // Average confidence for each disease (0 if never predicted)
+                    const avgData = labels.map(key => {
+                        const cnt = overallCount[key];
+                        return cnt > 0 ? (overallSummaryConf[key] / cnt) : 0;
+                    });
+
+                    // Legend labels: "Disease (XX.X%)"
+                    const legendLabels = labels.map((name, idx) =>
+                        `${name} (${avgData[idx].toFixed(1)}%)`
+                    );
+
+                    const overallCanvas = document.getElementById('overall-disease-chart');
+                    if (overallCanvas) {
+                        if (overallChart) {
+                            overallChart.destroy();
+                        }
+                        const ctxOverall = overallCanvas.getContext('2d');
+                        overallChart = new Chart(ctxOverall, {
+                            type: 'pie',
+                            data: {
+                                labels: legendLabels,
+                                datasets: [{
+                                    data: avgData,
+                                    backgroundColor: ['#5D1F2B', '#CD607D', '#F5B5C4', '#F2A65A', '#B57EDC'],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                plugins: {
+                                    legend: { position: 'bottom' }
+                                }
+                            }
+                        });
+                    }
+                }
 
                 const learnBtn = document.getElementById('learn-disease-btn');
                 learnBtn.style.display = 'block';
@@ -1188,7 +1360,7 @@ body {
         });
     </script>
     <!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

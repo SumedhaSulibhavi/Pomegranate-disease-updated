@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="pageTitleAboutUs">About Us - Pomegranate Detection</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
-<!-- Bootstrap CSS -->
-<link
-  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-  rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet">
 
     <style>
-        /* === REUSING YOUR PROVIDED CSS STYLES === */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
         :root {
@@ -53,91 +52,107 @@
             pointer-events: none;
         }
 
-        /* === 3. Header Styles === */
-        header { 
-            background-color: var(--college-primary-color); 
-            color: white; 
-            padding: 15px 0; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
-            z-index: 60; 
+        /* Header */
+        header {
+            background-color: var(--college-primary-color);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 60;
         }
-        .header-content { 
-            max-width: 1200px; 
-            margin: 0 auto; 
-            padding: 0 20px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            position: relative; 
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
         }
-        .header-title { 
-            font-size: 1.6rem; 
-            font-weight: bold; 
+        .header-title {
+            font-size: 1.6rem;
+            font-weight: bold;
         }
 
-        /* === 4. Navigation Bar Styles === */
-        .navbar { 
-            background-color: var(--button-color); 
-            border-bottom: 1px solid #eee; 
-            box-shadow: 0 0 5px rgba(0,0,0,0.1); 
-            position: sticky; top: 0; z-index: 20; 
+        /* Navbar */
+        .navbar {
+            background-color: var(--button-color);
+            border-bottom: 1px solid #eee;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 20;
         }
-        .nav-links { 
-            list-style: none; padding: 0; margin: 0; display: flex; 
-            justify-content: center; max-width: 1200px; margin: 0 auto; 
-            padding: 0 20px; 
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
-        .nav-links li a { 
-            display: block; padding: 8px 20px; text-decoration: none; 
-            color: white; font-weight: bold; transition: background-color 0.3s; 
+        .nav-links li a {
+            display: block;
+            padding: 8px 20px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: background-color 0.3s;
         }
-        /* ACTIVE LINK STYLING: Points to this page (about_us.html) */
-        .nav-links li a[href="about_us.html"] { 
-            color: white; background-color: var(--college-primary-color); border-bottom: none; 
+        .nav-links li a[href="about_us.html"] {
+            color: white;
+            background-color: var(--college-primary-color);
+            border-bottom: none;
         }
-        .nav-links li a:hover:not([href="about_us.html"]) { 
-            background-color: #c0506e; 
+        .nav-links li a:hover:not([href="about_us.html"]) {
+            background-color: #c0506e;
         }
-        
-        /* === 5. Main Content Layout === */
-        .main-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; flex-grow: 1; }
-        .content-box { 
-            background-color: var(--light-bg-color); 
-            padding: 40px; 
-            border-radius: 15px; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2); 
-            border: 2px dashed var(--button-color); 
+
+        /* Main layout */
+        .main-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+            flex-grow: 1;
         }
-        
-        /* A. Title Animation - Modified to match the image */
+        .content-box {
+            background-color: var(--light-bg-color);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            border: 2px dashed var(--button-color);
+        }
+
+        /* Title */
         h1 {
-            color: white; 
-            background-color: var(--college-primary-color); 
-            font-size: 3.5rem; 
-            font-weight: 900; 
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3); 
-            margin: 0 auto 35px auto; 
+            color: white;
+            background-color: var(--college-primary-color);
+            font-size: 3.5rem;
+            font-weight: 900;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin: 0 auto 35px auto;
             text-align: center;
             opacity: 0;
             transform: translateY(20px);
             animation: titleFadeIn 1s ease-out 0.5s forwards;
-            padding: 20px 0; 
-            width: 100%; 
-            max-width: 900px; 
-            border-radius: 8px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
+            padding: 20px 0;
+            width: 100%;
+            max-width: 900px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             display: block;
         }
         h1::after {
             content: none;
         }
-
         @keyframes titleFadeIn {
-            to { opacity: 1; transform: translateY(0); }
             from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* B. Content Sections (Scroll Reveal) */
+        /* About sections */
         .about-section {
             margin-bottom: 40px;
             padding: 25px;
@@ -149,8 +164,8 @@
             transform: translateY(40px) scale(0.98);
         }
         .about-section.revealed {
-             opacity: 1;
-             transform: translateY(0) scale(1);
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
         .about-section h2 {
             color: var(--button-color);
@@ -166,7 +181,7 @@
             color: #000;
         }
 
-        /* C. Team Card Styles & Animation */
+        /* Team cards */
         .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -221,7 +236,9 @@
         .team-card:hover img {
             box-shadow: 0 0 0 4px white, 0 0 0 8px var(--college-primary-color);
         }
-        .team-card h3, .team-card small, .team-card p {
+        .team-card h3,
+        .team-card small,
+        .team-card p {
             z-index: 5;
             position: relative;
         }
@@ -247,12 +264,15 @@
             100% { transform: scale(1); opacity: 0.8; }
         }
 
-        /* D. Modal/Pop-up Styles */
+        /* Modal */
         .modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.8);
             display: none;
-            justify-content: center; align-items: center;
+            justify-content: center;
+            align-items: center;
             z-index: 100;
         }
         .modal-content {
@@ -268,456 +288,749 @@
         }
         @keyframes modalFadeIn {
             from { opacity: 0; transform: scale(0.85); }
-            to { opacity: 1; transform: scale(1); }
+            to   { opacity: 1; transform: scale(1); }
         }
         .close-btn {
-            position: absolute; top: 15px; right: 25px;
-            font-size: 30px; font-weight: 800; color: #aaa; cursor: pointer;
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 30px;
+            font-weight: 800;
+            color: #aaa;
+            cursor: pointer;
             transition: color 0.2s;
         }
         .close-btn:hover { color: var(--college-primary-color); }
-        .modal-content h3 { color: var(--college-primary-color); margin-top: 0; font-size: 1.8rem; }
-        .modal-content small { color: var(--button-color); display: block; margin-bottom: 15px; font-weight: 600; }
-        .modal-content p { line-height: 1.6; margin-bottom: 10px; text-align: justify; }
+        .modal-content h3 {
+            color: var(--college-primary-color);
+            margin-top: 0;
+            font-size: 1.8rem;
+        }
+        .modal-content small {
+            color: var(--button-color);
+            display: block;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .modal-content p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+            text-align: justify;
+        }
 
-        /* E. Profile Widget Overrides (MATCHING STRUCTURE) */
-        #profile-widget { position: absolute; top: 50%; right: 20px; transform: translateY(-50%); width: auto; max-width: 300px; background-color: transparent; box-shadow: none; border: none; overflow: visible; z-index: 65; }
-        #profile-widget #profile-header { background-color: var(--college-primary-color); padding: 5px 10px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: all 0.3s ease; display: flex; align-items: center; justify-content: flex-end; width: fit-content; margin-left: auto; color: white; cursor: pointer; }
-        #profile-widget #profile-header:hover { background-color: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); }
-        #profile-widget .w-12.h-12.bg-\[\#F0DCDC\] { width: 40px; height: 40px; min-width: 40px; min-height: 40px; background-color: white; border: 2px solid var(--button-color); color: var(--button-color); }
-        #profile-widget .w-12.h-12.bg-\[\#F0DCDC\] svg { width: 20px; height: 20px; }
-        #profile-widget #greeting { font-size: 0.95rem; font-weight: 500; margin-left: 8px; margin-right: 5px; white-space: nowrap; }
-        #profile-widget #admin-badge { background-color: var(--nude-pink-overlay); color: var(--college-primary-color); }
-        #profile-widget #details-content { position: absolute; top: calc(100% + 10px); right: 0; background-color: white; border-radius: 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border: 1px solid var(--button-color); padding: 15px; width: 220px; z-index: 70; }
-        #profile-widget #details-content.hidden { display: none !important; }
-        .lang-button { transition: all 0.2s; min-width: 80px; border-radius: 8px; }
-        .lang-button.active { background-color: var(--button-color) !important; color: white !important; border-color: var(--button-color) !important; box-shadow: 0 4px 12px rgba(205, 96, 125, 0.4) !important; }
-        .lang-button:not(.active) { background-color: #f8f8f8 !important; color: var(--text-color) !important; border-color: #ddd !important; box-shadow: none !important; }
-        .lang-button:not(.active):hover { background-color: #eee !important; }
-        #logout-button { background-color: var(--button-color) !important; color: white !important; border: none !important; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        #logout-button:hover { background-color: var(--college-primary-color) !important; }
-        
-        /* F. Footer, Chatbot */
-        #chatbot-btn { position: fixed; bottom: 25px; right: 25px; background-color: var(--chatbot-color); color: white; border: none; border-radius: 50%; width: 60px; height: 60px; font-size: 1.8rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 70; line-height: 60px; text-align: center; padding: 0; }
-        .site-footer { text-align: center; padding: 15px 10px; margin-top: auto; border-top: 1px solid #eee; background-color: var(--button-color); color: white; font-size: 0.9em; }
-        .footer-text { display: block; margin-top: 5px; font-weight: bold; }
-        
-        /* Responsive adjustments */
+        /* Profile widget (right corner) */
+        #profile-widget {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            width: auto;
+            max-width: 300px;
+            background-color: transparent;
+            box-shadow: none;
+            border: none;
+            overflow: visible;
+            z-index: 65;
+        }
+        #profile-widget #profile-header {
+            background-color: var(--college-primary-color);
+            padding: 5px 10px;
+            border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            width: fit-content;
+            margin-left: auto;
+            color: white;
+            cursor: pointer;
+        }
+        #profile-widget #profile-header:hover {
+            background-color: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.6);
+        }
+        #profile-widget .w-12.h-12.bg-\[\#F0DCDC\] {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            min-height: 40px;
+            background-color: white;
+            border: 2px solid var(--button-color);
+            color: var(--button-color);
+        }
+        #profile-widget .w-12.h-12.bg-\[\#F0DCDC\] svg {
+            width: 20px;
+            height: 20px;
+        }
+        #profile-widget #greeting {
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-left: 8px;
+            margin-right: 5px;
+            white-space: nowrap;
+        }
+        #profile-widget #admin-badge {
+            background-color: var(--nude-pink-overlay);
+            color: var(--college-primary-color);
+        }
+        #profile-widget #details-content {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            border: 1px solid var(--button-color);
+            padding: 15px;
+            width: 220px;
+            z-index: 70;
+        }
+        #profile-widget #details-content.hidden {
+            display: none !important;
+        }
+        .lang-button {
+            transition: all 0.2s;
+            min-width: 80px;
+            border-radius: 8px;
+        }
+        .lang-button.active {
+            background-color: var(--button-color) !important;
+            color: white !important;
+            border-color: var(--button-color) !important;
+            box-shadow: 0 4px 12px rgba(205, 96, 125, 0.4) !important;
+        }
+        .lang-button:not(.active) {
+            background-color: #f8f8f8 !important;
+            color: var(--text-color) !important;
+            border-color: #ddd !important;
+            box-shadow: none !important;
+        }
+        .lang-button:not(.active):hover {
+            background-color: #eee !important;
+        }
+        #logout-button {
+            background-color: var(--button-color) !important;
+            color: white !important;
+            border: none !important;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        #logout-button:hover {
+            background-color: var(--college-primary-color) !important;
+        }
+
+        /* Footer & chatbot */
+        #chatbot-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: var(--chatbot-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 70;
+            line-height: 60px;
+            text-align: center;
+            padding: 0;
+        }
+        .site-footer {
+            text-align: center;
+            padding: 15px 10px;
+            margin-top: auto;
+            border-top: 1px solid #eee;
+            background-color: var(--button-color);
+            color: white;
+            font-size: 0.9em;
+        }
+        .footer-text {
+            display: block;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            h1 { 
-                font-size: 2.2rem; 
-                padding: 15px 0; 
+            h1 {
+                font-size: 2.2rem;
+                padding: 15px 0;
             }
-            .content-box { padding: 30px 20px; }
-
-            /* Profile Widget adjustment for small screens */
-            .header-content { flex-direction: column; align-items: flex-start; padding: 10px 20px; }
-            .header-title { margin-bottom: 10px; }
-            #profile-widget { position: static; transform: none; margin-top: 10px; width: 100%; }
-            #profile-widget #profile-header { justify-content: flex-start; }
-            #profile-widget #details-content { position: static; width: 100%; margin-top: 10px; }
+            .content-box {
+                padding: 30px 20px;
+            }
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px 20px;
+            }
+            .header-title {
+                margin-bottom: 10px;
+            }
+            #profile-widget {
+                position: static;
+                transform: none;
+                margin-top: 10px;
+                width: 100%;
+            }
+            #profile-widget #profile-header {
+                justify-content: flex-start;
+            }
+            #profile-widget #details-content {
+                position: static;
+                width: 100%;
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="header-content">
-            <div class="header-title" data-i18n="headerTitle">
-                Pomegranate Disease Detection System
-            </div>
-
-            <div id="profile-widget" class="">
-                <div id="profile-header" class="p-4 text-white cursor-pointer flex items-center space-x-4 transition-shadow duration-300 hover:bg-[#A55260] focus:outline-none">
-                    <div class="w-12 h-12 bg-[#F0DCDC] rounded-full border-2 border-white flex items-center justify-center text-[#8B404E] shadow-md transition-transform duration-300 hover:scale-105">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    </div>
-                    <div>
-                        <p id="greeting" class="text-lg font-semibold tracking-wide">Hello, Student</p>
-                        <span id="admin-badge" class="hidden inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#F5E2E6] text-[#CD607D] mt-1 shadow-sm">Admin</span>
-                    </div>
-                </div>
-                <div id="details-content" class="p-4 space-y-4 hidden border-t border-gray-100">
-                    <div><label id="phone-label" class="block text-xs font-medium text-gray-500 mb-1">Contact Phone</label><p id="phone-number" class="text-sm font-medium text-gray-800">N/A</p></div>
-                    <div><label id="language-label" class="block text-xs font-medium text-gray-500 mb-2">Display Language</label>
-                        <div class="flex space-x-2">
-                            <button data-lang="en" class="lang-button active px-3 py-1 text-sm rounded-lg border border-[#CD607D] text-white shadow-md hover:bg-[#8B404E] focus:outline-none focus:ring-2 focus:ring-[#CD607D]">English</button>
-                            <button data-lang="kn" class="lang-button px-3 py-1 text-sm rounded-lg border border-gray-300 text-gray-700 bg-white shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#CD607D]">ಕನ್ನಡ</button>
-                        </div>
-                    </div>
-                    <button id="logout-button" class="w-full py-2 text-sm font-semibold rounded-lg bg-[#F5E2E6] text-[#8B404E] border border-[#F0DCDC] shadow-md hover:bg-[#F0DCDC] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#CD607D] mt-2">Logout</button>
-                </div>
-            </div>
+<header>
+    <div class="header-content">
+        <div class="header-title" data-i18n="headerTitle">
+            Pomegranate Disease Detection System
         </div>
-    </header>
 
-    <!-- NAVBAR WITH data-i18n ATTRIBUTES -->
-    <nav class="navbar">
-        <ul class="nav-links">
-            <li><a href="{{ url_for('login_page') }}" data-i18n="navLogin">Login</a></li>
-            <li><a href="{{ url_for('home_page') }}" data-i18n="navHome">Home</a></li>
-            <li><a href="{{ url_for('upload_page') }}" data-i18n="navDetector">Disease Detector</a></li>
-            <li><a href="{{ url_for('disease_page') }}" data-i18n="navDiseaseInfo">Disease Info</a></li>
-            <li><a href="{{ url_for('history_page') }}" data-i18n="navHistory">History</a></li>
-            <li><a href="{{ url_for('aboutus_page') }}" data-i18n="navAboutUs">About Us</a></li>
-        </ul>
-    </nav>
-
-    <div class="main-container">
-        <div class="content-box">
-            <h1 data-i18n="mainHeading">About Our Pomegranate Health System</h1>
-
-            <div class="about-section" data-i18n-section="motive">
-                <h2 data-i18n="sectionMotive">Our Motive and Vision ✨</h2>
-                <p data-i18n="motiveText">
-                    Our primary **motive** is to empower pomegranate growers with accessible, cutting-edge technology. We recognized the significant impact of fungal and bacterial diseases on the pomegranate industry, leading to substantial economic losses. Our vision is to create a **highly accurate, user-friendly AI tool** that acts as a virtual plant pathologist, available 24/7. By enabling **rapid, on-field diagnosis**, we aim to promote sustainable farming practices, minimize unnecessary pesticide use, and ultimately secure a better harvest for every farmer. We are dedicated to bridging the gap between advanced computer vision and practical agricultural needs.
-                </p>
-            </div>
-            
-            <div class="about-section" data-i18n-section="process">
-                <h2 data-i18n="sectionProcess">The Building Process 🛠️</h2>
-                <p data-i18n="processText">
-                    Building this **Pomegranate Disease Detection System** involved a rigorous, multi-stage process. First, we curated a **diverse dataset** of healthy and diseased pomegranate images, meticulously labeled for training. Next, we utilized **Deep Convolutional Neural Networks (DCNNs)**, experimenting with architectures like VGG and ResNet, fine-tuned for image classification. The front-end was built using **HTML5, CSS3 (with Tailwind for utility), and JavaScript** to ensure a responsive and engaging user experience, heavily integrating your existing design theme. The profiling and navigation elements were kept consistent with the rest of the system, ensuring a seamless transition for the user. Finally, we integrated a **dynamic, bilingual interface** to cater to a wider audience.
-                </p>
-            </div>
-
-            <div class="about-section" data-i18n-section="team">
-                <h2 data-i18n="sectionTeam">Meet the Development Team 👩‍💻</h2>
-                <div class="team-grid">
-                    <div class="team-card" data-member="sanjana">
-                        <img src="https://i.pinimg.com/736x/61/97/90/6197909d2daf17af1c5f81d1a76904f1.jpg" alt="Sanjana Profile" data-i18n-alt="sanjanaAlt">
-                        <h3 data-i18n="sanjanaName">Sanjana P.</h3>
-                        <small data-i18n="sanjanaRole">ML Backend Specialist</small>
-                        <p class="click-prompt" data-i18n="clickForMore">View Profile →</p>
-                    </div>
-                    <div class="team-card" data-member="sumedha">
-                        <img src="https://i.pinimg.com/1200x/5c/ca/6f/5cca6fdfec073c2d7d264df88ec53704.jpg" alt="Sumedha Profile" data-i18n-alt="sumedhaAlt">
-                        <h3 data-i18n="sumedhaName">Sumedha S.</h3>
-                        <small data-i18n="sumedhaRole">Data Curation Lead</small>
-                        <p class="click-prompt" data-i18n="clickForMore">View Profile →</p>
-                    </div>
-                    <div class="team-card" data-member="sushmita">
-                        <img src="https://i.pinimg.com/736x/49/22/be/4922be273781708f419f1d2214c1a3ba.jpg" alt="Sushmita Profile" data-i18n-alt="sushmitaAlt">
-                        <h3 data-i18n="sushmitaName">Sushmita J.</h3>
-                        <small data-i18n="sushmitaRole">Front-End Architect</small>
-                        <p class="click-prompt" data-i18n="clickForMore">View Profile →</p>
-                    </div>
-                    <div class="team-card" data-member="yashaswini">
-                        <img src= "https://i.pinimg.com/736x/14/8d/71/148d714280b498149a734b675d5883ec.jpg" alt="Yashaswini Profile" data-i18n-alt="yashaswiniAlt">
-                        <h3 data-i18n="yashaswiniName">Yashaswini K.</h3>
-                        <small data-i18n="yashaswiniRole">System Integrator</small>
-                        <p class="click-prompt" data-i18n="clickForMore">View Profile →</p>
-                    </div>
+        <!-- Profile widget (option B) -->
+        <div id="profile-widget">
+            <div id="profile-header"
+                 class="p-4 text-white cursor-pointer flex items-center space-x-4 transition-shadow duration-300 hover:bg-[#A55260] focus:outline-none">
+                <div class="w-12 h-12 bg-[#F0DCDC] rounded-full border-2 border-white flex items-center justify-center text-[#8B404E] shadow-md transition-transform duration-300 hover:scale-105">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="w-6 h-6"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </div>
+                <div>
+                    <p id="greeting" class="text-lg font-semibold tracking-wide">Hello, Student</p>
+                    <span id="admin-badge"
+                          class="hidden inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#F5E2E6] text-[#CD607D] mt-1 shadow-sm">
+                        Admin
+                    </span>
                 </div>
             </div>
 
-            <div class="about-section" data-i18n-section="contact">
-                <h2 data-i18n="sectionContact">Contact & Support 📧</h2>
-                <div class="contact-info">
-                    <p data-i18n="contactEmail">
-                        <strong>Email:</strong> <a href="mailto:pomegranate.support@example.com">pomegranate.support@example.com</a>
-                    </p>
-                    <p data-i18n="contactPhone">
-                        <strong>Phone:</strong> <a href="tel:+919876543210">+91 98765 43210</a>
-                    </p>
-                    <p data-i18n="contactNote">
-                        For technical issues or feedback, please use the email/phone above.
-                    </p>
+            <div id="details-content" class="p-4 space-y-4 hidden border-t border-gray-100">
+                <div>
+                    <label id="phone-label" class="block text-xs font-medium text-gray-500 mb-1">
+                        Contact Phone
+                    </label>
+                    <p id="phone-number" class="text-sm font-medium text-gray-800">N/A</p>
                 </div>
-            </div>
-
-        </div>
-    </div>
-
-    <button id="chatbot-btn" aria-label="Open Chatbot">
-        💬
-    </button>
-
-    <footer class="site-footer">
-        <small data-i18n="footerCopyright">© <span id="year">2025</span> Pomegranate Fruit Disease Detection — Final Year Project</small>
-        <span class="footer-text" data-i18n="footerSlogan">See early, Save more!</span>
-    </footer>
-
-    <div id="teamModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <div id="modal-details">
+                <div>
+                    <label id="language-label" class="block text-xs font-medium text-gray-500 mb-2">
+                        Display Language
+                    </label>
+                    <div class="flex space-x-2">
+                        <button data-lang="en"
+                                class="lang-button active px-3 py-1 text-sm rounded-lg border border-[#CD607D] text-white shadow-md hover:bg-[#8B404E] focus:outline-none focus:ring-2 focus:ring-[#CD607D]">
+                            English
+                        </button>
+                        <button data-lang="kn"
+                                class="lang-button px-3 py-1 text-sm rounded-lg border border-gray-300 text-gray-700 bg-white shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#CD607D]">
+                            ಕನ್ನಡ
+                        </button>
+                    </div>
+                </div>
+                <button id="logout-button"
+                        class="w-full py-2 text-sm font-semibold rounded-lg bg-[#F5E2E6] text-[#8B404E] border border-[#F0DCDC] shadow-md hover:bg-[#F0DCDC] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#CD607D] mt-2">
+                    Logout
+                </button>
             </div>
         </div>
     </div>
-    <script>
-        // --- WIDGET TRANSLATION DATA (Needed for widget functions) ---
-        const widgetTranslations = {
-            en: { greeting: (name) => `Hello, ${name}`, phoneLabel: "Contact Phone", languageLabel: "Display Language", logoutButton: "Logout" },
-            kn: { greeting: (name) => `ನಮಸ್ಕಾರ, ${name}`, phoneLabel: "ಸಂಪರ್ಕ ದೂರವಾಣಿ", languageLabel: "ಭಾಷೆ ಆರಿಸಿ", logoutButton: "ಲಾಗ್ ಔಟ್" }
-        };
+</header>
 
-        let currentLang = localStorage.getItem('language') || 'en';
+<nav class="navbar">
+    <ul class="nav-links">
+        <li><a href="{{ url_for('login_page') }}" data-i18n="navLogin">Login</a></li>
+        <li><a href="{{ url_for('home_page') }}" data-i18n="navHome">Home</a></li>
+        <li><a href="{{ url_for('upload_page') }}" data-i18n="navDetector">Disease Detector</a></li>
+        <li><a href="{{ url_for('disease_page') }}" data-i18n="navDiseaseInfo">Disease Info</a></li>
+        <li><a href="{{ url_for('history_page') }}" data-i18n="navHistory">History</a></li>
+        <li><a href="{{ url_for('aboutus_page') }}" data-i18n="navAboutUs">About Us</a></li>
+    </ul>
+</nav>
 
-        // --- TEAM DATA AND TRANSLATIONS (Extended Content) ---
-        const teamData = {
-            sanjana: {
-                en: { name: "Sanjana P.", role: "ML Backend Specialist", details: "Sanjana is our brilliant **ML Backend Specialist**, responsible for designing and optimizing the machine learning models. Her work ensures accurate and rapid disease detection by fine-tuning neural networks and managing the data pipeline efficiently. She's passionate about leveraging AI for real-world agricultural impact and efficiency.", alt: "Sanjana's animated profile picture" },
-                kn: { name: "ಸಂಜನಾ ಪಿ.", role: "ML ಬ್ಯಾಕೆಂಡ್ ತಜ್ಞೆ", details: "ಸಂಜನಾ ನಮ್ಮ ಅದ್ಭುತ **ML ಬ್ಯಾಕೆಂಡ್ ತಜ್ಞೆ**, ಯಂತ್ರ ಕಲಿಕೆ ಮಾದರಿಗಳನ್ನು ವಿನ್ಯಾಸಗೊಳಿಸಲು ಮತ್ತು ಆಪ್ಟಿಮೈಸ್ ಮಾಡಲು ಜವಾಬ್ದಾರರಾಗಿದ್ದಾರೆ. ಅವರ ಕೆಲಸವು ನಿಖರ ಮತ್ತು ಕ್ಷಿಪ್ರ ರೋಗ ಪತ್ತೆಯನ್ನು ಖಚಿತಪಡಿಸುತ್ತದೆ. ಅವರು ನೈಜ ಕೃಷಿ ಕ್ಷೇತ್ರದಲ್ಲಿ AI ಅನ್ನು ಬಳಸಲು ಉತ್ಸುಕರಾಗಿದ್ದಾರೆ.", alt: "ಸಂಜನಾ ಅವರ ಅನಿಮೇಟೆಡ್ ಪ್ರೊಫೈಲ್ ಚಿತ್ರ" }
-            },
-            sumedha: {
-                en: { name: "Sumedha S.", role: "Data Curation Lead", details: "Sumedha meticulously leads our **data curation efforts**. She oversees the collection, cleaning, and precise annotation of thousands of pomegranate images, categorizing them for various disease types. Her unwavering attention to detail is vital for the quality and reliability of our AI's training dataset.", alt: "Sumedha's animated profile picture" },
-                kn: { name: "ಸುಮೇಧಾ ಎಸ್.", role: "ಡೇಟಾ ಕ್ಯುರೇಶನ್ ಮುಖ್ಯಸ್ಥೆ", details: "ಸುಮೇಧಾ ನಮ್ಮ **ಡೇಟಾ ಕ್ಯುರೇಶನ್ ಪ್ರಯತ್ನಗಳನ್ನು** ಸೂಕ್ಷ್ಮವಾಗಿ ಮುನ್ನಡೆಸುತ್ತಾರೆ. ಅವರು ಸಾವಿರಾರು ದಾಳಿಂಬೆ ಚಿತ್ರಗಳನ್ನು ಸಂಗ್ರಹಿಸುವುದು, ಸ್ವಚ್ಛಗೊಳಿಸುವುದು ಮತ್ತು ಟಿಪ್ಪಣಿ ಮಾಡುವುದನ್ನು ಮೇಲ್ವಿಚಾರಣೆ ಮಾಡುತ್ತಾರೆ. ಅವರ ವಿವರಗಳಿಗೆ ಗಮನ ನಮ್ಮ ತರಬೇತಿ ಡೇಟಾಸೆಟ್‌ನ ಗುಣಮಟ್ಟ ಮತ್ತು ವಿಶ್ವಾಸಾರ್ಹತೆಗೆ ನಿರ್ಣಾಯಕವಾಗಿದೆ.", alt: "ಸುಮೇಧಾ ಅವರ ಅನಿಮೇಟೆಡ್ ಪ್ರೊಫೈಲ್ ಚಿತ್ರ" }
-            },
-            sushmita: {
-                en: { name: "Sushmita J.", role: "Front-End Architect", details: "Sushmita is the creative mind behind our **intuitive user interface**. She designed and developed the engaging web experience, ensuring it's responsive, accessible, and aligns perfectly with our project's visual identity. Her expertise brings the complex AI functionality to an easy-to-use platform.", alt: "Sushmita's animated profile picture" },
-                kn: { name: "ಸುಷ್ಮಿತಾ ಜೆ.", role: "ಫ್ರಂಟ್-ಎಂಡ್ ವಾಸ್ತುಶಿಲ್ಪಿ", details: "ಸುಷ್ಮಿತಾ ನಮ್ಮ **ಅರ್ಥಗರ್ಭಿತ ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್‌ನ** ಹಿಂದಿನ ಸೃಜನಾತ್ಮಕ ಮನಸ್ಸು. ಅವರು ಆಕರ್ಷಕ ವೆಬ್ ಅನುಭವವನ್ನು ವಿನ್ಯಾಸಗೊಳಿಸಿ ಅಭಿವೃದ್ಧಿಪಡಿಸಿದರು, ಇದು ಪ್ರತಿಕ್ರಿಯಾತ್ಮಕ, ಪ್ರವೇಶಿಸಬಹುದಾದ ಮತ್ತು ನಮ್ಮ ಯೋಜನೆಯ ದೃಶ್ಯ ಗುರುತಿನೊಂದಿಗೆ ಸಂಪೂರ್ಣವಾಗಿ ಹೊಂದಿಕೆಯಾಗುವುದನ್ನು ಖಚಿತಪಡಿಸುತ್ತದೆ.", alt: "ಸುಷ್ಮಿತಾ ಅವರ ಅನಿಮೇಟೆಡ್ ಪ್ರೊಫೈಲ್ ಚಿತ್ರ" }
-            },
-            yashaswini: {
-                en: { name: "Yashaswini K.", role: "System Integrator", details: "Yashaswini is our crucial **System Integrator**, responsible for bridging the gap between the front-end, backend, and database. She ensures seamless data flow and communication between all components, guaranteeing the entire system functions harmoniously and reliably under various load conditions.", alt: "Yashaswini's animated profile picture" },
-                kn: { name: "ಯಶಸ್ವಿನಿ ಕೆ.", role: "ಸಿಸ್ಟಮ್ ಇಂಟಿಗ್ರೇಟರ್", details: "ಯಶಸ್ವಿನಿ ನಮ್ಮ ಪ್ರಮುಖ **ಸಿಸ್ಟಮ್ ಇಂಟಿಗ್ರೇಟರ್**, ಮುಂಭಾಗ, ಬ್ಯಾಕೆಂಡ್ ಮತ್ತು ಡೇಟಾಬೇಸ್ ನಡುವಿನ ಅಂತರವನ್ನು ಕಡಿಮೆ ಮಾಡಲು ಜವಾಬ್ದಾರರಾಗಿದ್ದಾರೆ. ಅವರು ಎಲ್ಲಾ ಘಟಕಗಳ ನಡುವೆ ತಡೆರಹಿತ ಡೇಟಾ ಹರಿವು ಮತ್ತು ಸಂವಹನವನ್ನು ಖಚಿತಪಡಿಸುತ್ತಾರೆ, ಇಡೀ ವ್ಯವಸ್ಥೆಯು ಸಾಮರಸ್ಯದಿಂದ ಮತ್ತು ವಿಶ್ವಾಸಾರ್ಹವಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸುವಂತೆ ಮಾಡುತ್ತಾರೆ.", alt: "ಯಶಸ್ವಿನಿ ಅವರ ಅನಿಮೇಟೆಡ್ ಪ್ರೊಫೈಲ್ ಚಿತ್ರ" }
-            }
-        };
+<div class="main-container">
+    <div class="content-box">
+        <h1 data-i18n="mainHeading">About Our Pomegranate Health System</h1>
 
-        const translations = {
+        <!-- OUR MOTIVE -->
+        <div class="about-section" data-i18n-section="motive">
+            <h2 data-i18n="sectionMotive">Our Motive and Vision ✨</h2>
+            <p data-i18n="motiveText">
+                Our primary motive is to support pomegranate farmers, agriculture students and researchers with an
+                easy-to-use AI assistant for leaf disease detection. Pomegranate crops often suffer from fungal and
+                bacterial infections that reduce yield and quality. By providing fast, image-based diagnosis directly
+                from a mobile or laptop, our system helps users detect problems early, reduce unnecessary pesticide
+                usage, and take the right action at the right time. Our long-term vision is to make plant-health
+                monitoring affordable, accurate and accessible for every farmer, and to encourage data-driven,
+                sustainable farming practices.
+            </p>
+        </div>
+
+        <!-- BUILDING PROCESS -->
+        <div class="about-section" data-i18n-section="process">
+            <h2 data-i18n="sectionProcess">The Building Process 🛠️</h2>
+            <p data-i18n="processText">
+                Building this Pomegranate Disease Detection System followed a clear, step-by-step pipeline. First, we
+                prepared a diverse dataset of healthy and diseased pomegranate leaf images and carefully labeled each
+                class. Next, we designed and trained a hybrid deep learning model that combines a CNN and Vision
+                Transformer to capture both fine leaf textures and global patterns. We then connected this model to a
+                Flask backend and created a clean, responsive frontend using HTML, CSS, Bootstrap and Tailwind. Finally,
+                we tested the system with real images, optimized loading time and improved the user flow so that anyone
+                can upload a leaf image and get disease prediction and precautions in just a few clicks.
+            </p>
+        </div>
+
+        <!-- WHY USE OUR APP -->
+        <div class="about-section" data-i18n-section="whyuse">
+            <h2 data-i18n="sectionWhyUse">Why Use Our App? 🌟</h2>
+            <p data-i18n="whyUseText">
+                Our application is designed to be simple for beginners and powerful for experts. It offers fast
+                detection with high accuracy using a modern deep learning model, and it works with just a normal leaf
+                photo taken from a phone or camera. Farmers can avoid guesswork and make informed decisions about
+                spraying and crop care, which saves both time and money. The app also supports students and
+                researchers by providing clear outputs, confidence scores and structured disease information. Because it
+                runs on a web interface, it can be accessed anytime, anywhere, without installing heavy software – making
+                it a practical digital companion for pomegranate health monitoring.
+            </p>
+        </div>
+
+        <!-- TEAM -->
+        <div class="about-section" data-i18n-section="team">
+            <h2 data-i18n="sectionTeam">Meet the Development Team 👩‍💻</h2>
+            <div class="team-grid">
+                <div class="team-card" data-member="sanjana">
+                    <img src="/static/team_profiles/sanj.jpg" alt="Sanjana Profile" data-i18n-alt="sanjanaAlt">
+                    <h3 data-i18n="sanjanaName">Sanjana P.</h3>
+                    <small data-i18n="sanjanaRole">ML Backend Specialist</small>
+                    <p class="click-prompt" data-i18n="clickForMore">View Profile →</p>
+                </div>
+                <div class="team-card" data-member="sumedha">
+                    <img src="/static/team_profiles/medha.jpg" alt="Sumedha Profile" data-i18n-alt="sumedhaAlt">
+                    <h3 data-i18n="sumedhaName">Sumedha S.</h3>
+                    <small data-i18n="sumedhaRole">Data Curation Lead</small>
+                    <p class="click-prompt" data-i18n="clickForMore">View Profile →</p>
+                </div>
+                <div class="team-card" data-member="sushmita">
+                    <img src="/static/team_profiles/shush.jpg" alt="Sushmita Profile" data-i18n-alt="sushmitaAlt">
+                    <h3 data-i18n="sushmitaName">Sushmita J.</h3>
+                    <small data-i18n="sushmitaRole">Front-End Architect</small>
+                    <p class="click-prompt" data-i18n="clickForMore">View Profile →</p>
+                </div>
+                <div class="team-card" data-member="yashaswini">
+                    <img src="/static/team_profiles/yash.jpg" alt="Yashaswini Profile" data-i18n-alt="yashaswiniAlt">
+                    <h3 data-i18n="yashaswiniName">Yashaswini K.</h3>
+                    <small data-i18n="yashaswiniRole">System Integrator</small>
+                    <p class="click-prompt" data-i18n="clickForMore">View Profile →</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTACT -->
+        <div class="about-section" data-i18n-section="contact">
+            <h2 data-i18n="sectionContact">Contact &amp; Support 📧</h2>
+            <div class="contact-info">
+                <p data-i18n="contactEmail">
+                    <strong>Email:</strong> <a href="mailto:pomegranate.support@gmail.com">pomegranate.support@gmail.com</a>
+                </p>
+                <p data-i18n="contactPhone">
+                    <strong>Phone:</strong> <a href="tel:+917892122256">+91 7892122256, 8951513832, 8310897002, 7019708274</a>
+                </p>
+                <p data-i18n="contactNote">
+                    For technical issues or feedback, please use the email/phone above.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<button id="chatbot-btn" aria-label="Open Chatbot">💬</button>
+
+<footer class="site-footer">
+    <small data-i18n="footerCopyright">
+        © <span id="year">2025</span> Pomegranate Fruit Disease Detection — Final Year Project
+    </small>
+    <span class="footer-text" data-i18n="footerSlogan">See early, Save more!</span>
+</footer>
+
+<!-- Team modal -->
+<div id="teamModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <div id="modal-details"></div>
+    </div>
+</div>
+
+<script>
+    /* Widget translations */
+    const widgetTranslations = {
+        en: {
+            greeting: (name) => `Hello, ${name}`,
+            phoneLabel: "Contact Phone",
+            languageLabel: "Display Language",
+            logoutButton: "Logout"
+        },
+        kn: {
+            greeting: (name) => `ನಮಸ್ಕಾರ, ${name}`,
+            phoneLabel: "ಸಂಪರ್ಕ ದೂರವಾಣಿ",
+            languageLabel: "ಭಾಷೆ ಆರಿಸಿ",
+            logoutButton: "ಲಾಗ್ ಔಟ್"
+        }
+    };
+
+    let currentLang = localStorage.getItem('language') || 'en';
+
+    /* Team data */
+    const teamData = {
+        sanjana: {
             en: {
-                pageTitleAboutUs: "About Us - Pomegranate Detection",
-                headerTitle: "Pomegranate Disease Detection System",
-                navHome: "Home",
-                navAboutUs: "About Us",
-                navDiseaseInfo: "Disease Info",
-                navDetector: "Disease Detector",
-                navHistory: "History",
-                mainHeading: (name) => `About Our Pomegranate Health System`,
-                sectionMotive: "Our Motive and Vision ✨",
-                motiveText: "Our primary **motive** is to empower pomegranate growers with accessible, cutting-edge technology. We recognized the significant impact of fungal and bacterial diseases on the pomegranate industry, leading to substantial economic losses. Our vision is to create a **highly accurate, user-friendly AI tool** that acts as a virtual plant pathologist, available 24/7. By enabling **rapid, on-field diagnosis**, we aim to promote sustainable farming practices, minimize unnecessary pesticide use, and ultimately secure a better harvest for every farmer. We are dedicated to bridging the gap between advanced computer vision and practical agricultural needs.",
-                sectionProcess: "The Building Process 🛠️",
-                processText: "Building this **Pomegranate Disease Detection System** involved a rigorous, multi-stage process. First, we curated a **diverse dataset** of healthy and diseased pomegranate images, meticulously labeled for training. Next, we utilized **Deep Convolutional Neural Networks (DCNNs)**, experimenting with architectures like VGG and ResNet, fine-tuned for image classification. The front-end was built using **HTML5, CSS3 (with Tailwind for utility), and JavaScript** to ensure a responsive and engaging user experience, heavily integrating your existing design theme. The profiling and navigation elements were kept consistent with the rest of the system, ensuring a seamless transition for the user. Finally, we integrated a **dynamic, bilingual interface** to cater to a wider audience.",
-                sectionTeam: "Meet the Development Team 👩‍💻",
-                clickForMore: "View Profile →",
-                sectionContact: "Contact & Support 📧",
-                contactEmail: "Email: pomegranate.support@example.com",
-                contactPhone: "Phone: +91 98765 43210",
-                contactNote: "For technical issues or feedback, please use the email/phone above.",
-                footerCopyright: (year) => `© ${year} Pomegranate Fruit Disease Detection — Final Year Project`,
-                footerSlogan: "See early, Save more!",
+                name: "Sanjana P.",
+                role: "ML Backend Specialist",
+                details: "Sanjana is our brilliant **ML Backend Specialist**, responsible for designing and optimizing the machine learning models. Her work ensures accurate and rapid disease detection by fine-tuning neural networks and managing the data pipeline efficiently. She's passionate about leveraging AI for real-world agricultural impact and efficiency.",
+                alt: "Sanjana's animated profile picture"
             },
             kn: {
-                pageTitleAboutUs: "ನಮ್ಮ ಬಗ್ಗೆ - ದಾಳಿಂಬೆ ರೋಗ ಪತ್ತೆ",
-                headerTitle: "ದಾಳಿಂಬೆ ರೋಗ ಪತ್ತೆ ವ್ಯವಸ್ಥೆ",
-                navHome: "ಮುಖಪುಟ",
-                navAboutUs: "ನಮ್ಮ ಬಗ್ಗೆ",
-                navDiseaseInfo: "ರೋಗ ಮಾಹಿತಿ",
-                navDetector: "ರೋಗ ಪತ್ತೆಕಾರಕ",
-                navHistory: "ಇತಿಹಾಸ",
-                mainHeading: (name) => `ನಮ್ಮ ದಾಳಿಂಬೆ ಆರೋಗ್ಯ ವ್ಯವಸ್ಥೆಯ ಬಗ್ಗೆ`,
-                sectionMotive: "ನಮ್ಮ ಉದ್ದೇಶ ಮತ್ತು ದೃಷ್ಟಿಕೋನ ✨",
-                motiveText: "ನಮ್ಮ ಪ್ರಮುಖ **ಉದ್ದೇಶ** ದಾಳಿಂಬೆ ಬೆಳೆಗಾರರಿಗೆ ಸುಲಭವಾಗಿ ತಲುಪಬಹುದಾದ, ಅತ್ಯಾಧುನಿಕ ತಂತ್ರಜ್ಞಾನವನ್ನು ಒದಗಿಸುವುದು. ದಾಳಿಂಬೆ ಉದ್ಯಮದ ಮೇಲೆ ಶಿಲೀಂಧ್ರ ಮತ್ತು ಬ್ಯಾಕ್ಟೀರಿಯಾ ರೋಗಗಳ ಗಮನಾರ್ಹ ಪರಿಣಾಮವನ್ನು ನಾವು ಗುರುತಿಸಿದ್ದೇವೆ, ಇದು ಗಮನಾರ್ಹ ಆರ್ಥಿಕ ನಷ್ಟಕ್ಕೆ ಕಾರಣವಾಗುತ್ತದೆ. ನಮ್ಮ ದೃಷ್ಟಿಕೋನವೆಂದರೆ **ಹೆಚ್ಚು ನಿಖರವಾದ, ಬಳಕೆದಾರ ಸ್ನೇಹಿ AI ಸಾಧನವನ್ನು** ರಚಿಸುವುದು, ಇದು 24/7 ಲಭ್ಯವಿರುವ ವರ್ಚುವಲ್ ಸಸ್ಯ ರೋಗಶಾಸ್ತ್ರಜ್ಞನಂತೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ. **ತ್ವರಿತ, ಕ್ಷೇತ್ರ-ಆಧಾರಿತ ರೋಗನಿರ್ಣಯವನ್ನು** ಸಕ್ರಿಯಗೊಳಿಸುವ ಮೂಲಕ, ನಾವು ಸುಸ್ಥಿರ ಕೃಷಿ ಪದ್ಧತಿಗಳನ್ನು ಉತ್ತೇಜಿಸಲು, ಅನಗತ್ಯ ಕೀಟನಾಶಕ ಬಳಕೆಯನ್ನು ಕಡಿಮೆ ಮಾಡಲು ಮತ್ತು ಅಂತಿಮವಾಗಿ ಪ್ರತಿ ರೈತನಿಗೂ ಉತ್ತಮವಾದ ಬೆಳೆ ಪಡೆಯಲು ಗುರಿ ಹೊಂದಿದ್ದೇವೆ. ಮುಂದುವರಿದ ಕಂಪ್ಯೂಟರ್ ದೃಷ್ಟಿ ಮತ್ತು ಪ್ರಾಯೋಗಿಕ ಕೃಷಿ ಅಗತ್ಯಗಳ ನಡುವಿನ ಅಂತರವನ್ನು ಕಡಿಮೆ ಮಾಡಲು ನಾವು ಸಮರ್ಪಿತರಾಗಿದ್ದೇವೆ.",
-                sectionProcess: "ನಿರ್ಮಾಣ ಪ್ರಕ್ರಿಯೆ 🛠️",
-                processText: "ಈ **ದಾಳಿಂಬೆ ರೋಗ ಪತ್ತೆ ವ್ಯವಸ್ಥೆಯನ್ನು** ನಿರ್ಮಿಸುವುದು ಕಟ್ಟುನಿಟ್ಟಾದ, ಬಹು-ಹಂತದ ಪ್ರಕ್ರಿಯೆಯನ್ನು ಒಳಗೊಂಡಿತ್ತು. ಮೊದಲಿಗೆ, ತರಬೇತಿಗಾಗಿ ಸೂಕ್ಷ್ಮವಾಗಿ ಲೇಬಲ್ ಮಾಡಲಾದ ಆರೋಗ್ಯಕರ ಮತ್ತು ರೋಗಗ್ರಸ್ತ ದಾಳಿಂಬೆ ಚಿತ್ರಗಳ **ವಿಭಿನ್ನ ಡೇಟಾಸೆಟ್ ಅನ್ನು** ನಾವು ಸಂಗ್ರಹಿಸಿದ್ದೇವೆ. ನಂತರ, ಚಿತ್ರಗಳ ವರ್ಗೀಕರಣಕ್ಕಾಗಿ (image classification) ವಿನ್ಯಾಸಗೊಳಿಸಲಾದ VGG ಮತ್ತು ResNet ನಂತಹ ವಾಸ್ತುಶಿಲ್ಪಗಳೊಂದಿಗೆ **ಡೀಪ್ ಕನ್ವೊಲ್ಯೂಷನಲ್ ನ್ಯೂರಲ್ ನೆಟ್‌ವರ್ಕ್‌ಗಳನ್ನು (DCNNs)** ನಾವು ಬಳಸಿಕೊಂಡೆವು. ನಿಮ್ಮ ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ವಿನ್ಯಾಸದ ಥೀಮ್‌ನೊಂದಿಗೆ ತಡೆರಹಿತ ಹೊಂದಾಣಿಕೆಗಾಗಿ, ಬಳಕೆದಾರರಿಗೆ ಆಕರ್ಷಕ ಅನುಭವ ನೀಡಲು ಮುಂಭಾಗವನ್ನು **HTML5, CSS3 (ಯುಟಿಲಿಟಿಗಾಗಿ ಟೈಲ್‌ವಿಂಡ್‌ನೊಂದಿಗೆ), ಮತ್ತು ಜಾವಾಸ್ಕ್ರಿಪ್ಟ್** ಬಳಸಿ ನಿರ್ಮಿಸಲಾಯಿತು. ಪ್ರೊಫೈಲಿಂಗ್ ಮತ್ತು ನ್ಯಾವಿಗೇಷನ್ ಅಂಶಗಳನ್ನು ಉಳಿದ ವ್ಯವಸ್ಥೆಯೊಂದಿಗೆ ಸ್ಥಿರವಾಗಿ ಇರಿಸಲಾಗಿದೆ. ಅಂತಿಮವಾಗಿ, ವ್ಯಾಪಕ ಪ್ರೇಕ್ಷಕರನ್ನು ತಲುಪಲು ನಾವು **ಡೈನಾಮಿಕ್, ದ್ವಿಭಾಷಾ ಇಂಟರ್ಫೇಸ್ ಅನ್ನು** ಸಂಯೋಜಿಸಿದ್ದೇವೆ.",
-                sectionTeam: "ಅಭಿವೃದ್ಧಿ ತಂಡವನ್ನು ಭೇಟಿ ಮಾಡಿ 👩‍💻",
-                clickForMore: "ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಿ →",
-                sectionContact: "ಸಂಪರ್ಕ ಮತ್ತು ಬೆಂಬಲ 📧",
-                contactEmail: "ಇಮೇಲ್: pomegranate.support@example.com",
-                contactPhone: "ಫೋನ್: +91 98765 43210",
-                contactNote: "ತಾಂತ್ರಿಕ ಸಮಸ್ಯೆಗಳು ಅಥವಾ ಪ್ರತಿಕ್ರಿಯೆಗಾಗಿ, ದಯವಿಟ್ಟು ಮೇಲಿನ ಇಮೇಲ್/ಫೋನ್ ಬಳಸಿ.",
-                footerCopyright: (year) => `© ${year} ದಾಳಿಂಬೆ ಹಣ್ಣಿನ ರೋಗ ಪತ್ತೆ — ಅಂತಿಮ ವರ್ಷದ ಯೋಜನೆ`,
-                footerSlogan: "ಬೇಗ ನೋಡಿ, ಹೆಚ್ಚು ಉಳಿಸಿ!",
+                name: "ಸಂಜನಾ ಪಿ.",
+                role: "ML ಬ್ಯಾಕೆಂಡ್ ತಜ್ಞೆ",
+                details: "ಸಂಜನಾ ನಮ್ಮ ಅದ್ಭುತ **ML ಬ್ಯಾಕೆಂಡ್ ತಜ್ಞೆ**, ಯಂತ್ರ ಕಲಿಕೆ ಮಾದರಿಗಳನ್ನು ವಿನ್ಯಾಸಗೊಳಿಸಲು ಮತ್ತು ಆಪ್ಟಿಮೈಸ್ ಮಾಡಲು ಜವಾಬ್ದಾರರಾಗಿದ್ದಾರೆ. ಅವರ ಕೆಲಸವು ನಿಖರ ಮತ್ತು ಕ್ಷಿಪ್ರ ರೋಗ ಪತ್ತೆಯನ್ನು ಖಚಿತಪಡಿಸುತ್ತದೆ. ಅವರು ನೈಜ ಕೃಷಿ ಕ್ಷೇತ್ರದಲ್ಲಿ AI ಅನ್ನು ಬಳಸಲು ಉತ್ಸುಕರಾಗಿದ್ದಾರೆ.",
+                alt: "ಸಂಜನಾ ಅವರ ಅನಿಮೇಟೆಡ್ ಪ್ರೊಫೈಲ್ ಚಿತ್ರ"
+            }
+        },
+        sumedha: {
+            en: {
+                name: "Sumedha S.",
+                role: "Data Curation Lead",
+                details: "Sumedha meticulously leads our **data curation efforts**. She oversees the collection, cleaning, and precise annotation of thousands of pomegranate images, categorizing them for various disease types. Her unwavering attention to detail is vital for the quality and reliability of our AI's training dataset.",
+                alt: "Sumedha's animated profile picture"
+            },
+            kn: {
+                name: "ಸುಮೇಧಾ ಎಸ್.",
+                role: "ಡೇಟಾ ಕ್ಯುರೇಶನ್ ಮುಖ್ಯಸ್ಥೆ",
+                details: "ಸುಮೇಧಾ ನಮ್ಮ **ಡೇಟಾ ಕ್ಯುರೇಶನ್ ಪ್ರಯತ್ನಗಳನ್ನು** ಸೂಕ್ಷ್ಮವಾಗಿ ಮುನ್ನಡೆಸುತ್ತಾರೆ. ಅವರು ಸಾವಿರಾರು ದಾಳಿಂಬೆ ಚಿತ್ರಗಳನ್ನು ಸಂಗ್ರಹಿಸುವುದು, ಸ್ವಚ್ಛಗೊಳಿಸುವುದು ಮತ್ತು ಟಿಪ್ಪಣಿ ಮಾಡುವುದನ್ನು ಮೇಲ್ವಿಚಾರಣೆ ಮಾಡುತ್ತಾರೆ. ಅವರ ವಿವರಗಳಿಗೆ ಗಮನ ನಮ್ಮ ತರಬೇತಿ ಡೇಟಾಸೆಟ್‌ನ ಗುಣಮಟ್ಟ ಮತ್ತು ವಿಶ್ವಾಸಾರ್ಹತೆಗೆ ನಿರ್ಣಾಯಕವಾಗಿದೆ.",
+                alt: "ಸುಮೇಧಾ ಅವರ ಅನಿಮೇಟೆಡ್ ಪ್ರೊಫೈಲ್ ಚಿತ್ರ"
+            }
+        },
+        sushmita: {
+            en: {
+                name: "Sushmita J.",
+                role: "Front-End Architect",
+                details: "Sushmita is the creative mind behind our **intuitive user interface** by designing and developing the engaging web experience, ensuring it's responsive, accessible, and aligns perfectly with our project's visual identity. Her expertise brings the complex AI functionality to an easy-to-use platform.",
+                alt: "Sushmita's animated profile picture"
+            },
+            kn: {
+                name: "ಸುಷ್ಮಿತಾ ಜೆ.",
+                role: "ಫ್ರಂಟ್-ಎಂಡ್ ವಾಸ್ತುಶಿಲ್ಪಿ",
+                details: "ಸುಷ್ಮಿತಾ ನಮ್ಮ **ಅರ್ಥಗರ್ಭಿತ ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್‌ನ** ಹಿಂದಿನ ಸೃಜನಾತ್ಮಕ ಮನಸ್ಸು. ಅವರು ಆಕರ್ಷಕ ವೆಬ್ ಅನುಭವವನ್ನು ವಿನ್ಯಾಸಗೊಳಿಸಿ ಅಭಿವೃದ್ಧಿಪಡಿಸಿದರು, ಇದು ಪ್ರತಿಕ್ರಿಯಾತ್ಮಕ, ಪ್ರವೇಶಿಸಬಹುದಾದ ಮತ್ತು ನಮ್ಮ ಯೋಜನೆಯ ದೃಶ್ಯ ಗುರುತಿನೊಂದಿಗೆ ಸಂಪೂರ್ಣವಾಗಿ ಹೊಂದಿಕೆಯಾಗುವುದನ್ನು ಖಚಿತಪಡಿಸುತ್ತದೆ.",
+                alt: "ಸುಷ್ಮಿತಾ ಅವರ ಅನಿಮೇಟೆಡ್ ಪ್ರೊಫೈಲ್ ಚಿತ್ರ"
+            }
+        },
+        yashaswini: {
+            en: {
+                name: "Yashaswini K.",
+                role: "System Integrator",
+                details: "Yashaswini is our crucial **System Integrator**, responsible for bridging the gap between the front-end, backend, and database. She ensures seamless data flow and communication between all components, guaranteeing the entire system functions harmoniously and reliably under various load conditions.",
+                alt: "Yashaswini's animated profile picture"
+            },
+            kn: {
+                name: "ಯಶಸ್ವಿನಿ ಕೆ.",
+                role: "ಸಿಸ್ಟಮ್ ಇಂಟಿಗ್ರೇಟರ್",
+                details: "ಯಶಸ್ವಿನಿ ನಮ್ಮ ಪ್ರಮುಖ **ಸಿಸ್ಟಮ್ ಇಂಟಿಗ್ರೇಟರ್**, ಮುಂಭಾಗ, ಬ್ಯಾಕೆಂಡ್ ಮತ್ತು ಡೇಟಾಬೇಸ್ ನಡುವಿನ ಅಂತರವನ್ನು ಕಡಿಮೆ ಮಾಡಲು ಜವಾಬ್ದಾರರಾಗಿದ್ದಾರೆ. ಅವರು ಎಲ್ಲಾ ಘಟಕಗಳ ನಡುವೆ ತಡೆರಹಿತ ಡೇಟಾ ಹರಿವು ಮತ್ತು ಸಂವಹನವನ್ನು ಖಚಿತಪಡಿಸುತ್ತಾರೆ, ಇಡೀ ವ್ಯವಸ್ಥೆಯು ಸಾಮರಸ್ಯದಿಂದ ಮತ್ತು ವಿಶ್ವಾಸಾರ್ಹವಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸುವಂತೆ ಮಾಡುತ್ತಾರೆ.",
+                alt: "ಯಶಸ್ವಿನಿ ಅವರ ಅನಿಮೇಟೆಡ್ ಪ್ರೊಫೈಲ್ ಚಿತ್ರ"
+            }
+        }
+    };
+
+    /* Page translations */
+    const translations = {
+        en: {
+            pageTitleAboutUs: "About Us - Pomegranate Detection",
+            headerTitle: "Pomegranate Disease Detection System",
+            navHome: "Home",
+            navAboutUs: "About Us",
+            navDiseaseInfo: "Disease Info",
+            navDetector: "Disease Detector",
+            navHistory: "History",
+            navLogin: "Login",
+            mainHeading: () => "About Our Pomegranate Health System",
+
+            sectionMotive: "Our Motive and Vision ✨",
+            motiveText: "Our primary **motive** is to support pomegranate farmers, agriculture students and researchers with an easy-to-use AI assistant for fruit disease detection. Pomegranate crops often suffer from fungal and bacterial infections that reduce yield and quality. By providing **fast, image-based diagnosis** directly from a mobile or laptop, our system helps users detect problems early, reduce unnecessary pesticide usage, and take the right action at the right time. Our long-term **vision** is to make plant-health monitoring affordable, accurate and accessible for every farmer, and to encourage data-driven, sustainable farming practices.",
+
+            sectionProcess: "The Building Process 🛠️",
+            processText: "Building this **Pomegranate Disease Detection System** followed a clear, step-by-step pipeline. First, we prepared a **diverse dataset** of healthy and diseased pomegranate fruit images and carefully labeled each class. Next, we designed and trained a **hybrid deep learning model** that combines a CNN and a Vision Transformer so that it captures both fine leaf textures and global patterns. We then connected this model to a **Flask backend** and created a clean, responsive frontend using **HTML, CSS, Bootstrap and Tailwind**. Finally, we tested the system with real images, optimized loading time and polished the user flow so that anyone can upload a leaf image and get disease prediction and precautions in just a few clicks.",
+
+            sectionWhyUse: "Why Use Our App? 🌟",
+            whyUseText: "Our application is designed to be simple for beginners and powerful for experts. It offers **fast detection** with **high accuracy** using a modern deep learning model, and it works with a normal fruit photo taken from a phone or camera. Farmers can avoid guesswork and make informed decisions about spraying and crop care, which saves both time and money. The app also supports students and researchers by providing clear outputs, confidence scores and structured disease information. Because it runs on a web interface, it can be accessed **anytime, anywhere**, without installing heavy software – making it a practical digital companion for pomegranate health monitoring.",
+
+            sectionTeam: "Meet the Development Team 👩‍💻",
+            clickForMore: "View Profile →",
+
+            sectionContact: "Contact & Support 📧",
+            contactEmail: "Email: pomegranate.support@gmail.com",
+            contactPhone: "Phone: +91 7892122256, 8951513832, 8310897002, 7019708274",
+            contactNote: "For technical issues or feedback, please use the email/phone above.",
+
+            footerCopyright: (year) =>
+                `© ${year} Pomegranate Fruit Disease Detection — Final Year Project`,
+            footerSlogan: "See early, Save more!"
+        },
+        kn: {
+            pageTitleAboutUs: "ನಮ್ಮ ಬಗ್ಗೆ - ದಾಳಿಂಬೆ ರೋಗ ಪತ್ತೆ",
+            headerTitle: "ದಾಳಿಂಬೆ ರೋಗ ಪತ್ತೆ ವ್ಯವಸ್ಥೆ",
+            navHome: "ಮುಖಪುಟ",
+            navAboutUs: "ನಮ್ಮ ಬಗ್ಗೆ",
+            navDiseaseInfo: "ರೋಗ ಮಾಹಿತಿ",
+            navDetector: "ರೋಗ ಪತ್ತೆಕಾರಕ",
+            navHistory: "ಇತಿಹಾಸ",
+            navLogin: "ಲಾಗಿನ್",
+            mainHeading: () => "ನಮ್ಮ ದಾಳಿಂಬೆ ಆರೋಗ್ಯ ವ್ಯವಸ್ಥೆಯ ಬಗ್ಗೆ",
+
+            sectionMotive: "ನಮ್ಮ ಉದ್ದೇಶ ಮತ್ತು ದೃಷ್ಟಿಕೋನ ✨",
+            motiveText: "ನಮ್ಮ ಪ್ರಮುಖ **ಉದ್ದೇಶ** ದಾಳಿಂಬೆ ಬೆಳೆಗಾರರು, ಕೃಷಿ ವಿದ್ಯಾರ್ಥಿಗಳು ಮತ್ತು ಸಂಶೋಧಕರಿಗೆ ಎಲೆ ರೋಗ ಪತ್ತೆಗಾಗಿ ಬಳಸಲು ಸುಲಭವಾದ AI ಸಹಾಯಕನನ್ನು ಒದಗಿಸುವುದು. ದಾಳಿಂಬೆ ಬೆಳೆಗಳು ಇಳುವರಿ ಮತ್ತು ಗುಣಮಟ್ಟವನ್ನು ಕಡಿಮೆ ಮಾಡುವ ಶಿಲೀಂಧ್ರ ಮತ್ತು ಬ್ಯಾಕ್ಟೀರಿಯಾ ಸೋಂಕುಗಳಿಂದ ಬಳಲುತ್ತವೆ. **ವೇಗವಾದ, ಚಿತ್ರ ಆಧಾರಿತ ರೋಗನಿರ್ಣಯದ** ಮೂಲಕ, ನಮ್ಮ ವ್ಯವಸ್ಥೆ ಸಮಸ್ಯೆಗಳನ್ನು ಬೇಗ ಪತ್ತೆಹಚ್ಚಲು, ಅನಗತ್ಯ ಕೀಟನಾಶಕ ಬಳಕೆಯನ್ನು ಕಡಿಮೆ ಮಾಡಲು ಮತ್ತು ಸರಿಯಾದ ಸಮಯದಲ್ಲಿ ಸರಿಯಾದ ಕ್ರಮ ತೆಗೆದುಕೊಳ್ಳಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ. ನಮ್ಮ ದೀರ್ಘಾವಧಿ **ದೃಷ್ಟಿಕೋನ**ವೆಂದರೆ ಸಸ್ಯ ಆರೋಗ್ಯ ನಿಯಂತ್ರಣವನ್ನು ಪ್ರತಿ ರೈತನಿಗೂ ಕೈಗೆಟುಕುವ, ನಿಖರ ಮತ್ತು ಸುಲಭವಾಗಿ ಲಭ್ಯವಾಗುವಂತೆ ಮಾಡುವುದು ಹಾಗೂ ಡೇಟಾ ಆಧಾರಿತ, ಶಾಶ್ವತ ಕೃಷಿಯನ್ನು ಉತ್ತೇಜಿಸುವುದು.",
+
+            sectionProcess: "ನಿರ್ಮಾಣ ಪ್ರಕ್ರಿಯೆ 🛠️",
+            processText: "ಈ **ದಾಳಿಂಬೆ ರೋಗ ಪತ್ತೆ ವ್ಯವಸ್ಥೆಯನ್ನು** ನಿರ್ಮಿಸುವುದು ಹಂತ ಹಂತವಾಗಿ ರೂಪಿಸಲಾದ ಪ್ರಕ್ರಿಯೆಯನ್ನು ಅನುಸರಿಸಿತು. ಮೊದಲಿಗೆ, ನಾವು ಆರೋಗ್ಯಕರ ಮತ್ತು ರೋಗಗ್ರಸ್ತ ದಾಳಿಂಬೆ ಎಲೆಗಳ **ವೈವಿಧ್ಯಮಯ ಡೇಟಾಸೆಟ್‌ ಅನ್ನು** ಸಿದ್ಧಪಡಿಸಿ, ಪ್ರತಿ ವರ್ಗಕ್ಕೆ ನಿಖರವಾದ ಲೇಬಲ್ ನೀಡಿದೆವು. ನಂತರ, ಎಲೆಗಳ ಸೂಕ್ಷ್ಮ ವಿನ್ಯಾಸಗಳು ಮತ್ತು ಒಟ್ಟಾರೆ ಮಾದರಿಗಳನ್ನು ಹಿಡಿದುಕೊಳ್ಳಲು CNN ಹಾಗೂ Vision Transformer ಅನ್ನು ಸಂಯೋಜಿಸುವ **ಸಂಯುಕ್ತ ಡೀಪ್ ಲರ್ನಿಂಗ್ ಮಾದರಿಯನ್ನು** ವಿನ್ಯಾಸಗೊಳಿಸಿ ತರಬೇತುಗೊಳಿಸಲಾಯಿತು. ನಂತರ ಈ ಮಾದರಿಯನ್ನು **Flask ಬ್ಯಾಕೆಂಡ್** ಗೆ ಕನೆಕ್ಟ್ ಮಾಡಿ, **HTML, CSS, Bootstrap ಮತ್ತು Tailwind** ಬಳಸಿ ಸ್ವಚ್ಛ, ಪ್ರತಿಕ್ರಿಯಾತ್ಮಕ ಮುಂಭಾಗವನ್ನು ನಿರ್ಮಿಸಲಾಯಿತು. ಕೊನೆಯಲ್ಲಿ, ನೈಜ ಚಿತ್ರಗಳೊಂದಿಗೆ ಪರೀಕ್ಷಿಸಿ, ಲೋಡಿಂಗ್ ಸಮಯ ಮತ್ತು ಬಳಕೆದಾರ ಅನುಭವವನ್ನು ಸುಧಾರಿಸಿ, ಬಳಕೆದಾರರು ಕೆಲವೇ ಕ್ಲಿಕ್‌ಗಳಲ್ಲಿ ಎಲೆ ಚಿತ್ರವನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ ರೋಗ ಭವಿಷ್ಯವಾಣಿ ಮತ್ತು ಮುನ್ನೆಚ್ಚರಿಕೆಗಳನ್ನು ಪಡೆಯುವಂತಾಗಿದೆ.",
+
+            sectionWhyUse: "ನಮ್ಮ ಅಪ್ಲಿಕೇಶನ್‌ ಯಾಕೆ ಬಳಸಬೇಕು? 🌟",
+            whyUseText: "ನಮ್ಮ ಅಪ್ಲಿಕೇಶನ್‌ ಅನ್ನು ಆರಂಭಿಕರಿಗೆ ಸರಳವಾಗಿಯೂ ಪರಿಣಿತರಿಗೆ ಶಕ್ತಿಶಾಲಿಯಾಗಿಯೂ ವಿನ್ಯಾಸಗೊಳಿಸಲಾಗಿದೆ. ಇದು ಆಧುನಿಕ ಡೀಪ್ ಲರ್ನಿಂಗ್ ಮಾದರಿಯನ್ನು ಬಳಸಿ **ವೇಗವಾದ ಮತ್ತು ನಿಖರವಾದ ಪತ್ತೆ** ಒದಗಿಸುತ್ತದೆ ಮತ್ತು ಸಾಮಾನ್ಯ ಮೊಬೈಲ್ ಕ್ಯಾಮೆರಾದಿಂದ ತೆಗೆದ ಎಲೆ ಚಿತ್ರದೊಂದಿಗೆ ಸಹ ಕೆಲಸ ಮಾಡುತ್ತದೆ. ರೈತರು ಊಹೆಗೆ ಅವಲಂಬಿಸದೇ ಔಷಧ ಸಿಂಪಡಣೆ ಮತ್ತು ಬೆಳೆ ನಿರ್ವಹಣೆ ಬಗ್ಗೆ ಜಾಣ್ಮೆಯ ನಿರ್ಧಾರ ತೆಗೆದುಕೊಳ್ಳಬಹುದು, ಇದರಿಂದ ಸಮಯ ಮತ್ತು ವೆಚ್ಚ ಎರಡೂ ಉಳಿದುಕೊಳ್ಳುತ್ತವೆ. ಸ್ಪಷ್ಟ ಫಲಿತಾಂಶಗಳು, confidence score ಹಾಗೂ ರೋಗ ಮಾಹಿತಿ ಮೂಲಕ ಇದು ವಿದ್ಯಾರ್ಥಿಗಳು ಮತ್ತು ಸಂಶೋಧಕರಿಗೂ ಸಹಾಯಕವಾಗಿದೆ. ವೆಬ್ ಇಂಟರ್‌ಫೇಸ್ ಮೂಲಕ ಕಾರ್ಯನಿರ್ವಹಿಸುವುದರಿಂದ, ಇದನ್ನು **ಯಾವುದೇ ಸಮಯದಲ್ಲಿಯೂ, ಎಲ್ಲಿಂದಲಾದರೂ** ಭಾರಿ ಸಾಫ್ಟ್‌ವೇರ್ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡದೇ ಬಳಸಬಹುದು.",
+
+            sectionTeam: "ಅಭಿವೃದ್ಧಿ ತಂಡವನ್ನು ಭೇಟಿ ಮಾಡಿ 👩‍💻",
+            clickForMore: "ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಿ →",
+
+            sectionContact: "ಸಂಪರ್ಕ ಮತ್ತು ಬೆಂಬಲ 📧",
+            contactEmail: "ಇಮೇಲ್: pomegranate.support@gmail.com",
+            contactPhone: "ಫೋನ್: +91 7892122256, 8951513832, 8310897002, 7019708274",
+            contactNote: "ತಾಂತ್ರಿಕ ಸಮಸ್ಯೆಗಳು ಅಥವಾ ಪ್ರತಿಕ್ರಿಯೆಗಾಗಿ, ದಯವಿಟ್ಟು ಮೇಲಿನ ಇಮೇಲ್/ಫೋನ್ ಬಳಸಿ.",
+
+            footerCopyright: (year) =>
+                `© ${year} ದಾಳಿಂಬೆ ಹಣ್ಣಿನ ರೋಗ ಪತ್ತೆ — ಅಂತಿಮ ವರ್ಷದ ಯೋಜನೆ`,
+            footerSlogan: "ಬೇಗ ನೋಡಿ, ಹೆಚ್ಚು ಉಳಿಸಿ!"
+        }
+    };
+
+    /* DOM references for widget */
+    const profileWidget = document.getElementById('profile-widget');
+    const profileHeader = document.getElementById('profile-header');
+    const detailsContent = document.getElementById('details-content');
+    const greetingElement = document.getElementById('greeting');
+    const adminBadgeElement = document.getElementById('admin-badge');
+    const phoneLabelElement = document.getElementById('phone-label');
+    const phoneNumberElement = document.getElementById('phone-number');
+    const languageLabelElement = document.getElementById('language-label');
+    const langButtons = document.querySelectorAll('.lang-button');
+    const logoutButton = document.getElementById('logout-button');
+
+    function updateWidgetLanguageDisplay(lang) {
+        const username = localStorage.getItem('username') ||
+            (lang === 'en' ? 'Student' : 'ವಿದ್ಯಾರ್ಥಿ');
+        const texts = widgetTranslations[lang];
+
+        greetingElement.textContent = texts.greeting(username);
+        phoneLabelElement.textContent = texts.phoneLabel;
+        languageLabelElement.textContent = texts.languageLabel;
+        logoutButton.textContent = texts.logoutButton;
+
+        document.querySelectorAll('.lang-button').forEach(button => {
+            const isSelected = button.dataset.lang === lang;
+            button.classList.toggle('active', isSelected);
+        });
+    }
+
+    function loadUserData() {
+        const contact = localStorage.getItem('contactNumber') || 'N/A';
+        const role = localStorage.getItem('userRole') || 'Student';
+        phoneNumberElement.textContent = contact;
+
+        if (role.toLowerCase() === 'admin') {
+            adminBadgeElement.classList.remove('hidden');
+        } else {
+            adminBadgeElement.classList.add('hidden');
+        }
+
+        const initialLang = localStorage.getItem('language') || 'en';
+        translatePage(initialLang);
+    }
+
+    function logout(e) {
+        e.preventDefault();
+        localStorage.removeItem('username');
+        localStorage.removeItem('contactNumber');
+        localStorage.removeItem('userRole');
+        localStorage.setItem('language', 'en');
+
+        loadUserData();
+        detailsContent.classList.add('hidden');
+        alert('Logout successful!');
+    }
+
+    function translatePage(lang) {
+        const username = localStorage.getItem('username') || 'Student';
+        const currentLangData = translations[lang];
+
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            if (!currentLangData[key]) return;
+
+            let textContent = currentLangData[key];
+
+            if (typeof textContent === 'function') {
+                if (key === 'footerCopyright') {
+                    textContent = textContent(new Date().getFullYear());
+                } else {
+                    textContent = textContent(username);
+                }
+            }
+
+            if (key === 'motiveText' || key === 'processText' || key === 'whyUseText') {
+                element.innerHTML = textContent.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            } else if (element.tagName === 'TITLE') {
+                document.title = textContent;
+            } else {
+                element.textContent = textContent;
+            }
+        });
+
+        // nav labels (safe)
+        const navItems = [
+            'navLogin',
+            'navHome',
+            'navDetector',
+            'navDiseaseInfo',
+            'navHistory',
+            'navAboutUs'
+        ];
+        navItems.forEach(key => {
+            const el = document.querySelector(`.nav-links a[data-i18n="${key}"]`);
+            if (el && currentLangData[key]) {
+                el.textContent = currentLangData[key];
+            }
+        });
+
+        // team cards
+        document.querySelectorAll('.team-card').forEach(card => {
+            const memberKey = card.dataset.member;
+            const data = teamData[memberKey][lang];
+            card.querySelector('h3').textContent = data.name;
+            card.querySelector('small').textContent = data.role;
+            card.querySelector('.click-prompt').textContent = currentLangData.clickForMore;
+            card.querySelector('img').setAttribute('alt', data.alt);
+        });
+
+        updateWidgetLanguageDisplay(lang);
+        currentLang = lang;
+        localStorage.setItem('language', lang);
+    }
+
+    function setupScrollReveal() {
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, {
+            rootMargin: '0px',
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.about-section').forEach(section => {
+            observer.observe(section);
+        });
+    }
+
+    function setupModals() {
+        const modal = document.getElementById('teamModal');
+        const modalDetails = document.getElementById('modal-details');
+        const closeBtn = document.querySelector('.close-btn');
+        const teamCards = document.querySelectorAll('.team-card');
+
+        function openModal(memberKey) {
+            const memberData = teamData[memberKey][currentLang];
+
+            modalDetails.innerHTML = `
+                <h3 class="text-center">${memberData.name}</h3>
+                <small class="text-center w-full block">${memberData.role}</small>
+                <hr class="my-3">
+                <p>${memberData.details.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>
+            `;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        teamCards.forEach(card => {
+            card.onclick = () => openModal(card.dataset.member);
+        });
+
+        closeBtn.onclick = closeModal;
+
+        window.onclick = (event) => {
+            if (event.target === modal) {
+                closeModal();
             }
         };
+    }
 
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('year').textContent = new Date().getFullYear();
 
-        // --- WIDGET & TRANSLATION FUNCTIONS ---
-        const profileWidget = document.getElementById('profile-widget');
-        const profileHeader = document.getElementById('profile-header');
-        const detailsContent = document.getElementById('details-content');
-        const greetingElement = document.getElementById('greeting');
-        const adminBadgeElement = document.getElementById('admin-badge');
-        const phoneLabelElement = document.getElementById('phone-label');
-        const phoneNumberElement = document.getElementById('phone-number');
-        const languageLabelElement = document.getElementById('language-label');
-        const langButtons = document.querySelectorAll('.lang-button');
-        const logoutButton = document.getElementById('logout-button');
-
-        function updateWidgetLanguageDisplay(lang) { 
-            const username = localStorage.getItem('username') || (lang === 'en' ? 'Student' : 'ವಿದ್ಯಾರ್ಥಿ');
-            const texts = widgetTranslations[lang];
-            
-            greetingElement.textContent = texts.greeting(username);
-            phoneLabelElement.textContent = texts.phoneLabel;
-            languageLabelElement.textContent = texts.languageLabel;
-            logoutButton.textContent = texts.logoutButton;
-
-            document.querySelectorAll('.lang-button').forEach(button => {
-                const isSelected = button.dataset.lang === lang;
-                button.classList.toggle('active', isSelected);
-            });
-        }
-
-        function loadUserData() { 
-            const contact = localStorage.getItem('contactNumber') || 'N/A';
-            const role = localStorage.getItem('userRole') || 'Student';
-            document.getElementById('phone-number').textContent = contact;
-
-            if (role.toLowerCase() === 'admin') {
-                document.getElementById('admin-badge').classList.remove('hidden');
-            } else {
-                document.getElementById('admin-badge').classList.add('hidden');
-            }
-
-            const initialLang = localStorage.getItem('language') || 'en';
-            translatePage(initialLang);
-        }
-
-        function logout(e) { 
-            e.preventDefault();
-            localStorage.removeItem('username');
-            localStorage.removeItem('contactNumber');
-            localStorage.removeItem('userRole');
+        // Demo data if nothing in localStorage (you can remove this in production)
+        if (!localStorage.getItem('username')) {
+            localStorage.setItem('username', 'Laxmi');
+            localStorage.setItem('contactNumber', '+91 98765 43210');
+            localStorage.setItem('userRole', 'Admin');
             localStorage.setItem('language', 'en');
-            
-            loadUserData();
-            document.getElementById('details-content').classList.add('hidden');
-            alert('Logout successful!');
         }
 
-        function translatePage(lang) {
-            const username = localStorage.getItem('username') || 'Student';
-            const currentLangData = translations[lang];
+        loadUserData();
 
-            document.querySelectorAll('[data-i18n]').forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                if (currentLangData[key]) {
-                    let textContent = currentLangData[key];
-                    if (typeof currentLangData[key] === 'function') {
-                        textContent = currentLangData[key](key === 'footerCopyright' ? new Date().getFullYear() : username);
-                    }
-                    if (key === 'motiveText' || key === 'processText') {
-                        element.innerHTML = textContent.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                    } else if (element.tagName === 'TITLE') {
-                        document.title = textContent;
-                    } else {
-                        element.textContent = textContent;
-                    }
-                }
-            });
-
-            // ✅ SAFE NAV UPDATE (no more null errors)
-            const navItems = ["navHome", "navDetector", "navDiseaseInfo", "navHistory", "navAboutUs"];
-            navItems.forEach(key => {
-                const el = document.querySelector(`.nav-links a[data-i18n="${key}"]`);
-                if (el && currentLangData[key]) {
-                    el.textContent = currentLangData[key];
-                }
-            });
-
-            // Update team member names/roles/alts based on current language
-            document.querySelectorAll('.team-card').forEach(card => {
-                const memberKey = card.dataset.member;
-                const data = teamData[memberKey][lang];
-                card.querySelector('h3').textContent = data.name;
-                card.querySelector('small').textContent = data.role;
-                card.querySelector('.click-prompt').textContent = currentLangData['clickForMore'];
-                card.querySelector('img').setAttribute('alt', data.alt);
-            });
-
-            updateWidgetLanguageDisplay(lang);
-            currentLang = lang;
-            localStorage.setItem('language', lang);
-        }
-
-        // --- CUSTOM ANIMATION AND INTERACTIVITY FUNCTIONS ---
-
-        function setupScrollReveal() {
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('revealed');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, {
-                rootMargin: '0px',
-                threshold: 0.1
-            });
-
-            document.querySelectorAll('.about-section').forEach(section => {
-                observer.observe(section);
-            });
-        }
-
-        function setupModals() {
-            const modal = document.getElementById('teamModal');
-            const modalDetails = document.getElementById('modal-details');
-            const closeBtn = document.querySelector('.close-btn');
-            const teamCards = document.querySelectorAll('.team-card');
-
-            function openModal(memberKey) {
-                const memberData = teamData[memberKey][currentLang];
-                
-                modalDetails.innerHTML = `
-                    <h3 class="text-center">${memberData.name}</h3>
-                    <small class="text-center w-full block">${memberData.role}</small>
-                    <hr class="my-3">
-                    <p>${memberData.details.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>
-                `;
-                
-                modal.style.display = 'flex';
-            }
-
-            function closeModal() {
-                modal.style.display = 'none';
-            }
-            
-            teamCards.forEach(card => {
-                card.onclick = () => openModal(card.dataset.member);
-            });
-
-            closeBtn.onclick = closeModal;
-
-            window.onclick = (event) => {
-                if (event.target == modal) {
-                    closeModal();
-                }
-            };
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('year').textContent = new Date().getFullYear();
-
-            // --- Simulation of Login Data ---
-            if (!localStorage.getItem('username')) {
-                localStorage.setItem('username', 'Laxmi'); 
-                localStorage.setItem('contactNumber', '+91 98765 43210');
-                localStorage.setItem('userRole', 'Admin');
-                localStorage.setItem('language', 'en');
-            }
-            // --- End Simulation ---
-            
-            loadUserData();
-
-            profileHeader.addEventListener('click', (e) => {
-                e.stopPropagation();
-                detailsContent.classList.toggle('hidden');
-            });
-            document.addEventListener('click', (e) => {
-                if (!profileWidget.contains(e.target) && !detailsContent.classList.contains('hidden')) {
-                    detailsContent.classList.add('hidden');
-                }
-            });
-
-            langButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const selectedLang = button.dataset.lang;
-                    if (selectedLang !== currentLang) {
-                        translatePage(selectedLang);
-                        setupModals();
-                    }
-                });
-            });
-
-            document.getElementById('logout-button').addEventListener('click', logout);
-            
-            setupScrollReveal();
-            setupModals();
+        profileHeader.addEventListener('click', (e) => {
+            e.stopPropagation();
+            detailsContent.classList.toggle('hidden');
         });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+        document.addEventListener('click', (e) => {
+            if (!profileWidget.contains(e.target) && !detailsContent.classList.contains('hidden')) {
+                detailsContent.classList.add('hidden');
+            }
+        });
+
+        langButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const selectedLang = button.dataset.lang;
+                if (selectedLang !== currentLang) {
+                    translatePage(selectedLang);
+                    setupModals();
+                }
+            });
+        });
+
+        logoutButton.addEventListener('click', logout);
+
+        setupScrollReveal();
+        setupModals();
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

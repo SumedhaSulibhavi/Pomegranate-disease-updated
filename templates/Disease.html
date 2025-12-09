@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pomegranate Disease Information System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link
-  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-  rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
@@ -18,8 +17,6 @@
             --light-bg-color: rgba(255, 255, 255, 0.9);
             --text-color: #333;
             --chatbot-color: var(--button-color);
-            --chat-user-bg: #ffe4e6; 
-            --chat-bot-bg: #f8f8f8; 
             --body-bg: #f8f9fa;
         }
 
@@ -31,35 +28,35 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative; 
-            min-height: 100vh; 
-            overflow-y: auto; 
+            position: relative;
+            min-height: 100vh;
+            overflow-y: auto;
             background-image: url("{{ url_for('static', filename='Background_image.jpg') }}");
             background-size: cover;
             background-position: center;
-            background-attachment: fixed; 
+            background-attachment: fixed;
         }
 
         body::before {
             content: '';
-            position: fixed; 
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: var(--nude-pink-overlay); 
-            z-index: -1; 
-            pointer-events: none; 
+            background-color: var(--nude-pink-overlay);
+            z-index: -1;
+            pointer-events: none;
         }
 
         header {
             width: 100%;
-            background-color: var(--college-primary-color); 
+            background-color: var(--college-primary-color);
             color: white;
-            padding: 15px 0; 
+            padding: 15px 0;
             text-align: center;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 60; 
+            z-index: 60;
         }
         .header-content {
             max-width: 1200px;
@@ -71,38 +68,48 @@
             position: relative;
         }
         .header-title {
-            font-size: 1.6rem; 
+            font-size: 1.6rem;
             font-weight: bold;
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); 
-            flex-shrink: 1; 
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            flex-shrink: 1;
             min-width: 0;
         }
 
         .navbar {
             width: 100%;
-            background-color: var(--button-color); 
+            background-color: var(--button-color);
             border-bottom: 1px solid #eee;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            position: sticky; top: 0;
+            position: sticky;
+            top: 0;
             z-index: 20;
         }
         .nav-links {
-            list-style: none; padding: 0; margin: 0; display: flex;
-            justify-content: center; max-width: 1200px; margin: 0 auto;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 0 20px;
         }
         .nav-links li a {
-            display: block; padding: 8px 20px; text-decoration: none;
-            color: white; font-weight: bold; transition: background-color 0.3s;
+            display: block;
+            padding: 8px 20px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: background-color 0.3s;
         }
-        .nav-links li a[href="{{ url_for('disease_page') }}"] { 
+        .nav-links li a[href="{{ url_for('disease_page') }}"] {
             background-color: var(--college-primary-color);
         }
         .nav-links li a:hover:not([href="{{ url_for('disease_page') }}"]) {
             background-color: #c0506e;
         }
 
-        /* Profile widget */
+        /* profile widget */
         #profile-widget {
             position: absolute;
             top: 50%;
@@ -157,7 +164,7 @@
             white-space: nowrap;
         }
         #admin-badge {
-            background-color: var(--nude-pink-overlay);
+            background-color: rgba(255,255,255,0.2);
             color: var(--college-primary-color);
         }
         #details-content {
@@ -190,12 +197,7 @@
             border-color: var(--button-color) !important;
             box-shadow: 0 4px 12px rgba(205, 96, 125, 0.4) !important;
         }
-        .lang-button:not(.active) {
-            background-color: #f8f8f8 !important;
-            color: var(--text-color) !important;
-            border-color: #ddd !important;
-            box-shadow: none !important;
-        }
+
         #logout-button {
             background-color: var(--button-color) !important;
             color: white !important;
@@ -209,42 +211,162 @@
 
         .main-container {
             width: 90%;
-            max-width: 1000px; 
-            margin: 20px 0 30px 0; 
-            z-index: 1; 
+            max-width: 1000px;
+            margin: 20px 0 30px 0;
+            z-index: 1;
         }
         .content-box {
-            background-color: var(--light-bg-color); 
+            background-color: var(--light-bg-color);
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
             line-height: 1.6;
             color: var(--text-color);
-            position: relative; 
+            position: relative;
         }
 
         #list-view { display: block; }
-        .disease-grid-title { color: var(--college-primary-color); font-size: 1.3em; font-weight: bold; margin-bottom: 15px; text-align: center; }
-        .disease-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin: 30px auto; max-width: 900px; }
-        .disease-card { background-color: white; border: 2px solid var(--button-color); border-radius: 10px; overflow: hidden; width: 180px; cursor: pointer; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; text-align: center; }
-        .disease-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); border-color: var(--college-primary-color); }
-        .card-image { width: 100%; height: 120px; object-fit: cover; display: block; background: #eee; }
-        .card-title { padding: 10px 5px; font-size: 0.95em; font-weight: bold; color: var(--college-primary-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background-color: #fff5f8; border-top: 1px solid #ddd; }
+        .disease-grid-title {
+            color: var(--college-primary-color);
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .disease-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px auto;
+            max-width: 900px;
+        }
+        .disease-card {
+            background-color: white;
+            border: 2px solid var(--button-color);
+            border-radius: 10px;
+            overflow: hidden;
+            width: 180px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            text-align: center;
+        }
+        .disease-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border-color: var(--college-primary-color);
+        }
+        .card-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+            background: #eee;
+        }
+        .card-title {
+            padding: 10px 5px;
+            font-size: 0.95em;
+            font-weight: bold;
+            color: var(--college-primary-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            background-color: #fff5f8;
+            border-top: 1px solid #ddd;
+        }
 
         #detail-view { display: none; }
-        .disease-details { display: flex; flex-direction: row; gap: 30px; align-items: flex-start; border: 1px solid #ddd; border-radius: 10px; padding: 20px; background-color: #fcfcfc; }
-        .disease-image-container { flex: 0 0 45%; max-width: 450px; text-align: center; position: relative; padding: 10px; }
-        .disease-image-container img { max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); display: block; }
-        .disease-description { flex: 1; margin-top: 0; }
-        .disease-description h3 { color: var(--college-primary-color); font-size: 1.5em; margin-bottom: 15px; padding-bottom: 5px; border-bottom: 1px solid #eee; }
-        .disease-description h4 { color: var(--button-color); font-size: 1.15em; margin-top: 16px; margin-bottom: 8px; }
-        .disease-description h4.algo-focus { color: var(--college-primary-color); background-color: #fcebeb; padding: 5px 10px; border-radius: 4px; border-left: 5px solid var(--button-color); }
-        .disease-description ul { list-style-type: none; margin-left: 0; padding-left: 15px; }
-        .disease-description li { margin-bottom: 8px; position: relative; padding-left: 20px; color: var(--text-color); }
-        .disease-description li::before { content: '•'; color: var(--button-color); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+        .disease-details {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            align-items: flex-start;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #fcfcfc;
+        }
+        .disease-image-container {
+            flex: 0 0 45%;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+            padding: 10px;
+        }
+        .disease-image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: block;
+        }
+        .disease-description {
+            flex: 1;
+            margin-top: 0;
+        }
+        .disease-description h3 {
+            color: var(--college-primary-color);
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        .disease-description h4 {
+            color: var(--button-color);
+            font-size: 1.15em;
+            margin-top: 16px;
+            margin-bottom: 8px;
+        }
+        .disease-description h4.algo-focus {
+            color: var(--college-primary-color);
+            background-color: #fcebeb;
+            padding: 5px 10px;
+            border-radius: 4px;
+            border-left: 5px solid var(--button-color);
+        }
+        .disease-description ul {
+            list-style-type: none;
+            margin-left: 0;
+            padding-left: 15px;
+        }
+        .disease-description li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+            color: var(--text-color);
+        }
+        .disease-description li::before {
+            content: '•';
+            color: var(--button-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
 
-        #close-detail-btn { position: absolute; top: 25px; right: 25px; font-size: 1.5em; color: var(--college-primary-color); cursor: pointer; text-decoration: none; line-height: 1; padding: 5px 8px; border: 2px solid var(--college-primary-color); border-radius: 5px; transition: background-color 0.2s, color 0.2s; font-weight: bold; z-index: 5; background: white; }
-        #close-detail-btn:hover { background-color: var(--button-color); color: white; border-color: var(--button-color); }
+        #close-detail-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            font-size: 1.5em;
+            color: var(--college-primary-color);
+            cursor: pointer;
+            text-decoration: none;
+            line-height: 1;
+            padding: 5px 8px;
+            border: 2px solid var(--college-primary-color);
+            border-radius: 5px;
+            transition: background-color 0.2s, color 0.2s;
+            font-weight: bold;
+            z-index: 5;
+            background: white;
+        }
+        #close-detail-btn:hover {
+            background-color: var(--button-color);
+            color: white;
+            border-color: var(--button-color);
+        }
 
         #detail-action-container {
             background-color: #fff5f8;
@@ -253,25 +375,51 @@
             border-radius: 5px;
             margin-top: 12px;
         }
-        #detail-action-title { color: var(--college-primary-color); margin: 0 0 5px 0; font-size: 1.05em; }
-        #detail-action-text { color: var(--text-color); font-weight: 500; line-height: 1.4; }
-        #detail-precautions-title { color: var(--button-color); margin-top: 14px; }
+        #detail-action-title {
+            color: var(--college-primary-color);
+            margin: 0 0 5px 0;
+            font-size: 1.05em;
+        }
+        #detail-action-text {
+            color: var(--text-color);
+            font-weight: 500;
+            line-height: 1.4;
+        }
+        #detail-precautions-title {
+            color: var(--button-color);
+            margin-top: 14px;
+        }
 
         .hidden { display: none !important; }
 
-        .site-footer { width: 100%; background-color: var(--button-color); color: white; text-align: center; padding: 8px 0; margin-top: auto; }
+        .site-footer {
+            width: 100%;
+            background-color: var(--button-color);
+            color: white;
+            text-align: center;
+            padding: 8px 0;
+            margin-top: auto;
+        }
 
-        /* === 6. Chatbot Button Styles (same as home.html) === */
         #chatbot-btn {
-            position: fixed; bottom: 25px; right: 25px;
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
             background-color: var(--chatbot-color);
-            color: white; border: none; border-radius: 50%; width: 60px; height: 60px;
-            font-size: 1.8rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            z-index: 70; line-height: 60px; text-align: center;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 70;
+            line-height: 60px;
+            text-align: center;
             padding: 0;
         }
 
-        /* === CHATBOT WINDOW (same structure as home.html) === */
         #chatbot-container {
             position: fixed;
             bottom: 95px;
@@ -286,9 +434,8 @@
             overflow: hidden;
             z-index: 80;
         }
-        #chatbot-container.open {
-            display: flex;
-        }
+        #chatbot-container.open { display: flex; }
+
         .chatbot-header {
             background: var(--college-primary-color);
             color: #fff;
@@ -304,10 +451,7 @@
             font-weight: 400;
             opacity: 0.9;
         }
-        .chatbot-close {
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
+        .chatbot-close { cursor: pointer; font-size: 1.2rem; }
         .chatbot-messages {
             flex: 1;
             padding: 10px;
@@ -371,26 +515,26 @@
             .disease-details { flex-direction: column; align-items: center; }
             .disease-image-container { flex: none; width: 100%; max-width: none; }
             #close-detail-btn { top: 15px; right: 15px; font-size: 1.3em; }
-            .header-content { 
-                flex-direction: column; 
+            .header-content {
+                flex-direction: column;
                 align-items: flex-start;
                 padding: 10px 20px;
             }
-            #profile-widget { 
-                position: static; 
-                transform: none; 
-                margin-top: 10px; 
-                width: 100%; 
+            #profile-widget {
+                position: static;
+                transform: none;
+                margin-top: 10px;
+                width: 100%;
             }
-            #profile-header { 
-                width: 100%; 
-                justify-content: flex-start; 
-                padding: 8px 15px; 
+            #profile-header {
+                width: 100%;
+                justify-content: flex-start;
+                padding: 8px 15px;
             }
-            #details-content { 
-                position: static; 
-                width: 100%; 
-                margin-top: 10px; 
+            #details-content {
+                position: static;
+                width: 100%;
+                margin-top: 10px;
             }
             #chatbot-container {
                 right: 10px;
@@ -405,885 +549,919 @@
 </head>
 
 <body>
-    <header>
-        <div class="header-content">
-            <div class="header-title" data-i18n="headerTitle">
-                Pomegranate Disease Detection System
-            </div>
-
-            <div id="profile-widget">
-                <div id="profile-header">
-                    <div id="profile-avatar">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                        </svg>
-                    </div>
-                    <div style="margin-left: 8px;">
-                        <p id="greeting" class="text-lg font-semibold tracking-wide">Hello, Student</p>
-                        <span id="admin-badge" class="hidden inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium">
-                            Admin
-                        </span>
-                    </div>
-                </div>
-                <div id="details-content" class="hidden">
-                    <div>
-                        <label id="phone-label" class="block text-xs font-medium text-gray-500 mb-1">Contact Phone</label>
-                        <p id="phone-number" class="text-sm font-medium text-gray-800">N/A</p>
-                    </div>
-
-                    <div style="margin-top: 8px;">
-                        <label id="language-label" class="block text-xs font-medium text-gray-500 mb-2">Display Language</label>
-                        <div class="flex space-x-2">
-                            <button data-lang="en" class="lang-button active">English</button>
-                            <button data-lang="kn" class="lang-button">ಕನ್ನಡ</button>
-                        </div>
-                    </div>
-
-                    <button id="logout-button" style="margin-top: 10px; width: 100%;">
-                        Logout
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <nav class="navbar">
-        <ul class="nav-links">
-            <li><a href="{{ url_for('login_page') }}">Login</a></li>
-            <li><a href="{{ url_for('home_page') }}" data-i18n="navHome">Home</a></li>
-            <li><a href="{{ url_for('upload_page') }}" data-i18n="navDetector">Disease Detector</a></li>
-            <li><a href="{{ url_for('disease_page') }}" data-i18n="navDiseaseInfo">Disease Info</a></li>
-            <li><a href="{{ url_for('history_page') }}" data-i18n="navHistory">History</a></li>
-            <li><a href="{{ url_for('aboutus_page') }}" data-i18n="navAboutUs">About Us</a></li>
-        </ul>
-    </nav>
-
-    <div class="main-container">
-        <!-- LIST VIEW -->
-        <div class="content-box" id="list-view">
-            <h1 id="list-h1">Pomegranate Disease Information & Resources 📚</h1>
-            <div class="disease-grid-title" id="grid-title">
-                Click an image below to learn about the disease:
-            </div>
-            <div class="disease-grid" id="disease-grid-container"></div>
+<header>
+    <div class="header-content">
+        <div class="header-title" data-i18n="headerTitle">
+            Pomegranate Disease Detection System
         </div>
 
-        <!-- DETAIL VIEW -->
-        <div class="content-box" id="detail-view">
-            <h1 id="detail-h1">Disease Detail 🔍</h1>
-            <button id="close-detail-btn">✕</button>
-
-            <div id="disease-detail-area" class="disease-details">
-                <div class="disease-image-container">
-                    <img id="detail-image" src="" alt="Disease Image">
+        <div id="profile-widget">
+            <div id="profile-header">
+                <div id="profile-avatar">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                    </svg>
                 </div>
-                <div class="disease-description">
-                    <h3 id="detail-name"></h3>
-                    <p id="detail-description-text"></p>
-                    
-                    <h4 id="detail-symptoms-title">Symptoms (How Humans See It):</h4>
-                    <ul id="detail-symptoms"></ul>
-                    
-                    <h4 class="algo-focus" id="detail-algo-title">Algorithmic Recognition Focus (CNN-ViT Fusion):</h4>
-                    <ul id="detail-algo-focus"></ul>
+                <div style="margin-left: 8px;">
+                    <p id="greeting" class="text-lg font-semibold tracking-wide">Hello, Student</p>
+                    <span id="admin-badge" class="hidden inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium">
+                        Admin
+                    </span>
+                </div>
+            </div>
+            <div id="details-content" class="hidden">
+                <div>
+                    <label id="phone-label" class="block text-xs font-medium text-gray-500 mb-1">Contact Phone</label>
+                    <p id="phone-number" class="text-sm font-medium text-gray-800">N/A</p>
+                </div>
 
-                    <div id="detail-action-container">
-                        <h4 id="detail-action-title">Recommended Action:</h4>
-                        <p id="detail-action-text"></p>
+                <div style="margin-top: 8px;">
+                    <label id="language-label" class="block text-xs font-medium text-gray-500 mb-2">Display Language</label>
+                    <div class="flex space-x-2">
+                        <button data-lang="en" class="lang-button active">English</button>
+                        <button data-lang="kn" class="lang-button">ಕನ್ನಡ</button>
                     </div>
+                </div>
 
-                    <div id="detail-precautions-container">
-                        <h4 id="detail-precautions-title">Preventive Precautions:</h4>
-                        <ul id="detail-precautions"></ul>
-                    </div>
+                <button id="logout-button" style="margin-top: 10px; width: 100%;">Logout</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<nav class="navbar">
+    <ul class="nav-links">
+        <li><a href="{{ url_for('login_page') }}">Login</a></li>
+        <li><a href="{{ url_for('home_page') }}" data-i18n="navHome">Home</a></li>
+        <li><a href="{{ url_for('upload_page') }}" data-i18n="navDetector">Disease Detector</a></li>
+        <li><a href="{{ url_for('disease_page') }}" data-i18n="navDiseaseInfo">Disease Info</a></li>
+        <li><a href="{{ url_for('history_page') }}" data-i18n="navHistory">History</a></li>
+        <li><a href="{{ url_for('aboutus_page') }}" data-i18n="navAboutUs">About Us</a></li>
+    </ul>
+</nav>
+
+<div class="main-container">
+    <!-- LIST VIEW -->
+    <div class="content-box" id="list-view">
+        <h1 id="list-h1">Pomegranate Disease Information & Resources 📚</h1>
+        <div class="disease-grid-title" id="grid-title">
+            Click an image below to learn about the disease:
+        </div>
+        <div class="disease-grid" id="disease-grid-container"></div>
+    </div>
+
+    <!-- DETAIL VIEW -->
+    <div class="content-box" id="detail-view">
+        <h1 id="detail-h1">Disease Detail 🔍</h1>
+        <button id="close-detail-btn">✕</button>
+
+        <div id="disease-detail-area" class="disease-details">
+            <div class="disease-image-container">
+                <img id="detail-image" src="" alt="Disease Image">
+            </div>
+            <div class="disease-description">
+                <h3 id="detail-name"></h3>
+                <p id="detail-description-text"></p>
+
+                <h4 id="detail-symptoms-title">Symptoms (How Humans See It):</h4>
+                <ul id="detail-symptoms"></ul>
+
+                <h4 class="algo-focus" id="detail-algo-title">Algorithmic Recognition Focus (CNN-ViT Fusion):</h4>
+                <ul id="detail-algo-focus"></ul>
+
+                <div id="detail-action-container">
+                    <h4 id="detail-action-title">Recommended Action:</h4>
+                    <p id="detail-action-text"></p>
+                </div>
+
+                <div id="detail-precautions-container">
+                    <h4 id="detail-precautions-title">Preventive Precautions:</h4>
+                    <ul id="detail-precautions"></ul>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Chatbot (same structure as home.html) -->
-    <button id="chatbot-btn" aria-label="Open Chatbot">💬</button>
+<!-- Chatbot -->
+<button id="chatbot-btn" aria-label="Open Chatbot">💬</button>
 
-    <div id="chatbot-container">
-        <div class="chatbot-header">
-            <div>
-                <div>Crop Health Chatbot</div>
-                <span>Ask about pomegranate diseases, symptoms, care</span>
-            </div>
-
-            <!-- Language dropdown + close -->
-            <div style="display: flex; align-items: center; gap: 6px;">
-                <select id="chatbot-language" style="font-size: 0.75rem; padding: 2px 4px; border-radius: 6px; border: none; outline: none; color:#333;">
-                    <option value="en">EN</option>
-                    <option value="hi">HI</option>
-                    <option value="kn">KN</option>
-                </select>
-                <div class="chatbot-close" id="chatbot-close" style="margin-left:4px; cursor:pointer;">&times;</div>
-            </div>
+<div id="chatbot-container">
+    <div class="chatbot-header">
+        <div>
+            <div>Crop Health Chatbot</div>
+            <span>Ask about pomegranate diseases, symptoms, care</span>
         </div>
-
-        <div class="chatbot-messages" id="chatbot-messages">
-            <div class="chat-msg bot">
-                Hi! 👋 I can help you understand pomegranate diseases, symptoms, and treatments.  
-                Type or speak your question to begin.
-            </div>
-        </div>
-
-        <div class="chatbot-input-area">
-            <!-- small recording dot / text -->
-            <span id="chatbot-recording-indicator" style="font-size: 0.75rem; color:#c0392b; display:none; margin-right:4px;">
-                ● Recording...
-            </span>
-
-            <input type="text" id="chatbot-input" placeholder="Type your question...">
-
-            <!-- Mic button -->
-            <button id="chatbot-mic" title="Speak">
-                🎤
-            </button>
-
-            <!-- Stop audio button -->
-            <button id="chatbot-stop" title="Stop voice" style="padding: 6px 8px; font-size: 0.8rem;">
-                ⏹
-            </button>
-
-            <button id="chatbot-send">Send</button>
+        <div style="display:flex;align-items:center;gap:6px;">
+            <select id="chatbot-language" style="font-size:0.75rem;padding:2px 4px;border-radius:6px;border:none;outline:none;color:#333;">
+                <option value="en">EN</option>
+                <option value="hi">HI</option>
+                <option value="kn">KN</option>
+            </select>
+            <div class="chatbot-close" id="chatbot-close" style="margin-left:4px;cursor:pointer;">&times;</div>
         </div>
     </div>
 
-    <footer class="site-footer">
-        <small>© <span id="year"></span> <span id="footer-text">Pomegranate Fruit Disease Detection — Final Year Project</span></small>
-    </footer>
+    <div class="chatbot-messages" id="chatbot-messages">
+        <div class="chat-msg bot">
+            Hi! 👋 I can help you understand pomegranate diseases, symptoms, and treatments.
+            Type or speak your question to begin.
+        </div>
+    </div>
 
-    <!-- Existing disease-page logic (unchanged except chatbot parts removed) -->
-    <script>
-        // --- LANGUAGE DATA ---
+    <div class="chatbot-input-area">
+        <span id="chatbot-recording-indicator" style="font-size:0.75rem;color:#c0392b;display:none;margin-right:4px;">
+            ● Recording...
+        </span>
+        <input type="text" id="chatbot-input" placeholder="Type your question...">
+        <button id="chatbot-mic" title="Speak">🎤</button>
+        <button id="chatbot-stop" title="Stop voice" style="padding:6px 8px;font-size:0.8rem;">⏹</button>
+        <button id="chatbot-send">Send</button>
+    </div>
+</div>
 
-        const translations = {
+<footer class="site-footer">
+    <small>© <span id="year"></span> <span id="footer-text">Pomegranate Fruit Disease Detection — Final Year Project</span></small>
+</footer>
+
+<!-- Disease page logic -->
+<script>
+    const translations = {
+        en: {
+            navHome: "Home",
+            navAboutUs: "About Us",
+            navDiseaseInfo: "Disease Info",
+            navDetector: "Disease Detector",
+            navHistory: "History",
+        },
+        kn: {
+            navHome: "ಮುಖಪುಟ",
+            navAboutUs: "ನಮ್ಮ ಬಗ್ಗೆ",
+            navDiseaseInfo: "ರೋಗ ಮಾಹಿತಿ",
+            navDetector: "ರೋಗ ಪತ್ತೆಕಾರಕ",
+            navHistory: "ಇತಿಹಾಸ",
+        }
+    };
+
+    const widgetTranslations = {
+        en: {
+            greeting: (name) => `Hello, ${name}`,
+            phoneLabel: "Contact Phone",
+            languageLabel: "Display Language",
+            logoutButton: "Logout"
+        },
+        kn: {
+            greeting: (name) => `ನಮಸ್ಕಾರ, ${name}`,
+            phoneLabel: "ಸಂಪರ್ಕ ದೂರವಾಣಿ",
+            languageLabel: "ಭಾಷೆ ಆರಿಸಿ",
+            logoutButton: "ಲಾಗ್ ಔಟ್"
+        }
+    };
+
+    const kannadaTranslations = {
+        'header-main-title': "ದಾಳಿಂಬೆ ರೋಗ ಪತ್ತೆ ವ್ಯವಸ್ಥೆ",
+        'list-h1': "ದಾಳಿಂಬೆ ರೋಗ ಮಾಹಿತಿ ಮತ್ತು ಸಂಪನ್ಮೂಲಗಳು 📚",
+        'grid-title': "ರೋಗದ ಬಗ್ಗೆ ತಿಳಿಯಲು ಕೆಳಗಿನ ಚಿತ್ರದ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ:",
+        'detail-h1': "ರೋಗ ವಿವರ 🔍",
+        'detail-symptoms-title': "ರೋಗಲಕ್ಷಣಗಳು (ಮಾನವರಿಗೆ ಗೋಚರಿಸುವಿಕೆ):",
+        'detail-algo-title': "ಅಲ್ಗಾರಿದಮಿಕ್ ಗುರುತಿಸುವಿಕೆ ತೂಕ:",
+        'detail-action-title': "ಶಿಫಾರಸು ಮಾಡಲಾದ ಕ್ರಮ:",
+        'detail-precautions-title': "ನಿರೋಧಕ ಮುನ್ನೆಚ್ಚರಿಕೆಗಳು:",
+        'footer-text': "ದಾಳಿಂಬೆ ಹಣ್ಣಿನ ರೋಗ ಪತ್ತೆ — ಅಂತಿಮ ವರ್ಷದ ಯೋಜನೆ"
+    };
+
+    /* ---------- DISEASE DESCRIPTIONS (en + kn) ---------- */
+    const diseases = {
+        alternaria: {
+            key: 'alternaria',
+            image: "{{ url_for('static', filename='alternaria_pomegranate.jpg') }}",
             en: {
-                navHome: "Home",
-                navAboutUs: "About Us",
-                navDiseaseInfo: "Disease Info",
-                navDetector: "Disease Detector",
-                navHistory: "History",
+                name: "Alternaria Fruit Spot",
+                description: "Alternaria fruit spot is a fungal disease that primarily affects pomegranate fruits, causing dark, concentric lesions.",
+                symptoms: [
+                    "Small, circular, dark brown to black spots on the rind.",
+                    "Spots enlarge, coalesce, and may crack.",
+                    "Internal tissues beneath lesions may show browning or rotting.",
+                    "Typically favored by warm and humid conditions."
+                ],
+                algoFocus: [
+                    "Irregular lesion texture with dark concentric rings.",
+                    "Contrast between healthy and infected tissue.",
+                    "Edge gradients for lesion boundary detection."
+                ]
             },
             kn: {
-                navHome: "ಮುಖಪುಟ",
-                navAboutUs: "ನಮ್ಮ ಬಗ್ಗೆ",
-                navDiseaseInfo: "ರೋಗ ಮಾಹಿತಿ",
-                navDetector: "ರೋಗ ಪತ್ತೆಕಾರಕ",
-                navHistory: "ಇತಿಹಾಸ",
+                name: "ಆಲ್ಟರ್ನೇರಿಯಾ ಹಣ್ಣಿನ ಚುಕ್ಕೆ",
+                description: "ಆಲ್ಟರ್ನೇರಿಯಾ ಹಣ್ಣಿನ ಚುಕ್ಕೆ ದಾಳಿಂಬೆ ಹಣ್ಣುಗಳ ಮೇಲೆ ಪರಿಣಾಮ ಬೀರುವ ಶಿಲೀಂಧ್ರ ರೋಗವಾಗಿದ್ದು, ಕಪ್ಪು ವಲಯಾಕಾರ ಗಾಯಗಳನ್ನು ಉಂಟುಮಾಡುತ್ತದೆ.",
+                symptoms: [
+                    "ಹಣ್ಣಿನ ಮೇಲ್ಮೈಯಲ್ಲಿ ಸಣ್ಣ, ವೃತ್ತಾಕಾರದ, ಗಾಢ ಕಂದು-ಕಪ್ಪು ಚುಕ್ಕೆಗಳು.",
+                    "ಚುಕ್ಕೆಗಳು ದೊಡ್ಡದಾಗಿ ಸೇರಿಕೊಂಡು ಬಿರುಕುಗೊಳ್ಳಬಹುದು.",
+                    "ಗಾಯಗಳ ಕೆಳಗಿನ ಆಂತರಿಕ ಭಾಗಗಳಲ್ಲಿ ಕಂದು ಬಣ್ಣ/ಕುಲುಮೆ ಕಾಣಿಸಬಹುದು.",
+                    "ಬಿಸಿ ಮತ್ತು ಆರ್ದ್ರ ಹವಾಮಾನದಲ್ಲಿ ಹೆಚ್ಚು ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತದೆ."
+                ],
+                algoFocus: [
+                    "ಗಾಯದ ಅಸಮಮ ಗಾತ್ರದ ತೇವ/ಟೆಕ್ಸ್ಚರ್ ಗುರುತಿಸುವಿಕೆ.",
+                    "ಕೇಂದ್ರೀಕೃತ ವಲಯಗಳು (ರಿಂಗ್‌ಗಳು) ಗುರುತಿಸುವಿಕೆ.",
+                    "ಆರೋಗ್ಯಕರ ಮತ್ತು ಸೋಂಕಿತ ಭಾಗಗಳ ನಡುವಿನ ಕಾಂಟ್ರಾಸ್ಟ್."
+                ]
             }
-        };
-
-        const widgetTranslations = {
+        },
+        bacterial_blight: {
+            key: 'bacterial_blight',
+            image: "{{ url_for('static', filename='bacterial_blight_pomegranate.jpg') }}",
             en: {
-                greeting: (name) => `Hello, ${name}`,
-                phoneLabel: "Contact Phone",
-                languageLabel: "Display Language",
-                logoutButton: "Logout"
+                name: "Bacterial Blight",
+                description: "Bacterial blight is caused by Xanthomonas and leads to severe leaf, stem, and fruit symptoms.",
+                symptoms: [
+                    "Small, water-soaked, irregular spots on leaves.",
+                    "Black, oily streaks on stems and branches.",
+                    "Dark, sunken, oily lesions on fruits.",
+                    "Severe infections cause fruit cracking and drop."
+                ],
+                algoFocus: [
+                    "Oily, water-soaked appearance in lesions.",
+                    "Angular lesion boundaries along veins.",
+                    "Mixed texture regions on stems and fruits."
+                ]
             },
             kn: {
-                greeting: (name) => `ನಮಸ್ಕಾರ, ${name}`,
-                phoneLabel: "ಸಂಪರ್ಕ ದೂರವಾಣಿ",
-                languageLabel: "ಭಾಷೆ ಆರಿಸಿ",
-                logoutButton: "ಲಾಗ್ ಔಟ್"
+                name: "ಬ್ಯಾಕ್ಟೀರಿಯಾ ಬ್ಲೈಟ್",
+                description: "ಬ್ಯಾಕ್ಟೀರಿಯಾ ಬ್ಲೈಟ್ Xanthomonas ಬ್ಯಾಕ್ಟೀರಿಯಾಗಳಿಂದ ಉಂಟಾಗುವ ರೋಗವಾಗಿದ್ದು, ಎಲೆ, ಕಾಂಡ ಮತ್ತು ಹಣ್ಣುಗಳಿಗೆ ತೀವ್ರ ಹಾನಿ ಉಂಟುಮಾಡುತ್ತದೆ.",
+                symptoms: [
+                    "ಎಲೆಗಳ ಮೇಲೆ ಸಣ್ಣ, ನೀರು-ನೆನೆಸಿದ, ಅನಿಯಮಿತ ಕಲೆಗಳು.",
+                    "ಕಾಂಡಗಳ ಮೇಲೆ ಕಪ್ಪು, ಎಣ್ಣೆಯುಕ್ತ ಗೆರೆಗಳು.",
+                    "ಹಣ್ಣುಗಳ ಮೇಲೆ ಕಪ್ಪು, ಮುಳುಗಿದ, ಎಣ್ಣೆಯುಕ್ತ ಗಾಯಗಳು.",
+                    "ತೀವ್ರ ಸೋಂಕಿನಲ್ಲಿ ಹಣ್ಣು ಬಿರುಕುಬಿಡುವುದು ಮತ್ತು ಉದುರುವಿಕೆ."
+                ],
+                algoFocus: [
+                    "ಎಣ್ಣೆಯುಕ್ತ, ನೀರು-ನೆನೆಸಿದ ತಾಣಗಳನ್ನು ಗುರುತಿಸುವಿಕೆ.",
+                    "ನಾಳದ ಹಾದಿಯಲ್ಲಿ ಹರಡುವ ಚುಕ್ಕೆಗಳು.",
+                    "ಕಾಂಡ/ಹಣ್ಣಿನ ಮೇಲಿನ ಮಿಶ್ರ ಟೆಕ್ಸ್ಚರ್ ಮಾದರಿಗಳು."
+                ]
             }
-        };
-
-        const kannadaTranslations = {
-            'header-main-title': "ದಾಳಿಂಬೆ ರೋಗ ಪತ್ತೆ ವ್ಯವಸ್ಥೆ",
-            'list-h1': "ದಾಳಿಂಬೆ ರೋಗ ಮಾಹಿತಿ ಮತ್ತು ಸಂಪನ್ಮೂಲಗಳು 📚",
-            'grid-title': "ರೋಗದ ಬಗ್ಗೆ ತಿಳಿಯಲು ಕೆಳಗಿನ ಚಿತ್ರದ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ:",
-            'detail-h1': "ರೋಗ ವಿವರ 🔍",
-            'detail-symptoms-title': "ರೋಗಲಕ್ಷಣಗಳು (ಮಾನವರಿಗೆ ಗೋಚರಿಸುವಿಕೆ):",
-            'detail-algo-title': "ಅಲ್ಗಾರಿದಮಿಕ್ ಗುರುತಿಸುವಿಕೆ ತೂಕ",
-            'detail-action-title': "ಶಿಫಾರಸು ಮಾಡಲಾದ ಕ್ರಮ:",
-            'detail-precautions-title': "ನಿರೋಧಕ ಮುನ್ನೆಚ್ಚರಿಕೆಗಳು:",
-            'footer-text': "ದಾಳಿಂಬೆ ಹಣ್ಣಿನ ರೋಗ ಪತ್ತೆ — ಅಂತಿಮ ವರ್ಷದ ಯೋಜನೆ",
-
-            'chatbot-title': "ಕೃಷಿ ಚಾಟ್‌ಬಾಟ್",
-            'chatbot-placeholder': "ನಿಮ್ಮ ಸಂದೇಶವನ್ನು ಟೈಪ್ ಮಾಡಿ...",
-            'send-btn': "ಕಳುಹಿಸಿ",
-            'chatbot-initial-msg': "ನಮಸ್ಕಾರ 👋! ನಾನು ನಿಮ್ಮ ದಾಳಿಂಬೆ ರೋಗ ಸಹಾಯಕ. ನಾನು ಹೇಗೆ ಸಹಾಯ ಮಾಡಲಿ?",
-
-            'chat-alternaria': "ಆಲ್ಟರ್ನೇರಿಯಾ ಹಣ್ಣಿನಲ್ಲಿ ಕಪ್ಪು, ಮುಳುಗಿದ ತಾಣಗಳನ್ನು ಉಂಟುಮಾಡುತ್ತದೆ. ವಿವರಗಳಿಗೆ ಕಾರ್ಡ್ ಕ್ಲಿಕ್ ಮಾಡಿ.",
-            'chat-blight': "ಬ್ಯಾಕ್ಟೀರಿಯಾ ಬ್ಲೈಟ್ ಎಣ್ಣೆಯುಕ್ತ ಕಪ್ಪು ತಾಣಗಳು ಮತ್ತು ಹಣ್ಣು ಬಿರುಕುಗಳಿಗೆ ಕಾರಣವಾಗುತ್ತದೆ.",
-            'chat-anthracnose': "ಆಂಥ್ರಾಕ್ನೋಸ್ ಮುಳುಗಿದ ವೃತ್ತಾಕಾರದ ಗಾಯಗಳಿಗೆ ಕಾರಣವಾಗುತ್ತದೆ.",
-            'chat-healthy': "ಆರೋಗ್ಯಕರ ದಾಳಿಂಬೆ ಹಣ್ಣು/ಎಲೆಗಳು ದಟ್ಟ ಹಸಿರು ಬಣ್ಣ ಮತ್ತು ಮೃದುವಾದ ತ್ವಚೆಯನ್ನು ಹೊಂದಿರುತ್ತವೆ.",
-            'chat-cnn': "ಈ ವ್ಯವಸ್ಥೆಯು ಫೋಟೋಗಳಿಂದ ರೋಗದ ಮಾದರಿಗಳನ್ನು ಗುರುತಿಸಲು CNN ಆಧಾರಿತ ಆಳವಾದ ಕಲಿಕೆಯನ್ನು ಬಳಸುತ್ತದೆ.",
-            'chat-help': "ನಾನು ಆಲ್ಟರ್ನೇರಿಯಾ, ಬ್ಯಾಕ್ಟೀರಿಯಾ ಬ್ಲೈಟ್, ಆಂಥ್ರಾಕ್ನೋಸ್, ಸೆರ್ಕೋಸ್ಪೋರಾ, ಆರೋಗ್ಯಕರ ಸ್ಥಿತಿಗಳ ಬಗ್ಗೆ ಪ್ರಶ್ನೆಗಳಿಗೆ ಉತ್ತರಿಸುತ್ತೇನೆ.",
-            'chat-default': "ನಿಮ್ಮ ಪ್ರಶ್ನೆಗೆ ಧನ್ಯವಾದಗಳು. ಹೆಚ್ಚಿನ ಮಾಹಿತಿಗಾಗಿ ಮೇಲಿನ ಕಾರ್ಡ್‌ಗಳನ್ನು ಕ್ಲಿಕ್ ಮಾಡಿ."
-        };
-
-        // --- DISEASE DATA (FRONTEND TEXT, IMAGES) ---
-
-        const diseases = {
-            alternaria: {
-                key: 'alternaria',
-                image: "{{ url_for('static', filename='alternaria_pomegranate.jpg') }}",
-                en: {
-                    name: "Alternaria Fruit Spot",
-                    description: "Alternaria fruit spot is a fungal disease that primarily affects pomegranate fruits, causing dark, concentric lesions.",
-                    symptoms: [
-                        "Small, circular, dark brown to black spots on the rind.",
-                        "Spots enlarge, coalesce, and may crack.",
-                        "Internal tissues beneath lesions may show browning or rotting.",
-                        "Typically favored by warm and humid conditions."
-                    ],
-                    algoFocus: [
-                        "Irregular lesion texture with dark concentric rings.",
-                        "Contrast between healthy and infected tissue.",
-                        "Edge gradients for lesion boundary detection."
-                    ]
-                },
-                kn: {
-                    name: "ಆಲ್ಟರ್ನೇರಿಯಾ ಹಣ್ಣಿನ ಚುಕ್ಕೆ",
-                    description: "ಆಲ್ಟರ್ನೇರಿಯಾ ಹಣ್ಣಿನ ಚುಕ್ಕೆ ದಾಳಿಂಬೆ ಹಣ್ಣುಗಳ ಮೇಲೆ ಪರಿಣಾಮ ಬೀರುವ ಶಿಲೀಂಧ್ರ ರೋಗವಾಗಿದ್ದು, ಕಪ್ಪು ವಲಯಾಕಾರ ಗಾಯಗಳನ್ನು ಉಂಟುಮಾಡುತ್ತದೆ.",
-                    symptoms: [
-                        "ಹಣ್ಣಿನ ಮೇಲ್ಮೈಯಲ್ಲಿ ಸಣ್ಣ, ವೃತ್ತಾಕಾರದ, ಗಾಢ ಕಂದು-ಕಪ್ಪು ಚುಕ್ಕೆಗಳು.",
-                        "ಚುಕ್ಕೆಗಳು ದೊಡ್ಡದಾಗಿ ಸೇರಿಕೊಂಡು ಬಿರುಕುಗೊಳ್ಳಬಹುದು.",
-                        "ಗಾಯಗಳ ಕೆಳಗಿನ ಆಂತರಿಕ ಭಾಗಗಳಲ್ಲಿ ಚುಕ್ಕೆಗಟ್ಟುವಿಕೆ/ಕಂದು ಬಣ್ಣ ಕಾಣಿಸಬಹುದು.",
-                        "ಬಿಸಿ ಮತ್ತು ಆರ್ದ್ರ ಹವಾಮಾನದಲ್ಲಿ ಹೆಚ್ಚು ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತದೆ."
-                    ],
-                    algoFocus: [
-                        "ಗಾಯದ ಅಸಮಮ ಗಾತ್ರದ ತೇವ/ಟೆಕ್ಸ್ಚರ್.",
-                        "ಕೇಂದ್ರೀಕೃತ ವಲಯಗಳು (ರಿಂಗ್‌ಗಳು) ಗುರುತಿಸುವಿಕೆ.",
-                        "ಆರೋಗ್ಯಕರ ಮತ್ತು ಸೋಂಕಿತ ಭಾಗಗಳ ನಡುವಿನ ಕಾಂಟ್ರಾಸ್ಟ್."
-                    ]
-                }
+        },
+        anthracnose: {
+            key: 'anthracnose',
+            image: "{{ url_for('static', filename='anthracnose_pomegranate.jpg') }}",
+            en: {
+                name: "Anthracnose",
+                description: "Anthracnose is a fungal disease that causes sunken lesions on fruits, stems, and leaves.",
+                symptoms: [
+                    "Irregular dark brown to black spots on leaves.",
+                    "Sunken, circular lesions on fruits, often with pink spore masses.",
+                    "Flower blight and premature flower drop.",
+                    "Cankers on stem and twigs."
+                ],
+                algoFocus: [
+                    "Sunken lesion shape detection.",
+                    "Pinkish-orange fungal mass recognition.",
+                    "Consistency of lesion color and edges."
+                ]
             },
-            bacterial_blight: {
-                key: 'bacterial_blight',
-                image: "{{ url_for('static', filename='bacterial_blight_pomegranate.jpg') }}",
-                en: {
-                    name: "Bacterial Blight",
-                    description: "Bacterial blight is caused by Xanthomonas and leads to severe leaf, stem, and fruit symptoms.",
-                    symptoms: [
-                        "Small, water-soaked, irregular spots on leaves.",
-                        "Black, oily streaks on stems and branches.",
-                        "Dark, sunken, oily lesions on fruits.",
-                        "Severe infections cause fruit cracking and drop."
-                    ],
-                    algoFocus: [
-                        "Oily, water-soaked appearance in lesions.",
-                        "Angular lesion boundaries along veins.",
-                        "Mixed texture regions on stems and fruits."
-                    ]
-                },
-                kn: {
-                    name: "ಬ್ಯಾಕ್ಟೀರಿಯಾ ಬ್ಲೈಟ್",
-                    description: "ಬ್ಯಾಕ್ಟೀರಿಯಾ ಬ್ಲೈಟ್ Xanthomonas ಬ್ಯಾಕ್ಟೀರಿಯಾಗಳಿಂದ ಉಂಟಾಗುವ ರೋಗವಾಗಿದ್ದು, ಎಲೆ, ಕಾಂಡ ಮತ್ತು ಹಣ್ಣುಗಳಿಗೆ ತೀವ್ರ ಹಾನಿ ಉಂಟುಮಾಡುತ್ತದೆ.",
-                    symptoms: [
-                        "ಎಲೆಗಳ ಮೇಲೆ ಸಣ್ಣ, ನೀರು-ನೆನೆಸಿದ, ಅನಿಯಮಿತ ಕಲೆಗಳು.",
-                        "ಕಾಂಡಗಳ ಮೇಲೆ ಕಪ್ಪು, ಎಣ್ಣೆಯುಕ್ತ ಗೆರೆಗಳು.",
-                        "ಹಣ್ಣುಗಳ ಮೇಲೆ ಸೂರಿ, ಕಪ್ಪು, ಎಣ್ಣೆಯುಕ್ತ ಗಾಯಗಳು.",
-                        "ತೀವ್ರ ಸೋಂಕಿನಲ್ಲಿ ಹಣ್ಣು ಬಿರುಕುಬಿಡುವುದು ಮತ್ತು ಉದುರುವಿಕೆ."
-                    ],
-                    algoFocus: [
-                        "ಎಣ್ಣೆಯುಕ್ತ, ನೀರು-ನೆನೆಸಿದ ತಾಣಗಳನ್ನು ಗುರುತಿಸುವಿಕೆ.",
-                        "ನಾಳದ (vein) ಹಾದಿಯಲ್ಲಿ ಹರಡುವ ಚುಕ್ಕೆಗಳು.",
-                        "ಕಾಂಡ/ಹಣ್ಣಿನ ಮೇಲಿನ ಮಿಶ್ರ ಟೆಕ್ಸ್ಚರ್ ಮಾದರಿಗಳು."
-                    ]
-                }
-            },
-            anthracnose: {
-                key: 'anthracnose',
-                image: "{{ url_for('static', filename='anthracnose_pomegranate.jpg') }}",
-                en: {
-                    name: "Anthracnose",
-                    description: "Anthracnose is a fungal disease that causes sunken lesions on fruits, stems, and leaves.",
-                    symptoms: [
-                        "Irregular dark brown to black spots on leaves.",
-                        "Sunken, circular lesions on fruits, often with pink spore masses.",
-                        "Flower blight and premature flower drop.",
-                        "Cankers on stem and twigs."
-                    ],
-                    algoFocus: [
-                        "Sunken lesion shape detection.",
-                        "Pinkish-orange fungal mass recognition.",
-                        "Consistency of lesion color and edges."
-                    ]
-                },
-                kn: {
-                    name: "ಆಂಥ್ರಾಕ್ನೋಸ್",
-                    description: "ಆಂಥ್ರಾಕ್ನೋಸ್ ಶಿಲೀಂಧ್ರ ರೋಗವಾಗಿದ್ದು, ಹಣ್ಣು, ಎಲೆ ಮತ್ತು ಕಾಂಡಗಳ ಮೇಲೆ ಮುಳುಗಿದ ಗಾಯಗಳನ್ನು ಉಂಟುಮಾಡುತ್ತದೆ.",
-                    symptoms: [
-                        "ಎಲೆಗಳ ಮೇಲೆ ಅನಿಯಮಿತ, ಗಾಢ ಕಂದು-ಕಪ್ಪು ಕಲೆಗಳು.",
-                        "ಹಣ್ಣುಗಳ ಮೇಲೆ ಮುಳುಗಿದ, ವೃತ್ತಾಕಾರ, ಗಾಢ ಗಾಯಗಳು, ಕೆಲವೊಮ್ಮೆ ಗುಲಾಬಿ ಗೂಡುಗಳೊಂದಿಗೆ.",
-                        "ಹೂವಿನ ಬ್ಲೈಟ್ ಮತ್ತು ಅಕಾಲಿಕ ಹೂ ಉದುರುವಿಕೆ.",
-                        "ಕಾಂಡಗಳ ಮೇಲೆ ಕ್ಯಾಂಕರ್‌ಗಳು."
-                    ],
-                    algoFocus: [
-                        "ಮುಳುಗಿದ ಗಾಯದ ಆಳ ಮತ್ತು ಆಕಾರ ವಿಶ್ಲೇಷಣೆ.",
-                        "ಗುಲಾಬಿ/ಕಿತ್ತಳೆ ಸ್ಪೋರ್ ಗೂಡು ಗುರುತಿಸುವಿಕೆ.",
-                        "ಗಾಯದ ಬಣ್ಣದ ಏಕರೂಪತೆ ಮತ್ತು ಅಂಚುಗಳ ಗುರುತಿಸುವಿಕೆ."
-                    ]
-                }
-            },
-            cercospora: {
-                key: 'cercospora',
-                image: "{{ url_for('static', filename='cercospora_pomegranate.jpg') }}",
-                en: {
-                    name: "Cercospora Spot",
-                    description: "Cercospora leaf spot primarily affects leaves and reduces photosynthetic area.",
-                    symptoms: [
-                        "Small, circular to irregular grey or brown spots on leaves.",
-                        "Severe spotting leads to yellowing and leaf drop.",
-                        "Overall plant vigor decreases.",
-                        "Rarely affects fruit directly."
-                    ],
-                    algoFocus: [
-                        "Small, evenly distributed lesions on leaf.",
-                        "Color variation from center to edge (grey-brown).",
-                        "Leaf context vs background segmentation."
-                    ]
-                },
-                kn: {
-                    name: "ಸೆರ್ಕೋಸ್ಪೋರಾ ಎಲೆಯ ಚುಕ್ಕೆ",
-                    description: "ಸೆರ್ಕೋಸ್ಪೋರಾ ಎಲೆಯ ಚುಕ್ಕೆ ಮುಖ್ಯವಾಗಿ ಎಲೆಗಳನ್ನು ಗುರಿಯಾಗಿಸುವ ಶಿಲೀಂಧ್ರ ರೋಗವಾಗಿದೆ ಮತ್ತು ದ್ಯುತಿಸಂಶ್ಲೇಷಣಾ ಪ್ರದೇಶವನ್ನು ಕಡಿಮೆ ಮಾಡುತ್ತದೆ.",
-                    symptoms: [
-                        "ಎಲೆಗಳ ಮೇಲೆ ಸಣ್ಣ, ವೃತ್ತಾಕಾರದ ಅಥವಾ ಅನಿಯಮಿತ ಬೂದು/ಕಂದು ಕಲೆಗಳು.",
-                        "ತೀವ್ರ ಸೋಂಕಿನಲ್ಲಿ ಎಲೆ ಹಳದಿ ಬಣ್ಣಕ್ಕೆ ತಿರುಗಿ ಉದುರಬಹುದು.",
-                        "ಸಸ್ಯದ ಒಟ್ಟು ಚೈತನ್ಯದಲ್ಲಿ ಕುಗ್ಗುವಿಕೆ.",
-                        "ಸಾಮಾನ್ಯವಾಗಿ ಹಣ್ಣಿನ ಮೇಲೆ ನೇರ ಪರಿಣಾಮ ಕಡಿಮೆ."
-                    ],
-                    algoFocus: [
-                        "ಎಲೆಯ ಮೇಲೆ ಚಿಕ್ಕ, ಸಮ ಪ್ರಮಾಣದಲ್ಲಿ ಹಂಚಿಕೊಂಡ ಗಾಯಗಳು.",
-                        "ಕೇಂದ್ರದಿಂದ ಅಂಚಿಗೆ ಬೂದು-ಕಂದು ಬಣ್ಣ ಬದಲಾವಣೆ.",
-                        "ಎಲೆ ಮತ್ತು ಹಿನ್ನೆಲೆಯ ನಡುವೆ ಸ್ಪಷ್ಟ ಅಂಚು ಗುರುತಿಸುವಿಕೆ."
-                    ]
-                }
-            },
-            healthy: {
-                key: 'healthy',
-                image: "{{ url_for('static', filename='healthy_pomegranate.jpg') }}",
-                en: {
-                    name: "Healthy Pomegranate",
-                    description: "A healthy pomegranate plant shows vigorous growth with disease-free leaves and fruits.",
-                    symptoms: [
-                        "Deep green, vibrant foliage.",
-                        "Smooth, uniformly colored fruits with no lesions.",
-                        "Strong, upright stems.",
-                        "High fruit set and good retention."
-                    ],
-                    algoFocus: [
-                        "Uniform color without abnormal spots.",
-                        "Smooth edge detection on fruits and leaves.",
-                        "Absence of high-contrast lesion regions."
-                    ]
-                },
-                kn: {
-                    name: "ಆರೋಗ್ಯಕರ ದಾಳಿಂಬೆ",
-                    description: "ಆರೋಗ್ಯಕರ ದಾಳಿಂಬೆ ಸಸ್ಯವು ರೋಗರಹಿತ ಎಲೆಗಳು ಮತ್ತು ಹಣ್ಣುಗಳೊಂದಿಗೆ ಉತ್ಸಾಹಭರಿತ ಬೆಳವಣಿಗೆಯನ್ನು ತೋರಿಸುತ್ತದೆ.",
-                    symptoms: [
-                        "ಗಾಢ ಹಸಿರು, ಚೈತನ್ಯಭರಿತ ಎಲೆಗಳು.",
-                        "ಗಾಯ ಅಥವಾ ಕಲೆಗಳಿಲ್ಲದ ಮೃದುವಾದ, ಏಕರೂಪಬಣ್ಣದ ಹಣ್ಣು.",
-                        "ಬಲಿಷ್ಠ, ನೇರ ಕಾಂಡಗಳು.",
-                        "ಹೆಚ್ಚಿನ ಹಣ್ಣು ಸೆಟ್ಟಿಂಗ್ ಮತ್ತು ಉತ್ತಮ ಧಾರಣೆ."
-                    ],
-                    algoFocus: [
-                        "ಅಸಾಮಾನ್ಯ ಕಲೆಗಳಿಲ್ಲದ ಏಕರೂಪ ಬಣ್ಣ.",
-                        "ಎಲೆ/ಹಣ್ಣುಗಳ ಮೃದು ಅಂಚು ಗುರುತಿಸುವಿಕೆ.",
-                        "ಹೈ-ಕಾಂಟ್ರಾಸ್ಟ್ ಗಾಯ ಪ್ರದೇಶಗಳ ಅನುಪಸ್ಥಿತಿ."
-                    ]
-                }
+            kn: {
+                name: "ಆಂಥ್ರಾಕ್ನೋಸ್",
+                description: "ಆಂಥ್ರಾಕ್ನೋಸ್ ಶಿಲೀಂಧ್ರ ರೋಗವಾಗಿದ್ದು, ಹಣ್ಣು, ಎಲೆ ಮತ್ತು ಕಾಂಡಗಳ ಮೇಲೆ ಮುಳುಗಿದ ಗಾಯಗಳನ್ನು ಉಂಟುಮಾಡುತ್ತದೆ.",
+                symptoms: [
+                    "ಎಲೆಗಳ ಮೇಲೆ ಅನಿಯಮಿತ, ಗಾಢ ಕಂದು-ಕಪ್ಪು ಕಲೆಗಳು.",
+                    "ಹಣ್ಣುಗಳ ಮೇಲೆ ಮುಳುಗಿದ, ವೃತ್ತಾಕಾರ, ಗಾಢ ಗಾಯಗಳು; ಕೆಲವೊಮ್ಮೆ ಗುಲಾಬಿ ಬಣ್ಣದ ಸ್ಪೋರ್ ಗುಡ್ಡುಗಳೊಂದಿಗೆ.",
+                    "ಹೂವಿನ ಬ್ಲೈಟ್ ಮತ್ತು ಅಕಾಲಿಕ ಹೂ ಉದುರುವಿಕೆ.",
+                    "ಕಾಂಡ ಮತ್ತು ಕೊಂಬೆಗಳಲ್ಲಿ ಕ್ಯಾಂಕರ್‌ಗಳು."
+                ],
+                algoFocus: [
+                    "ಮುಳುಗಿದ ಗಾಯದ ಆಳ ಮತ್ತು ಆಕಾರ ವಿಶ್ಲೇಷಣೆ.",
+                    "ಗುಲಾಬಿ/ಕಿತ್ತಳೆ ಸ್ಪೋರ್ ಗೂಡು ಗುರುತಿಸುವಿಕೆ.",
+                    "ಗಾಯದ ಬಣ್ಣದ ಏಕರೂಪತೆ ಮತ್ತು ಅಂಚುಗಳ ಗುರುತಿಸುವಿಕೆ."
+                ]
             }
-        };
-
-        let currentLang = localStorage.getItem('language') || 'en';
-
-        // --- FUNCTIONS ---
-
-        function updateWidgetLanguageDisplay(lang) {
-            const username = localStorage.getItem('username') || 'Student';
-            const texts = widgetTranslations[lang];
-
-            document.getElementById('greeting').textContent = texts.greeting(username);
-            document.getElementById('phone-label').textContent = texts.phoneLabel;
-            document.getElementById('language-label').textContent = texts.languageLabel;
-            document.getElementById('logout-button').textContent = texts.logoutButton;
-
-            document.querySelectorAll('.lang-button').forEach(button => {
-                button.classList.toggle('active', button.dataset.lang === lang);
-            });
+        },
+        cercospora: {
+            key: 'cercospora',
+            image: "{{ url_for('static', filename='cercospora_pomegranate.jpg') }}",
+            en: {
+                name: "Cercospora Spot",
+                description: "Cercospora leaf spot primarily affects leaves and reduces photosynthetic area.",
+                symptoms: [
+                    "Small, circular to irregular grey or brown spots on leaves.",
+                    "Severe spotting leads to yellowing and leaf drop.",
+                    "Overall plant vigor decreases.",
+                    "Rarely affects fruit directly."
+                ],
+                algoFocus: [
+                    "Small, evenly distributed lesions on leaf.",
+                    "Color variation from center to edge (grey-brown).",
+                    "Leaf context vs background segmentation."
+                ]
+            },
+            kn: {
+                name: "ಸೆರ್ಕೋಸ್ಪೋರಾ ಎಲೆ ಚುಕ್ಕೆ",
+                description: "ಸೆರ್ಕೋಸ್ಪೋರಾ ಎಲೆಯ ಚುಕ್ಕೆ ಮುಖ್ಯವಾಗಿ ಎಲೆಗಳಲ್ಲಿ ಕಾಣಿಸಿಕೊಳ್ಳುವ ಶಿಲೀಂಧ್ರ ರೋಗವಾಗಿದ್ದು, ದ್ಯುತಿಸಂಶ್ಲೇಷಣಾ ಪ್ರದೇಶವನ್ನು ಕಡಿಮೆ ಮಾಡುತ್ತದೆ.",
+                symptoms: [
+                    "ಎಲೆಗಳ ಮೇಲೆ ಸಣ್ಣ, ವೃತ್ತಾಕಾರದ ಅಥವಾ ಅನಿಯಮಿತ ಬೂದು/ಕಂದು ಕಲೆಗಳು.",
+                    "ತೀವ್ರ ಸೋಂಕಿನಲ್ಲಿ ಎಲೆ ಹಳದಿ ಬಣ್ಣಕ್ಕೆ ತಿರುಗಿ ಉದುರಬಹುದು.",
+                    "ಸಸ್ಯದ ಒಟ್ಟು ಚೈತನ್ಯದಲ್ಲಿ ಕುಗ್ಗುವಿಕೆ.",
+                    "ಹಣ್ಣಿನ ಮೇಲೆ ನೇರ ಪರಿಣಾಮ ಸಾಮಾನ್ಯವಾಗಿ ಕಡಿಮೆ."
+                ],
+                algoFocus: [
+                    "ಎಲೆಯ ಮೇಲೆ ಸಮ ಪ್ರಮಾಣದಲ್ಲಿ ಹಂಚಿಕೊಂಡ ಚಿಕ್ಕ ಗಾಯಗಳು.",
+                    "ಕೇಂದ್ರದಿಂದ ಅಂಚಿಗೆ ಬೂದು-ಕಂದು ಬಣ್ಣ ಬದಲಾವಣೆ.",
+                    "ಎಲೆ ಮತ್ತು ಹಿನ್ನೆಲೆಯ ನಡುವಿನ ಸ್ಪಷ್ಟ ಅಂಚು ಗುರುತಿಸುವಿಕೆ."
+                ]
+            }
+        },
+        healthy: {
+            key: 'healthy',
+            image: "{{ url_for('static', filename='healthy_pomegranate.jpg') }}",
+            en: {
+                name: "Healthy Pomegranate",
+                description: "A healthy pomegranate plant shows vigorous growth with disease-free leaves and fruits.",
+                symptoms: [
+                    "Deep green, vibrant foliage.",
+                    "Smooth, uniformly colored fruits with no lesions.",
+                    "Strong, upright stems.",
+                    "High fruit set and good retention."
+                ],
+                algoFocus: [
+                    "Uniform color without abnormal spots.",
+                    "Smooth edge detection on fruits and leaves.",
+                    "Absence of high-contrast lesion regions."
+                ]
+            },
+            kn: {
+                name: "ಆರೋಗ್ಯಕರ ದಾಳಿಂಬೆ",
+                description: "ಆರೋಗ್ಯಕರ ದಾಳಿಂಬೆ ಸಸ್ಯವು ರೋಗರಹಿತ ಎಲೆಗಳು ಮತ್ತು ಹಣ್ಣುಗಳೊಂದಿಗೆ ಉತ್ಸಾಹಭರಿತ ಬೆಳವಣಿಗೆಯನ್ನು ತೋರಿಸುತ್ತದೆ.",
+                symptoms: [
+                    "ಗಾಢ ಹಸಿರು, ಚೈತನ್ಯಭರಿತ ಎಲೆಗಳು.",
+                    "ಗಾಯ ಅಥವಾ ಕಲೆಗಳಿಲ್ಲದ ಮೃದುವಾದ, ಏಕರೂಪ ಬಣ್ಣದ ಹಣ್ಣು.",
+                    "ಬಲಿಷ್ಠ, ನೇರ ಕಾಂಡಗಳು.",
+                    "ಹೆಚ್ಚಿನ ಹಣ್ಣು ಸೆಟ್ಟಿಂಗ್ ಮತ್ತು ಉತ್ತಮ ಧಾರಣೆ."
+                ],
+                algoFocus: [
+                    "ಅಸಾಮಾನ್ಯ ಕಲೆಗಳಿಲ್ಲದ ಏಕರೂಪ ಬಣ್ಣ.",
+                    "ಎಲೆ/ಹಣ್ಣುಗಳ ಮೃದು ಅಂಚು ಗುರುತಿಸುವಿಕೆ.",
+                    "ಹೈ-ಕಾಂಟ್ರಾಸ್ಟ್ ಗಾಯ ಪ್ರದೇಶಗಳ ಅನುಪಸ್ಥಿತಿ."
+                ]
+            }
         }
+    };
 
-        function createDiseaseCards(lang) {
-            const gridContainer = document.getElementById('disease-grid-container');
-            gridContainer.innerHTML = '';
-            const keys = Object.keys(diseases);
-
-            keys.forEach(key => {
-                const disease = diseases[key];
-                const langData = disease[lang];
-
-                const card = document.createElement('div');
-                card.classList.add('disease-card');
-                card.setAttribute('data-disease-key', key);
-                card.addEventListener('click', () => showDetailView(key));
-
-                const img = document.createElement('img');
-                img.classList.add('card-image');
-                img.src = disease.image;
-                img.alt = langData.name;
-
-                const title = document.createElement('div');
-                title.classList.add('card-title');
-                title.textContent = langData.name;
-
-                card.appendChild(img);
-                card.appendChild(title);
-                gridContainer.appendChild(card);
-            });
+    /* ---------- LOCAL ACTION TEXT ---------- */
+    const diseaseActions = {
+        alternaria: {
+            en: "Apply Mancozeb or Azoxystrobin fungicide. Improve canopy ventilation and reduce humidity.",
+            kn: "ಮ್ಯಾಂಕೋಜೆಬ್ ಅಥವಾ ಅಜೋಕ್ಸ್‌ಸ್ಟ್ರೋಬಿನ್ ಶಿಲೀಂಧ್ರನಾಶಕವನ್ನು ಸಿಂಪಡಿಸಿ. ಸಸ್ಯದ ಮುಡುಕಿನಲ್ಲಿ ಗಾಳಿಯ ಸಂಚಲನ ಹೆಚ್ಚಿಸಿ ಮತ್ತು ಆರ್ದ್ರತೆಯನ್ನು ಕಡಿಮೆ ಮಾಡಿರಿ."
+        },
+        bacterial_blight: {
+            en: "Apply copper oxychloride spray (0.3%). Remove and burn affected plant parts immediately to prevent spread.",
+            kn: "ಕಾಪರ್ ಆಕ್ಸಿಕ್ಲೋರೈಡ್ (0.3%) ದ್ರಾವಣವನ್ನು ಸಿಂಪಡಿಸಿ. ಸೋಂಕಿತ ಕೊಂಬೆ, ಎಲೆ ಹಾಗೂ ಹಣ್ಣುಗಳನ್ನು ತಕ್ಷಣ ಕತ್ತರಿಸಿ ಸುಟ್ಟುಹಾಕಿ, ರೋಗದ ಹರಡುವಿಕೆಯನ್ನು ತಡೆಗಟ್ಟಿರಿ."
+        },
+        anthracnose: {
+            en: "Use Propiconazole or Carbendazim fungicide. Avoid overhead irrigation and control pests that cause wounds.",
+            kn: "ಪ್ರೊಪಿಕೋನಾಜೋಲ್ ಅಥವಾ ಕಾರ್ಬೆಂಡಜಿಂ ಶಿಲೀಂಧ್ರನಾಶಕಗಳನ್ನು ಶಿಫಾರಸಿತ ಪ್ರಮಾಣದಲ್ಲಿ ಸಿಂಪಡಿಸಿ. ಮೇಲಿನಿಂದ ನೀರಾವರಿ (overhead irrigation) ತಪ್ಪಿಸಿ ಮತ್ತು ಗಾಯ ಉಂಟುಮಾಡುವ ಕೀಟಗಳನ್ನು ನಿಯಂತ್ರಿಸಿ."
+        },
+        cercospora: {
+            en: "Apply Carbendazim or Chlorothalonil fungicide. Implement better sanitation practices.",
+            kn: "ಕಾರ್ಬೆಂಡಜಿಂ ಅಥವಾ ಕ್ಲೋರೋಥಾಲೊನಿಲ್ ಶಿಲೀಂಧ್ರನಾಶಕಗಳನ್ನು ನಿಯತಾಂತರದಲ್ಲಿ ಸಿಂಪಡಿಸಿ. ಸೋಂಕಿತ ಎಲೆಗಳು ಮತ್ತು ಅವಶೇಷಗಳನ್ನು ತೆಗೆದುಹಾಕಿ ತೋಟದಲ್ಲಿ ಉತ್ತಮ ಸ್ವಚ್ಛತೆ ಕಾಪಾಡಿ."
+        },
+        healthy: {
+            en: "Your crop appears healthy! Maintain current care routine and monitor regularly.",
+            kn: "ನಿಮ್ಮ ಬೆಳೆ ಆರೋಗ್ಯಕರವಾಗಿದೆ! ಈಗಿರುವ ನಿರ್ವಹಣಾ ಕ್ರಮವನ್ನು ಮುಂದುವರಿಸಿ ಮತ್ತು ನಿಯಮಿತವಾಗಿ ಬೆಳೆ ಪರಿಶೀಲನೆ ಮಾಡಿ."
         }
+    };
 
-        function showListView() {
-            document.getElementById('list-view').style.display = 'block';
-            document.getElementById('detail-view').style.display = 'none';
+    /* ---------- LOCAL PRECAUTION BULLETS ---------- */
+    const diseasePrecautions = {
+        alternaria: {
+            en: [
+                "Rotate crops and avoid continuous cropping of pomegranate in the same field.",
+                "Use disease-free planting material and maintain field sanitation.",
+                "Prune infected twigs and remove fallen fruits and leaves.",
+                "Apply recommended fungicides during favourable weather (warm and humid)."
+            ],
+            kn: [
+                "ಒಂದೇ ಹೊಲದಲ್ಲಿ ದಾಳಿಂಬೆ ಬೆಳೆ ನಿರಂತರವಾಗಿ ಬೆಳೆಸುವುದನ್ನು ತಪ್ಪಿಸಿ; crop rotation ಅನುಸರಿಸಿ.",
+                "ರೋಗರಹಿತ ಬೀಜ/ಸಸಿ ಬಳಸಿರಿ ಮತ್ತು ತೋಟದಲ್ಲಿ ಸ್ವಚ್ಛತೆ ಕಾಪಾಡಿರಿ.",
+                "ಸೋಂಕಿತ ಕೊಂಬೆಗಳನ್ನು ಕತ್ತರಿಸಿ, ಉದುರಿದ ಹಣ್ಣು ಮತ್ತು ಎಲೆಗಳನ್ನು ತಕ್ಷಣ ತೆರವುಗೊಳಿಸಿ.",
+                "ಬಿಸಿ ಮತ್ತು ಆರ್ದ್ರ ಹವಾಮಾನದಲ್ಲಿ ಶಿಫಾರಸು ಮಾಡಲಾದ ಶಿಲೀಂಧ್ರನಾಶಕಗಳನ್ನು ಸಿಂಪಡಿಸಿ."
+            ]
+        },
+        bacterial_blight: {
+            en: [
+                "Treat with Copper Oxychloride after fruit set.",
+                "Apply Mancozeb during rainy periods.",
+                "Remove and destroy cankers and infected fruits."
+            ],
+            kn: [
+                "ಹಣ್ಣು ಸೆಟ್ ಆದ ನಂತರ ಕಾಪರ್ ಆಕ್ಸಿಕ್ಲೋರೈಡ್ ದ್ರಾವಣವನ್ನು ಸಿಂಪಡಿಸಿ.",
+                "ಮಳೆಯ ಅವಧಿಯಲ್ಲಿ ಮ್ಯಾಂಕೋಜೆಬ್ ಶಿಲೀಂಧ್ರನಾಶಕವನ್ನು ಸಿಂಪಡಿಸಿ.",
+                "ಕ್ಯಾಂಕರ್‌ಗಳು ಮತ್ತು ಸೋಂಕಿತ ಹಣ್ಣು/ಕೊಂಬೆಗಳನ್ನು ಕತ್ತರಿಸಿ ನಾಶಮಾಡಿ."
+            ]
+        },
+        anthracnose: {
+            en: [
+                "Spray Carbendazim or Propiconazole at flowering and fruit-set stage.",
+                "Avoid overhead irrigation; keep foliage as dry as possible.",
+                "Collect and destroy infected leaves, flowers and fruits."
+            ],
+            kn: [
+                "ಹೂವು ಮೂಡುವ ಹಾಗೂ ಹಣ್ಣು ಸೆಟ್ ಹಂತದಲ್ಲಿ ಕಾರ್ಬೆಂಡಜಿಂ ಅಥವಾ ಪ್ರೊಪಿಕೋನಾಜೋಲ್ ಸಿಂಪಡಿಸಿ.",
+                "ಮೇಲಿನಿಂದ ನೀರಾವರಿ ತಪ್ಪಿಸಿ; ಎಲೆಗಳು ಹೆಚ್ಚು ಸಮಯ ತೇವವಾಗದಂತೆ ನೋಡಿಕೊಳ್ಳಿ.",
+                "ಸೋಂಕಿತ ಎಲೆಗಳು, ಹೂಗಳು ಮತ್ತು ಹಣ್ಣುಗಳನ್ನು ಸಂಗ್ರಹಿಸಿ ನಾಶಮಾಡಿರಿ."
+            ]
+        },
+        cercospora: {
+            en: [
+                "Apply Carbendazim or Chlorothalonil at early symptom appearance.",
+                "Avoid excess shade and maintain proper spacing.",
+                "Remove heavily infected leaves and maintain field hygiene."
+            ],
+            kn: [
+                "ಪ್ರಾರಂಭಿಕ ಲಕ್ಷಣಗಳು ಕಂಡುಬಂದಾಗಲೇ ಕಾರ್ಬೆಂಡಜಿಂ ಅಥವಾ ಕ್ಲೋರೋಥಾಲೊನಿಲ್ ಸಿಂಪಡಿಸಿ.",
+                "ಅತಿಯಾದ ನೆರಳನ್ನು ತಪ್ಪಿಸಿ; ಮರಗಳ ನಡುವೆ ಸರಿಯಾದ ಅಂತರ ಕಾಪಾಡಿರಿ.",
+                "ತೀವ್ರ ಸೋಂಕಿತ ಎಲೆಗಳನ್ನು ತೆಗೆದುಹಾಕಿ, ತೋಟವನ್ನು ಸ್ವಚ್ಛವಾಗಿಟ್ಟುಕೊಳ್ಳಿ."
+            ]
+        },
+        healthy: {
+            en: [
+                "Maintain balanced nutrition using soil-test-based fertiliser dose.",
+                "Irrigate judiciously; avoid waterlogging and prolonged drought.",
+                "Inspect orchards regularly to catch early disease or pest symptoms."
+            ],
+            kn: [
+                "ಮಣ್ಣಿನ ಪರೀಕ್ಷೆ ಆಧಾರಿತ ಗೊಬ್ಬರ ಪ್ರಮಾಣವನ್ನು ನೀಡಿ ಸಮತೋಲಿತ ಪೋಷಕಾಂಶ ಕಾಪಾಡಿಕೊಳ್ಳಿ.",
+                "ಯುಕ್ತಿಯಾದ ನೀರಾವರಿ ಮಾಡಿ; ನೀರು ನಿಲ್ಲುವಿಕೆ ಮತ್ತು ಉದ್ದವಾದ ಬರ ಹಂತಗಳನ್ನು ತಪ್ಪಿಸಿ.",
+                "ತೋಟವನ್ನು ನಿಯಮಿತವಾಗಿ ಪರಿಶೀಲಿಸಿ, ರೋಗ/ಕೀಟದ ಆರಂಭಿಕ ಲಕ್ಷಣಗಳನ್ನು ತಕ್ಷಣ ಗುರುತಿಸಿ."
+            ]
         }
+    };
 
-        async function showDetailView(diseaseKey) {
-            const disease = diseases[diseaseKey];
-            if (!disease) return;
+    let currentLang = localStorage.getItem('language') || 'en';
 
-            const langData = disease[currentLang];
-            const isKn = currentLang === 'kn';
+    function updateWidgetLanguageDisplay(lang) {
+        const username = localStorage.getItem('username') || 'Student';
+        const texts = widgetTranslations[lang];
 
-            const listScreen = document.getElementById('list-view');
-            const detailScreen = document.getElementById('detail-view');
+        document.getElementById('greeting').textContent = texts.greeting(username);
+        document.getElementById('phone-label').textContent = texts.phoneLabel;
+        document.getElementById('language-label').textContent = texts.languageLabel;
+        document.getElementById('logout-button').textContent = texts.logoutButton;
 
-            const detailH1 = document.getElementById('detail-h1');
-            const detailName = document.getElementById('detail-name');
-            const detailImage = document.getElementById('detail-image');
-            const detailDescription = document.getElementById('detail-description-text');
-            const detailSymptoms = document.getElementById('detail-symptoms');
-            const detailAlgoFocus = document.getElementById('detail-algo-focus');
-            const detailActionTitle = document.getElementById('detail-action-title');
-            const detailActionText = document.getElementById('detail-action-text');
-            const detailPrecautionsTitle = document.getElementById('detail-precautions-title');
-            const detailPrecautions = document.getElementById('detail-precautions');
+        document.querySelectorAll('.lang-button').forEach(button => {
+            button.classList.toggle('active', button.dataset.lang === lang);
+        });
+    }
 
-            detailH1.textContent = isKn ? `${langData.name} ವಿವರ 🔍` : "Disease Detail 🔍";
-            detailName.textContent = langData.name;
-            detailName.setAttribute('data-current-key', diseaseKey);
-            detailImage.src = disease.image;
-            detailImage.alt = `${langData.name} Image`;
-            detailDescription.textContent = langData.description;
+    function createDiseaseCards(lang) {
+        const gridContainer = document.getElementById('disease-grid-container');
+        gridContainer.innerHTML = '';
+        Object.keys(diseases).forEach(key => {
+            const disease = diseases[key];
+            const langData = disease[lang];
 
-            detailSymptoms.innerHTML = '';
-            langData.symptoms.forEach(s => {
-                const li = document.createElement('li');
-                li.innerHTML = s;
-                detailSymptoms.appendChild(li);
-            });
+            const card = document.createElement('div');
+            card.classList.add('disease-card');
+            card.dataset.diseaseKey = key;
+            card.addEventListener('click', () => showDetailView(key));
 
-            detailAlgoFocus.innerHTML = '';
-            langData.algoFocus.forEach(f => {
-                const li = document.createElement('li');
-                li.innerHTML = f;
-                detailAlgoFocus.appendChild(li);
-            });
+            const img = document.createElement('img');
+            img.classList.add('card-image');
+            img.src = disease.image;
+            img.alt = langData.name;
 
-            detailActionText.textContent = isKn ? "ದತ್ತಾಂಶವನ್ನು ಹಿಂಪಡೆಯಲಾಗುತ್ತಿದೆ..." : "Loading...";
-            detailPrecautions.innerHTML = `<li>${isKn ? "ದತ್ತಾಂಶವನ್ನು ಹಿಂಪಡೆಯಲಾಗುತ್ತಿದೆ..." : "Loading..."}</li>`;
-            detailActionTitle.textContent = isKn ? kannadaTranslations['detail-action-title'] : "Recommended Action:";
-            detailPrecautionsTitle.textContent = isKn ? kannadaTranslations['detail-precautions-title'] : "Preventive Precautions:";
+            const title = document.createElement('div');
+            title.classList.add('card-title');
+            title.textContent = langData.name;
 
-            // Fetch from backend: /measures/<diseaseKey>
-            try {
-                const response = await fetch(`/measures/${encodeURIComponent(diseaseKey)}`);
-                const result = await response.json();
+            card.appendChild(img);
+            card.appendChild(title);
+            gridContainer.appendChild(card);
+        });
+    }
 
-                if (result.status === 'success') {
-                    const data = result.data; // DISEASE_DATA[diseaseKey] → {precautions: "...", points: [...]}
+    function showListView() {
+        document.getElementById('list-view').style.display = 'block';
+        document.getElementById('detail-view').style.display = 'none';
+    }
 
-                    detailActionText.textContent = data.precautions || (isKn ? "N/A" : "N/A");
+    async function showDetailView(diseaseKey) {
+        const disease = diseases[diseaseKey];
+        if (!disease) return;
 
-                    detailPrecautions.innerHTML = '';
-                    if (Array.isArray(data.points) && data.points.length > 0) {
-                        data.points.forEach(p => {
-                            const li = document.createElement('li');
-                            li.innerHTML = p;
-                            detailPrecautions.appendChild(li);
-                        });
-                    } else {
-                        detailPrecautions.innerHTML = `<li>${isKn ? "ಯಾವುದೇ ಮುನ್ನೆಚ್ಚರಿಕೆ ಮಾಹಿತಿಯಿಲ್ಲ." : "No precaution data available."}</li>`;
-                    }
+        const langData = disease[currentLang];
+        const isKn = currentLang === 'kn';
+
+        const listScreen = document.getElementById('list-view');
+        const detailScreen = document.getElementById('detail-view');
+
+        const detailH1 = document.getElementById('detail-h1');
+        const detailName = document.getElementById('detail-name');
+        const detailImage = document.getElementById('detail-image');
+        const detailDescription = document.getElementById('detail-description-text');
+        const detailSymptoms = document.getElementById('detail-symptoms');
+        const detailAlgoFocus = document.getElementById('detail-algo-focus');
+        const detailActionTitle = document.getElementById('detail-action-title');
+        const detailActionText = document.getElementById('detail-action-text');
+        const detailPrecautionsTitle = document.getElementById('detail-precautions-title');
+        const detailPrecautions = document.getElementById('detail-precautions');
+
+        detailH1.textContent = isKn ? `${langData.name} ವಿವರ 🔍` : "Disease Detail 🔍";
+        detailName.textContent = langData.name;
+        detailName.setAttribute('data-current-key', diseaseKey);
+        detailImage.src = disease.image;
+        detailImage.alt = `${langData.name} Image`;
+        detailDescription.textContent = langData.description;
+
+        detailSymptoms.innerHTML = '';
+        langData.symptoms.forEach(s => {
+            const li = document.createElement('li');
+            li.innerHTML = s;
+            detailSymptoms.appendChild(li);
+        });
+
+        detailAlgoFocus.innerHTML = '';
+        langData.algoFocus.forEach(f => {
+            const li = document.createElement('li');
+            li.innerHTML = f;
+            detailAlgoFocus.appendChild(li);
+        });
+
+        detailActionText.textContent = isKn ? "ದತ್ತಾಂಶವನ್ನು ಹಿಂಪಡೆಯಲಾಗುತ್ತಿದೆ..." : "Loading...";
+        detailPrecautions.innerHTML = `<li>${isKn ? "ದತ್ತಾಂಶವನ್ನು ಹಿಂಪಡೆಯಲಾಗುತ್ತಿದೆ..." : "Loading..."}</li>`;
+        detailActionTitle.textContent = isKn ? kannadaTranslations['detail-action-title'] : "Recommended Action:";
+        detailPrecautionsTitle.textContent = isKn ? kannadaTranslations['detail-precautions-title'] : "Preventive Precautions:";
+
+        try {
+            const response = await fetch(`/measures/${encodeURIComponent(diseaseKey)}`);
+            const result = await response.json();
+
+            if (result.status === 'success') {
+                const data = result.data;
+
+                const localAction = diseaseActions[diseaseKey]
+                    ? diseaseActions[diseaseKey][isKn ? 'kn' : 'en']
+                    : null;
+
+                if (localAction) {
+                    detailActionText.textContent = localAction;
+                } else if (data.precautions) {
+                    detailActionText.textContent = data.precautions;
                 } else {
-                    throw new Error(result.error || 'Failed to fetch disease details.');
+                    detailActionText.textContent = isKn
+                        ? "ಯಾವುದೇ ಶಿಫಾರಸು ಮಾಹಿತಿ ಲಭ್ಯವಿಲ್ಲ."
+                        : "No recommended action available.";
                 }
-            } catch (err) {
-                console.error("Fetch error:", err);
-                const msg = isKn ? "ಸರ್ವರ್‌ನಿಂದ ಮಾಹಿತಿಯನ್ನು ಪಡೆಯುವಲ್ಲಿ ದೋಷ ಸಂಭವಿಸಿದೆ." : "Error fetching data from server.";
-                detailActionText.textContent = msg;
-                detailPrecautions.innerHTML = `<li>${msg}</li>`;
-            }
 
-            listScreen.style.display = 'none';
-            detailScreen.style.display = 'block';
-            window.scrollTo(0, 0);
-        }
+                const localPtsObj = diseasePrecautions[diseaseKey];
+                const localPts = localPtsObj ? localPtsObj[isKn ? 'kn' : 'en'] : null;
 
-        function translatePage(lang) {
-            currentLang = lang;
-            localStorage.setItem('language', lang);
-
-            const isKn = lang === 'kn';
-            const navLang = translations[lang];
-
-            // Nav text
-            document.querySelector('.nav-links a[data-i18n="navHome"]').textContent = navLang.navHome;
-            document.querySelector('.nav-links a[data-i18n="navDetector"]').textContent = navLang.navDetector;
-            document.querySelector('.nav-links a[data-i18n="navDiseaseInfo"]').textContent = navLang.navDiseaseInfo;
-            document.querySelector('.nav-links a[data-i18n="navHistory"]').textContent = navLang.navHistory;
-            document.querySelector('.nav-links a[data-i18n="navAboutUs"]').textContent = navLang.navAboutUs;
-
-            // Titles & labels
-            document.querySelector('header [data-i18n="headerTitle"]').textContent =
-                isKn ? kannadaTranslations['header-main-title'] : "Pomegranate Disease Detection System";
-            document.getElementById('list-h1').textContent =
-                isKn ? kannadaTranslations['list-h1'] : "Pomegranate Disease Information & Resources 📚";
-            document.getElementById('grid-title').textContent =
-                isKn ? kannadaTranslations['grid-title'] : "Click an image below to learn about the disease:";
-            document.getElementById('detail-h1').textContent =
-                isKn ? kannadaTranslations['detail-h1'] : "Disease Detail 🔍";
-            document.getElementById('detail-symptoms-title').textContent =
-                isKn ? kannadaTranslations['detail-symptoms-title'] : "Symptoms (How Humans See It):";
-            document.getElementById('detail-algo-title').textContent =
-                isKn ? kannadaTranslations['detail-algo-title'] : "Algorithmic Recognition Focus:";
-            document.getElementById('footer-text').textContent =
-                isKn ? kannadaTranslations['footer-text'] : "Pomegranate Fruit Disease Detection — Final Year Project";
-            document.getElementById('detail-action-title').textContent =
-                isKn ? kannadaTranslations['detail-action-title'] : "Recommended Action:";
-            document.getElementById('detail-precautions-title').textContent =
-                isKn ? kannadaTranslations['detail-precautions-title'] : "Preventive Precautions:";
-
-            // Profile widget text
-            updateWidgetLanguageDisplay(lang);
-
-            // Rebuild cards in new language
-            createDiseaseCards(lang);
-
-            // If detail view already open, re-open with same disease key in new language
-            const detailScreen = document.getElementById('detail-view');
-            const detailName = document.getElementById('detail-name');
-            if (detailScreen.style.display !== 'none' && detailName.hasAttribute('data-current-key')) {
-                const key = detailName.getAttribute('data-current-key');
-                showDetailView(key);
-            }
-        }
-
-        // --- PROFILE & LANGUAGE SETUP ---
-
-        function loadUserData() {
-            const username = localStorage.getItem('username') || 'Student';
-            const contact = localStorage.getItem('contactNumber') || 'N/A';
-            const role = localStorage.getItem('userRole') || 'Student';
-
-            document.getElementById('phone-number').textContent = contact;
-            document.getElementById('greeting').textContent = widgetTranslations[currentLang].greeting(username);
-
-            if (role.toLowerCase() === 'admin') {
-                document.getElementById('admin-badge').classList.remove('hidden');
-            } else {
-                document.getElementById('admin-badge').classList.add('hidden');
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('year').textContent = new Date().getFullYear();
-
-            // If no login data, redirect to login
-            if (!localStorage.getItem('username')) {
-                window.location.href = "/login";
-                return;
-            }
-
-            // Elements
-            const profileHeader = document.getElementById('profile-header');
-            const detailsContent = document.getElementById('details-content');
-            const logoutButton = document.getElementById('logout-button');
-            const closeDetailBtn = document.getElementById('close-detail-btn');
-            const langButtons = document.querySelectorAll('.lang-button');
-
-            loadUserData();
-            updateWidgetLanguageDisplay(currentLang);
-            createDiseaseCards(currentLang);
-            translatePage(currentLang); // also rebuilds cards & text in language
-
-            profileHeader.addEventListener('click', (e) => {
-                e.stopPropagation();
-                detailsContent.classList.toggle('hidden');
-            });
-            document.addEventListener('click', (e) => {
-                if (!document.getElementById('profile-widget').contains(e.target)) {
-                    detailsContent.classList.add('hidden');
+                detailPrecautions.innerHTML = '';
+                if (localPts && localPts.length > 0) {
+                    localPts.forEach(p => {
+                        const li = document.createElement('li');
+                        li.innerHTML = p;
+                        detailPrecautions.appendChild(li);
+                    });
+                } else if (Array.isArray(data.points) && data.points.length > 0) {
+                    data.points.forEach(p => {
+                        const li = document.createElement('li');
+                        li.innerHTML = p;
+                        detailPrecautions.appendChild(li);
+                    });
+                } else {
+                    detailPrecautions.innerHTML = `<li>${isKn ? "ಯಾವುದೇ ಮುನ್ನೆಚ್ಚರಿಕೆ ಮಾಹಿತಿಯಿಲ್ಲ." : "No precaution data available."}</li>`;
                 }
-            });
-
-            langButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const lang = btn.dataset.lang;
-                    if (lang !== currentLang) translatePage(lang);
-                    detailsContent.classList.add('hidden');
-                });
-            });
-
-            logoutButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                localStorage.removeItem('username');
-                localStorage.removeItem('contactNumber');
-                localStorage.removeItem('userRole');
-                localStorage.setItem('language', 'en');
-                alert('Logout successful!');
-                window.location.href = "/login";
-            });
-
-            closeDetailBtn.addEventListener('click', showListView);
-
-            // URL param for direct detail open: /disease?d=anthracnose
-            const params = new URLSearchParams(window.location.search);
-            const diseaseName = params.get("d");
-            if (diseaseName && diseases[diseaseName.toLowerCase()]) {
-                showDetailView(diseaseName.toLowerCase());
             } else {
-                showListView();
+                throw new Error(result.error || 'Failed to fetch disease details.');
+            }
+        } catch (err) {
+            console.error("Fetch error:", err);
+            const msg = isKn ? "ಸರ್ವರ್‌ನಿಂದ ಮಾಹಿತಿಯನ್ನು ಪಡೆಯುವಲ್ಲಿ ದೋಷ ಸಂಭವಿಸಿದೆ." : "Error fetching data from server.";
+            detailActionText.textContent = msg;
+            detailPrecautions.innerHTML = `<li>${msg}</li>`;
+        }
+
+        listScreen.style.display = 'none';
+        detailScreen.style.display = 'block';
+        window.scrollTo(0, 0);
+    }
+
+    function translatePage(lang) {
+        currentLang = lang;
+        localStorage.setItem('language', lang);
+
+        const isKn = lang === 'kn';
+        const navLang = translations[lang];
+
+        document.querySelector('.nav-links a[data-i18n="navHome"]').textContent = navLang.navHome;
+        document.querySelector('.nav-links a[data-i18n="navDetector"]').textContent = navLang.navDetector;
+        document.querySelector('.nav-links a[data-i18n="navDiseaseInfo"]').textContent = navLang.navDiseaseInfo;
+        document.querySelector('.nav-links a[data-i18n="navHistory"]').textContent = navLang.navHistory;
+        document.querySelector('.nav-links a[data-i18n="navAboutUs"]').textContent = navLang.navAboutUs;
+
+        document.querySelector('header [data-i18n="headerTitle"]').textContent =
+            isKn ? kannadaTranslations['header-main-title'] : "Pomegranate Disease Detection System";
+        document.getElementById('list-h1').textContent =
+            isKn ? kannadaTranslations['list-h1'] : "Pomegranate Disease Information & Resources 📚";
+        document.getElementById('grid-title').textContent =
+            isKn ? kannadaTranslations['grid-title'] : "Click an image below to learn about the disease:";
+        document.getElementById('detail-h1').textContent =
+            isKn ? kannadaTranslations['detail-h1'] : "Disease Detail 🔍";
+        document.getElementById('detail-symptoms-title').textContent =
+            isKn ? kannadaTranslations['detail-symptoms-title'] : "Symptoms (How Humans See It):";
+        document.getElementById('detail-algo-title').textContent =
+            isKn ? kannadaTranslations['detail-algo-title'] : "Algorithmic Recognition Focus:";
+        document.getElementById('footer-text').textContent =
+            isKn ? kannadaTranslations['footer-text'] : "Pomegranate Fruit Disease Detection — Final Year Project";
+        document.getElementById('detail-action-title').textContent =
+            isKn ? kannadaTranslations['detail-action-title'] : "Recommended Action:";
+        document.getElementById('detail-precautions-title').textContent =
+            isKn ? kannadaTranslations['detail-precautions-title'] : "Preventive Precautions:";
+
+        updateWidgetLanguageDisplay(lang);
+        createDiseaseCards(lang);
+
+        const detailScreen = document.getElementById('detail-view');
+        const detailName = document.getElementById('detail-name');
+        if (detailScreen.style.display !== 'none' && detailName.hasAttribute('data-current-key')) {
+            const key = detailName.getAttribute('data-current-key');
+            showDetailView(key);
+        }
+    }
+
+    function loadUserData() {
+        const username = localStorage.getItem('username') || 'Student';
+        const contact = localStorage.getItem('contactNumber') || 'N/A';
+        const role = localStorage.getItem('userRole') || 'Student';
+
+        document.getElementById('phone-number').textContent = contact;
+        document.getElementById('greeting').textContent = widgetTranslations[currentLang].greeting(username);
+
+        if (role.toLowerCase() === 'admin') {
+            document.getElementById('admin-badge').classList.remove('hidden');
+        } else {
+            document.getElementById('admin-badge').classList.add('hidden');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        if (!localStorage.getItem('username')) {
+            window.location.href = "/login";
+            return;
+        }
+
+        const profileHeader = document.getElementById('profile-header');
+        const detailsContent = document.getElementById('details-content');
+        const logoutButton = document.getElementById('logout-button');
+        const closeDetailBtn = document.getElementById('close-detail-btn');
+        const langButtons = document.querySelectorAll('.lang-button');
+
+        loadUserData();
+        updateWidgetLanguageDisplay(currentLang);
+        createDiseaseCards(currentLang);
+        translatePage(currentLang);
+
+        profileHeader.addEventListener('click', (e) => {
+            e.stopPropagation();
+            detailsContent.classList.toggle('hidden');
+        });
+        document.addEventListener('click', (e) => {
+            if (!document.getElementById('profile-widget').contains(e.target)) {
+                detailsContent.classList.add('hidden');
             }
         });
-    </script>
 
-    <!-- Chatbot front-end logic (exactly same as home.html) -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // 🔗 Backend URL for chatbot_app.py
-            const CHATBOT_BASE_URL = "http://127.0.0.1:5000";
+        langButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.dataset.lang;
+                if (lang !== currentLang) translatePage(lang);
+                detailsContent.classList.add('hidden');
+            });
+        });
 
-            const chatBtn = document.getElementById('chatbot-btn');
-            const chatContainer = document.getElementById('chatbot-container');
-            const chatClose = document.getElementById('chatbot-close');
-            const chatMessages = document.getElementById('chatbot-messages');
-            const chatInput = document.getElementById('chatbot-input');
-            const chatSend = document.getElementById('chatbot-send');
+        logoutButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('username');
+            localStorage.removeItem('contactNumber');
+            localStorage.removeItem('userRole');
+            localStorage.setItem('language', 'en');
+            alert('Logout successful!');
+            window.location.href = "/login";
+        });
 
-            const langSelect = document.getElementById('chatbot-language');
-            const micBtn = document.getElementById('chatbot-mic');
-            const stopBtn = document.getElementById('chatbot-stop');
-            const recordingIndicator = document.getElementById('chatbot-recording-indicator');
+        closeDetailBtn.addEventListener('click', showListView);
 
-            // Use same language as UI if stored
-            const savedLang = localStorage.getItem('language');
-            if (savedLang && (savedLang === 'en' || savedLang === 'hi' || savedLang === 'kn')) {
-                langSelect.value = savedLang;
-            }
+        const params = new URLSearchParams(window.location.search);
+        const diseaseName = params.get("d");
+        if (diseaseName && diseases[diseaseName.toLowerCase()]) {
+            showDetailView(diseaseName.toLowerCase());
+        } else {
+            showListView();
+        }
+    });
+</script>
 
-            let mediaRecorder = null;
-            let audioChunks = [];
-            let isRecording = false;
-            let currentAudio = null; // for bot voice output
+<!-- Chatbot logic (same as before, unchanged) -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const CHATBOT_BASE_URL = "http://127.0.0.1:5000";
 
-            // -----------------------------
-            // Helper: Append message
-            // -----------------------------
-            function appendMessage(text, sender = 'bot') {
-                const msg = document.createElement('div');
-                msg.classList.add('chat-msg', sender);
-                msg.textContent = text;
-                chatMessages.appendChild(msg);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
+        const chatBtn = document.getElementById('chatbot-btn');
+        const chatContainer = document.getElementById('chatbot-container');
+        const chatClose = document.getElementById('chatbot-close');
+        const chatMessages = document.getElementById('chatbot-messages');
+        const chatInput = document.getElementById('chatbot-input');
+        const chatSend = document.getElementById('chatbot-send');
 
-            function appendTyping() {
-                const typing = document.createElement('div');
-                typing.classList.add('chat-typing');
-                typing.id = 'chat-typing';
-                typing.textContent = 'Bot is thinking...';
-                chatMessages.appendChild(typing);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
+        const langSelect = document.getElementById('chatbot-language');
+        const micBtn = document.getElementById('chatbot-mic');
+        const stopBtn = document.getElementById('chatbot-stop');
+        const recordingIndicator = document.getElementById('chatbot-recording-indicator');
 
-            function removeTyping() {
-                const t = document.getElementById('chat-typing');
-                if (t) t.remove();
-            }
+        const savedLang = localStorage.getItem('language');
+        if (savedLang && (savedLang === 'en' || savedLang === 'hi' || savedLang === 'kn')) {
+            langSelect.value = savedLang;
+        }
 
-            // -----------------------------
-            // Send text (or from voice) to /chat
-            // -----------------------------
-            async function sendMessage(fromVoice = false, overrideText = null) {
-                const text = (overrideText !== null ? overrideText : chatInput.value.trim());
-                if (!text) return;
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let isRecording = false;
+        let currentAudio = null;
 
-                appendMessage(text, 'user');
-                if (overrideText === null) {
-                    chatInput.value = '';
-                }
-                appendTyping();
+        function appendMessage(text, sender = 'bot') {
+            const msg = document.createElement('div');
+            msg.classList.add('chat-msg', sender);
+            msg.textContent = text;
+            chatMessages.appendChild(msg);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
 
-                const language = langSelect.value || 'en';
+        function appendTyping() {
+            const typing = document.createElement('div');
+            typing.classList.add('chat-typing');
+            typing.id = 'chat-typing';
+            typing.textContent = 'Bot is thinking...';
+            chatMessages.appendChild(typing);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
 
-                try {
-                    const res = await fetch(`${CHATBOT_BASE_URL}/chat`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            user_message: text,
-                            language_code: language,
-                            from_voice: fromVoice
-                        })
-                    });
+        function removeTyping() {
+            const t = document.getElementById('chat-typing');
+            if (t) t.remove();
+        }
 
-                    if (!res.ok) {
-                        removeTyping();
-                        appendMessage('Error contacting chatbot. Please try again.', 'bot');
-                        return;
-                    }
+        async function sendMessage(fromVoice = false, overrideText = null) {
+            const text = (overrideText !== null ? overrideText : chatInput.value.trim());
+            if (!text) return;
 
-                    const data = await res.json();
-                    removeTyping();
+            appendMessage(text, 'user');
+            if (overrideText === null) chatInput.value = '';
+            appendTyping();
 
-                    if (data.bot_response) {
-                        appendMessage(data.bot_response, 'bot');
-                    } else {
-                        appendMessage('Sorry, I did not get a response from the server.', 'bot');
-                    }
+            const language = langSelect.value || 'en';
 
-                    // 🔊 If from voice and we have audio, play it
-                    if (fromVoice && data.audio_response) {
-                        if (currentAudio) {
-                            currentAudio.pause();
-                            currentAudio.currentTime = 0;
-                        }
-                        currentAudio = new Audio("data:audio/mp3;base64," + data.audio_response);
-                        currentAudio.play();
-                    }
-                } catch (err) {
-                    console.error(err);
+            try {
+                const res = await fetch(`${CHATBOT_BASE_URL}/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_message: text,
+                        language_code: language,
+                        from_voice: fromVoice
+                    })
+                });
+
+                if (!res.ok) {
                     removeTyping();
                     appendMessage('Error contacting chatbot. Please try again.', 'bot');
+                    return;
                 }
-            }
 
-            // -----------------------------
-            // Voice: start/stop recording
-            // -----------------------------
-            async function startRecording() {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    mediaRecorder = new MediaRecorder(stream);
-                    audioChunks = [];
-                    isRecording = true;
-                    recordingIndicator.style.display = 'inline';
+                const data = await res.json();
+                removeTyping();
 
-                    mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
-                    mediaRecorder.onstop = handleRecordingStop;
-                    mediaRecorder.start();
-                } catch (err) {
-                    appendMessage("🎤 Microphone not accessible: " + err.message, 'bot');
+                if (data.bot_response) {
+                    appendMessage(data.bot_response, 'bot');
+                } else {
+                    appendMessage('Sorry, I did not get a response from the server.', 'bot');
                 }
-            }
 
-            function stopRecording() {
-                if (mediaRecorder && isRecording) {
-                    mediaRecorder.stop();
-                    isRecording = false;
-                    recordingIndicator.style.display = 'none';
-                }
-            }
-
-            async function handleRecordingStop() {
-                const blob = new Blob(audioChunks, { type: 'audio/webm' });
-                const formData = new FormData();
-                formData.append('file', blob, 'speech.webm');
-                formData.append('language_code', langSelect.value || 'en');
-
-                appendMessage("🎤 Processing your voice...", 'user');
-
-                try {
-                    const res = await fetch(`${CHATBOT_BASE_URL}/speech`, {
-                        method: 'POST',
-                        body: formData
-                    });
-
-                    if (!res.ok) {
-                        appendMessage("⚠️ Error contacting speech service.", 'bot');
-                        return;
+                if (fromVoice && data.audio_response) {
+                    if (currentAudio) {
+                        currentAudio.pause();
+                        currentAudio.currentTime = 0;
                     }
-
-                    const speechData = await res.json();
-
-                    if (speechData.transcribed_text?.startsWith("ERROR")) {
-                        appendMessage("⚠️ Speech recognition failed.", 'bot');
-                        return;
-                    }
-
-                    const userText = speechData.transcribed_text;
-                    // Show transcribed text as user message and send as fromVoice
-                    appendMessage(userText, 'user');
-                    appendTyping();
-                    await sendMessage(true, userText);
-                } catch (err) {
-                    appendMessage("⚠️ Error contacting speech service: " + err.message, 'bot');
+                    currentAudio = new Audio("data:audio/mp3;base64," + data.audio_response);
+                    currentAudio.play();
                 }
+            } catch (err) {
+                console.error(err);
+                removeTyping();
+                appendMessage('Error contacting chatbot. Please try again.', 'bot');
             }
+        }
 
-            // -----------------------------
-            // Stop audio playback
-            // -----------------------------
-            function stopAudioPlayback() {
-                if (currentAudio) {
-                    currentAudio.pause();
-                    currentAudio.currentTime = 0;
-                    appendMessage("🔇 Voice output stopped.", 'bot');
-                }
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+                isRecording = true;
+                recordingIndicator.style.display = 'inline';
+
+                mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+                mediaRecorder.onstop = handleRecordingStop;
+                mediaRecorder.start();
+            } catch (err) {
+                appendMessage("🎤 Microphone not accessible: " + err.message, 'bot');
             }
+        }
 
-            // -----------------------------
-            // UI Event Listeners
-            // -----------------------------
-            if (chatBtn) {
-                chatBtn.addEventListener('click', () => {
-                    chatContainer.classList.toggle('open');
-                    if (chatContainer.classList.contains('open')) {
-                        chatInput.focus();
-                    }
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                recordingIndicator.style.display = 'none';
+            }
+        }
+
+        async function handleRecordingStop() {
+            const blob = new Blob(audioChunks, { type: 'audio/webm' });
+            const formData = new FormData();
+            formData.append('file', blob, 'speech.webm');
+            formData.append('language_code', langSelect.value || 'en');
+
+            appendMessage("🎤 Processing your voice...", 'user');
+
+            try {
+                const res = await fetch(`${CHATBOT_BASE_URL}/speech`, {
+                    method: 'POST',
+                    body: formData
                 });
-            }
 
-            if (chatClose) {
-                chatClose.addEventListener('click', () => {
-                    chatContainer.classList.remove('open');
-                });
-            }
+                if (!res.ok) {
+                    appendMessage("⚠️ Error contacting speech service.", 'bot');
+                    return;
+                }
 
-            if (chatSend) {
-                chatSend.addEventListener('click', () => sendMessage(false));
-            }
+                const speechData = await res.json();
 
-            if (chatInput) {
-                chatInput.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        sendMessage(false);
-                    }
-                });
-            }
+                if (speechData.transcribed_text?.startsWith("ERROR")) {
+                    appendMessage("⚠️ Speech recognition failed.", 'bot');
+                    return;
+                }
 
-            if (micBtn) {
-                micBtn.addEventListener('click', () => {
-                    if (isRecording) {
-                        stopRecording();
-                    } else {
-                        startRecording();
-                    }
-                });
+                const userText = speechData.transcribed_text;
+                appendMessage(userText, 'user');
+                appendTyping();
+                await sendMessage(true, userText);
+            } catch (err) {
+                appendMessage("⚠️ Error contacting speech service: " + err.message, 'bot');
             }
+        }
 
-            if (stopBtn) {
-                stopBtn.addEventListener('click', stopAudioPlayback);
+        function stopAudioPlayback() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                appendMessage("🔇 Voice output stopped.", 'bot');
             }
-        });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        }
+
+        if (chatBtn) {
+            chatBtn.addEventListener('click', () => {
+                chatContainer.classList.toggle('open');
+                if (chatContainer.classList.contains('open')) chatInput.focus();
+            });
+        }
+        if (chatClose) {
+            chatClose.addEventListener('click', () => {
+                chatContainer.classList.remove('open');
+            });
+        }
+        if (chatSend) {
+            chatSend.addEventListener('click', () => sendMessage(false));
+        }
+        if (chatInput) {
+            chatInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    sendMessage(false);
+                }
+            });
+        }
+        if (micBtn) {
+            micBtn.addEventListener('click', () => {
+                if (isRecording) stopRecording();
+                else startRecording();
+            });
+        }
+        if (stopBtn) {
+            stopBtn.addEventListener('click', stopAudioPlayback);
+        }
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

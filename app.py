@@ -1,9 +1,10 @@
-# app.py — corrected, full working Flask + PyTorch server
+# app.py — cleaned, robust, and tolerant to nested/zip extraction layouts
 
 import os
 from pathlib import Path
 import io
 import json
+import sys
 
 import torch
 import torch.nn as nn
@@ -15,14 +16,11 @@ from flask_cors import CORS
 from PIL import Image
 import torchvision.transforms as T
 
-
 # --------------------
 # Configuration
 # --------------------
 IMG_SIZE = 224
 MODEL_FILENAME = 'model_best.pth'
-# Common project layouts put the model in the project root; adjust as needed.
-MODEL_PATH_RELATIVE = r'Pomegranate_Project_New/backend_new/model_best.pth'
 
 CLASS_NAMES = sorted([
     "Alternaria",
@@ -42,6 +40,7 @@ class CNN_ViT_Fusion(nn.Module):
         self.cnn = models.resnet18(weights=models.ResNet18_Weights.IMAGENET1K_V1 if pretrained else None)
         self.cnn.fc = nn.Identity()  # outputs 512-d
 
+        # vit_base_patch16_224 -> returns 768-d
         self.vit = timm.create_model('vit_base_patch16_224', pretrained=pretrained)
         if hasattr(self.vit, 'head'):
             self.vit.head = nn.Identity()
@@ -92,18 +91,73 @@ def prepare_image(image_bytes):
         return None
 
 # --------------------
+# Robust path discovery (handles nested zip extraction)
+# --------------------
+ROOT = Path(__file__).parent.resolve()
+
+def find_first_dir_named(root: Path, name: str, max_search_depth: int = 4):
+    """
+    Search root and its subfolders (up to a reasonable depth) for the first directory named `name`.
+    Falls back to root/name if none found.
+    """
+    try:
+        # rglob will traverse; limit by checking path.parts length to avoid full FS scan
+        for p in root.rglob(name):
+            if p.is_dir():
+                # simple depth control: ensure p is inside the root tree and not too deep
+                rel = p.relative_to(root)
+                if len(rel.parts) <= max_search_depth:
+                    return p
+    except Exception:
+        pass
+    candidate = root / name
+    return candidate
+
+def find_model_file(root: Path, filename: str):
+    """
+    Search for a model file with given filename in root and its subfolders (reasonable depth).
+    """
+    try:
+        for p in root.rglob(filename):
+            if p.is_file():
+                return p
+    except Exception:
+        pass
+    # fallback to common places
+    candidates = [root / filename, root.parent / filename]
+    for c in candidates:
+        if c.exists():
+            return c
+    return None
+
+templates_dir = find_first_dir_named(ROOT, "templates")
+static_dir = find_first_dir_named(ROOT, "static")
+model_path_auto = find_model_file(ROOT, MODEL_FILENAME)
+
+print("Project root:", ROOT)
+print("Using templates dir:", templates_dir, "exists:", templates_dir.exists())
+print("Using static dir   :", static_dir, "exists:", static_dir.exists())
+print("Auto-detected model:", model_path_auto if model_path_auto is not None else "None found")
+
+# --------------------
 # Flask app init
 # --------------------
 app = Flask(
     __name__,
-    static_folder=r"C:\Users\sumed\Downloads\PFDD\PFDD\Pomegranate_Project_New\backend_new\static",
-    template_folder=r"C:\Users\sumed\Downloads\PFDD\PFDD\Pomegranate_Project_New\backend_new\templates"
+    static_folder=str(static_dir) if static_dir else None,
+    template_folder=str(templates_dir) if templates_dir else None
 )
 
+# Print Jinja search paths so we can debug TemplateNotFound
+print("Jinja search paths (after init):", getattr(app.jinja_loader, "searchpath", None))
 
-from chatbot_backend.chatbot_routes import chatbot_bp
-
-app.register_blueprint(chatbot_bp)
+# Try to import your blueprint if present (non-fatal)
+try:
+    from chatbot_backend.chatbot_routes import chatbot_bp
+    app.register_blueprint(chatbot_bp)
+    print("Registered chatbot blueprint.")
+except Exception as e:
+    print("Could not register chatbot blueprint (continuing without it):", e)
 
 CORS(app)
 
@@ -111,16 +165,12 @@ cnn_model = None
 device = torch.device("cpu")
 
 # --------------------
-# FRONTEND routes (renders templates from templates/)
-# --------------------
-
-# --------------------
-# ROOT URL FIX (Very Important)
+# FRONTEND routes
 # --------------------
 @app.route('/')
 def root():
+    # use render_template which will look into template_folder
     return render_template("login.html")
-
 
 @app.route('/login')
 def login_page():
@@ -150,19 +200,14 @@ def aboutus_page():
 def test_route():
     return "TEST OK"
 
-
-
-
-
 # --------------------
-# API route for status (keeps JSON separate from frontend)
+# API route for status
 # --------------------
 @app.route('/api')
 def api_home():
     status = "API Server Running (PyTorch)"
     if not cnn_model:
         status += " (WARNING: Model failed to load)"
-
     return jsonify({
         "project_status": status,
         "model_loaded": cnn_model is not None,
@@ -206,7 +251,7 @@ def predict():
         return jsonify({"error": f"An error occurred during prediction: {e}", "status": "Error"}), 500
 
 # --------------------
-# Get preventive measures for disease
+# Disease measures endpoint
 # --------------------
 DISEASE_DATA = {
     "alternaria": {
@@ -227,7 +272,6 @@ DISEASE_DATA = {
             ]
         }
     },
-
     "anthracnose": {
         "en": {
             "precautions": "Use resistant varieties, prune lower branches for air circulation, and sanitize tools regularly.",
@@ -246,7 +290,6 @@ DISEASE_DATA = {
             ]
         }
     },
-
     "bacterial_blight": {
         "en": {
             "precautions": "Avoid planting in infected soil and disinfect tools. Use certified disease-free planting material.",
@@ -265,7 +308,6 @@ DISEASE_DATA = {
             ]
         }
     },
-
     "cercospora": {
         "en": {
             "precautions": "Ensure wide spacing between plants. Avoid nitrogen excess.",
@@ -284,7 +326,6 @@ DISEASE_DATA = {
             ]
         }
     },
-
     "healthy": {
         "en": {
             "precautions": "Continue monitoring and ensure proper nutrition and irrigation.",
@@ -323,27 +364,39 @@ def get_measures(disease_name):
         "data": disease_info[lang]
     })
 
-
-
 # --------------------
 # Model loading (robust)
 # --------------------
 def try_load_model():
     global cnn_model
-    current_dir = Path(os.path.dirname(os.path.abspath(__file__)))
-    candidate_paths = [
-        current_dir / MODEL_FILENAME,          # ./model_best.pth
-        current_dir.parent / MODEL_FILENAME,   # ../model_best.pth
-        Path(MODEL_PATH_RELATIVE).resolve()    # explicit relative provided earlier
+    loaded = False
+
+    # Candidate: auto-detected file, relative to script, or parent folder
+    candidate_paths = []
+
+    if model_path_auto:
+        candidate_paths.append(model_path_auto)
+    candidate_paths += [
+        ROOT / MODEL_FILENAME,
+        ROOT.parent / MODEL_FILENAME
     ]
 
-    loaded = False
+    # Filter unique and existing candidates
+    seen = set()
+    filtered = []
     for p in candidate_paths:
         try:
-            p = p.resolve()
+            p = Path(p).resolve()
         except Exception:
-            pass
-        if not p or not Path(p).exists():
+            p = Path(p)
+        if str(p) in seen:
+            continue
+        seen.add(str(p))
+        filtered.append(p)
+
+    for p in filtered:
+        if not p.exists():
+            print("Model candidate not found:", p)
             continue
         try:
             print(f"Attempting to load model from: {p}")
@@ -377,7 +430,7 @@ def try_load_model():
             print(f"Failed loading from {p}: {e}")
 
     if not loaded:
-        print("WARNING: Could not locate or load the model file. Ensure model_best.pth exists in project root or parent folder.")
+        print("WARNING: Could not locate or load the model file. Ensure model_best.pth exists in project root or a subfolder. Searched candidates:", filtered)
 
 # Attempt load at startup
 try_load_model()
@@ -386,7 +439,6 @@ try_load_model()
 # Run the app
 # --------------------
 if __name__ == "__main__":
-    import os
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
-
+    # optional: change host/port here
+    os.environ['FLASK_APP'] = 'app.py'
+    app.run(debug=False, use_reloader=False, host='127.0.0.1', port=5000)

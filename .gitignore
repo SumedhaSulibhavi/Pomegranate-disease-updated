@@ -1,4 +1,18 @@
+# Exclude large ML model
 model_best.pth
+
+# Virtual environment
 venv/
-__pycache__/
 .env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# IDE folders
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
